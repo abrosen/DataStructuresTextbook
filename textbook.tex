@@ -5,6 +5,8 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{graphicx}
+\usepackage{minted}
+
 \begin{document}
 \title{Data Structures}
 \author{Andrew Rosen}
@@ -16,19 +18,64 @@
 
 
 \chapter{Introduction}
-\chapter{ArrayLists}
 
-\section{Building an ArrayList}
-\chapter{Big O}
+Education in Computer Science is based around three core topics: how to solve problems, how to organize data the for solving problems, and how to formulate solutions for problems in a way that a computer can understand.
 
-\section{Cost}
 
-\section{Space Complexity}
+Data Structures is all about defining the different ways we can organize data.
 
-\section{Formal Mathematics}
+\section{To The Instructor}
 
-\chapter{LinkedLists}
-\section{Building a LinkedList}
+
+
+\chapter{Lists}
+The first data structure we will be studying is the list.
+The list is by far the most relateable data structure, as humans deal with lists on a regular basis
+
+\section{What is a list?}
+When you get right down to it, lists are defined by order.
+
+
+\begin{minted}{Java}
+public static <E> boolean isPermutation(List<E> listA, List<E> listB) {
+	
+	if(listA.size() != listB.size()) {
+		return false;
+	}
+	for(int i  = 0; i < listA.size() ; i++){
+		E item =  listA.get(i);
+		int countA = 0;
+		int countB = 0;
+		
+		for (E element : listA) {
+			if(item.equals(element)){
+				countA++;
+			}
+		}
+		for (E element : listB) {
+			if(item.equals(element)){
+				countB++;
+			}
+		}
+		if(countA != countB) {
+			return false;
+		}
+	}
+	return true;
+}
+\end{minted}
+\section{ArrayLists}
+\subsection{Building an ArrayList}
+\section{Big O}
+
+\subsection{Cost}
+
+\subsection{Space Complexity}
+
+\subsection{Formal Mathematics}
+
+\section{LinkedLists}
+\subsection{Building a LinkedList}
 
 \section{Analysis}
 \chapter{Stacks}
