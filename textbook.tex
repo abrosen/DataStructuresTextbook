@@ -19,18 +19,62 @@
 
 \chapter{Introduction}
 
-Education in Computer Science is based around three core topics: how to solve problems, how to organize data the for solving problems, and how to formulate solutions for problems in a way that a computer can understand.
-
-
+\section{What is a Data Structures Course}
 Data Structures is all about defining the different ways we can organize data.
+
+
+\section{Why This Book?}
+
+\subsection{Where Does This Book Fit Into a Computer Science Curriculum }
+
+Education in Computer Science is based around three core topics: translating the steps of solving a problem into a language a computer can understand, organizing data for solving problems, and techniques that can be used to solve problems. % reword
+These courses typically covered in a university's introductory course, data structures course, and algorithms course respectively, although different universities decide exactly what content fits in which course.
+Of course, there is are lot more concepts in computer science, from operating systems and low level programming,  to networks and how computers talk to each other. However, all these concepts rely on the knowledge gained in the core courses of programming, data structures, and alogrithms.
+
+ 
+
+This textbook is all about Data Structures, the middle section between learning how to program and the more advanced problem solving concepts we learn in Computer Science. 
+Here, we focus on mastering the different ways to organize data, recognize the internal and performative differences between each structure, and learn to recognize the best (if there is one) for a given situation.
+
+
+\subsection{What Are My Base Assumptions about the Reader?}
+
+This textbook assumes that the student has taken a programming course that has covered the basics.
+Namely: data types such as ints, doubles, booleans, and strings; if statements, for and while loops; and object orient programming.
+The first writeup of the textbook will be done in Java, but I will try to add as much Python into the book as well.
+
 
 \section{To The Instructor}
 
 
+\section{To The Student}
+
+%\section{Science and Art}
+
+
+\chapter{The Array}
+
+\section{Array Operations}
+
+\section{Finding Values in an Array}
+
+\chapter{Analyzing Algorithms}
+
+\subsection{Cost}
+\subsubsection{Time}
+\subsubsection{Space}
+\subsubsection{Energy}
+\subsubsection{Other costs - Bandwidth}
+
+\section{Big O Notation}
+\subsection{Space Complexity}
+
+\section{The Formal Mathematics of Big O Notation}
+\section{Other Notations}
 
 \chapter{Lists}
 The first data structure we will be studying is the list.
-The list is by far the most relateable data structure, as humans deal with lists on a regular basis
+The list is by far the most relatable data structure, as humans deal with lists on a regular basis.
 
 \section{What is a list?}
 When you get right down to it, lists are defined by order.
@@ -65,14 +109,12 @@ public static <E> boolean isPermutation(List<E> listA, List<E> listB) {
 }
 \end{minted}
 \section{ArrayLists}
+
+\subsection{Generics}
 \subsection{Building an ArrayList}
-\section{Big O}
 
-\subsection{Cost}
+\subsection{More Restrictive or Permissive Generics}
 
-\subsection{Space Complexity}
-
-\subsection{Formal Mathematics}
 
 \section{LinkedLists}
 \subsection{Building a LinkedList}
@@ -82,12 +124,17 @@ public static <E> boolean isPermutation(List<E> listA, List<E> listB) {
 
 \section{Building a Stack}
 
-\section{Mazes}
+\section{Mazes - Stacks and Backtracking}
 
-\chapter{Queues}
 
 
 \section{Discrete Finite Automata}
+
+\chapter{Queues}
+
+A queue (pronounced by saying the first letter and ignoring all the others) is a data structure which emulates the real word functionality of standing in a line (or queue, for those from the Commonwealth), 
+\section{Circular Arrays}
+
 
 \chapter{Recursion}
 
@@ -99,17 +146,44 @@ public static <E> boolean isPermutation(List<E> listA, List<E> listB) {
 \subsection{Recursive Combinations}
 
 
+
+\section{Recursion and Puzzles}
+
+
+\section{Recursion and Art}
+\section{Recursion and Nature}
+
+
 \chapter{Trees}
+
+\section{Binary Search Trees}
+
+
+\section{Heaps}
+
+
+\subsection{Priority Queues}
+
+\section{Trees and Heaps in Java}
 \chapter{Sorting}
 
 
 \section{Quadratic-Time Algorithms}
 
-\section{Insertion Sort}
+\subsection{Bubble Sort}
 
-\section{Bubble Sort}
+\subsection{Selection Sort}
 
-\section{Recursive Sorting Algorithms}
+\subsection{Insertion Sort}
+
+
+\section{Log-Linear Sorting Algorithms}
+
+\subsection{Tree Sort}
+\subsection{Heap Sort}
+\subsection{Quick Sort}
+\subsection{Merge Sort}
+
 
 
 \section{Unique Sorting Algorithms}
@@ -121,10 +195,85 @@ public static <E> boolean isPermutation(List<E> listA, List<E> listB) {
 
 \section{State of the Art Sorting Algorithms}
 
+\subsection{Tim Sort}
+\subsection{Quick Sort}
+\subsection{Distributing and Parallelization}
+
 
 \chapter{Sets and Maps}
-\chapter{Graphs}
+\section{Sets}
+\section{Maps}
+\section{Hash Tables}
+\subsection{Creating a Hash Function}
+\section{Map Reduce}
 
+
+\chapter{Graphs}
+\section{Introduction and History}
+
+
+\section{Qualities of a Graph}
+
+\subsection{Undirected Edges}
+
+\subsection{Directed Edges}
+
+\subsection{Weighted Edges}
+
+\section{Directed Acyclic Graphs}
+
+
+\section{Building a Graph}
+
+\subsection{Adjacency List}
+\subsection{Adjacency Matrix}
+
+
+\section{Graph Algorithms}
+
+\subsection{Searching and Traversing}
+
+\subsubsection{Breadth First Search}
+
+\subsubsection{Depth First Search}
+
+
+\subsection{Shortest Path}
+\subsection{Topological Sorting}
+\subsection{Minimum Spanning Trees}
+
+
+\section{Graphs, Humans, and Networks}
+
+\subsection{The Small World}
+\subsubsection{The Milgram Experiment}
+\subsubsection{The Less-Known Milgram Experiment}
+
+\subsection{Scale Free Graphs}
+
+
+\section{Graphs in Art and Nature - Voronoi Tessellation}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{pics/dragonfly_wing_joi_ito}
+	\caption{The wings of a dragonfly. Credit: Joi Ito (CC BY 2.0)}
+	\label{fig:dragonflywingjoiito}
+\end{figure}
+
+
+\section{Distributed Hash Tables}
+
+
+
+
+
+\section{A Nontechnical Introduction to NP-Completeness}
+
+\subsection{The Traveling Salesperson Problem (TSP)}
+\subsection{The Longest Path Problem}
+\subsection{The Rudrata/Hamiltonian Path Problem}
 \chapter{Other Data Structures}
+\section{Skip Lists}
 
 \end{document}
