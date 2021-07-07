@@ -170,6 +170,17 @@ public class LinkedList<E> {
 }
 \end{minted}
 
+\begin{minted}{python3}
+class LinkedList(object):
+	class Node(object):
+		def __init__(self, item) -> None:
+		self.item = item
+		self.next = None
+
+	pass
+\end{minted}
+
+
 In the Node private/internal/inner class (and only there), the \texttt{this} or \texttt{self} refers to the \textbf{node} rather than the list.
 
 
