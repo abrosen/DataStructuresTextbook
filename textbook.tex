@@ -108,6 +108,9 @@ public static <E> boolean isPermutation(List<E> listA, List<E> listB) {
 	return true;
 }
 \end{minted}
+
+
+
 \section{ArrayLists}
 
 \subsection{Generics}
@@ -117,7 +120,43 @@ public static <E> boolean isPermutation(List<E> listA, List<E> listB) {
 
 
 \section{LinkedLists}
-\subsection{Building a LinkedList}
+
+
+I will be presenting the directions to building a fully functional  singly-linked list and doubly-lined list.  
+These directions will differ from the mechanics of how your programming language of choice implements them, but have the same time complexity for their operations.
+My implementation is constructed with the goal of making the code easy to understand and the decisions that need to be for adding and removing reflect each other.
+Finally, my code aims to minimize the number of null-pointer exceptions and their ilk a programmer would make.
+
+The full implementations ca be found at the end of the Chapter.
+
+\subsection{Building a Singly LinkedList}
+We open up our linked list with a class declaration. 
+If our language uses generics, we specify it there.
+I'll be choosing not to inherit from the built-in list so we can focus solely on our own code and no external distractions.
+
+
+In Java, our code looks like this.
+\begin{minted}{Java}
+public class LinkedList<E> {
+\end{minted}
+
+
+In Python
+\begin{minted}{python3}
+class LinkedList(object):
+\end{minted}
+
+
+\subsubsection{Instance Variables}
+
+\subsection{The Node}
+In a s
+
+We want the Node class to be a private/internal class, so that the Node we write for a singly linked list and doubly linked list won't get mixed up in our coding environments.
+This also applies for other data structures that will be using nodes.
+
+\subsubsection{Adding}
+To add an item to a linked list, we need to 
 
 \section{Analysis}
 \chapter{Stacks}
@@ -132,8 +171,14 @@ public static <E> boolean isPermutation(List<E> listA, List<E> listB) {
 
 \chapter{Queues}
 
-A queue (pronounced by saying the first letter and ignoring all the others) is a data structure which emulates the real word functionality of standing in a line (or queue, for those from the Commonwealth), 
-\section{Circular Arrays}
+A Queue (pronounced by saying the first letter and ignoring all the others) is a data structure which emulates the real word functionality of standing in a line (or queue, for those from Commonwealth nations).  
+In a Queue, items are processed in the order they are inserted into the Queue.  So if Alice enters the Queue, followed by Bob, followed by Carla, Alice would be the first to leave the Queue, then Bob, and then Carla.
+
+The use cases for Queues are fairly obi
+
+\section{Linked Based Implementation} 
+\section{Array Based Implementation}
+We could use 
 
 
 \chapter{Recursion}
@@ -156,7 +201,10 @@ A queue (pronounced by saying the first letter and ignoring all the others) is a
 
 \chapter{Trees}
 
+
 \section{Binary Search Trees}
+
+A diagram of a binary search tree.  It is made up of nodes, represented by circles, and edges (also called links or branches), represented by arrows.  
 
 
 \section{Heaps}
