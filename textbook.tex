@@ -6,7 +6,10 @@
 \usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{minted}
-
+\usemintedstyle{colorful}
+%\definecolor{bg}{HTML}{282828} % from https://github.com/kevinsawicki/monokai
+%\setminted{bgcolor=bg,breaklines=true}
+\setminted{breaklines=true}
 \begin{document}
 \title{Data Structures}
 \author{Andrew Rosen}
@@ -48,6 +51,7 @@ The first writeup of the textbook will be done in Java, but I will try to add as
 
 
 \section{To The Student}
+
 
 %\section{Science and Art}
 
@@ -137,26 +141,65 @@ I'll be choosing not to inherit from the built-in list so we can focus solely on
 
 In Java, our code looks like this.
 \begin{minted}{Java}
-public class LinkedList<E> {
+public class LinkedList<E> { }
 \end{minted}
 
 
 In Python
 \begin{minted}{python3}
 class LinkedList(object):
+	pass
 \end{minted}
 
 
-\subsubsection{Instance Variables}
-
-\subsection{The Node}
-In a s
-
+\subsubsection{The Node}
 We want the Node class to be a private/internal class, so that the Node we write for a singly linked list and doubly linked list won't get mixed up in our coding environments.
 This also applies for other data structures that will be using nodes.
 
+\begin{minted}{Java}
+public class LinkedList<E> { 
+	
+	private static class Node<E>{
+		E item;
+		Node<E> next;
+		
+		public Node(E item){
+			this.item = item;
+		}
+	}
+}
+\end{minted}
+
+In the Node private/internal/inner class (and only there), the \texttt{this} or \texttt{self} refers to the \textbf{node} rather than the list.
+
+
+
+
+
+\subsubsection{Instance Variables and Constructor}
+
+
+\begin{minted}{Java}
+public class LinkedList<E> { 
+	private int size;
+	private Node<E> head;
+	private Node<E> tail;
+}
+\end{minted}
+
 \subsubsection{Adding}
-To add an item to a linked list, we need to 
+When we add items to a linked list, 
+
+
+When we do any kind of operation on a linked list, we need to think about how instance variables in a linked list will be altered. 
+Fortunately, we only have three instance variables: \texttt{size}, \texttt{head}, and \texttt{tail}.
+When adding to a linked list, the size will 
+
+
+\subsubsection{Getting a Node at a Specific Index}
+
+\inputminted{python3}{code/linkedlist.py}
+
 
 \section{Analysis}
 \chapter{Stacks}
