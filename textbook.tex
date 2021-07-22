@@ -181,7 +181,7 @@ class LinkedList(object):
 \end{minted}
 
 
-In the Node private/internal/inner class (and only there), the \texttt{this} or \texttt{self} refers to the \textbf{node} rather than the list.
+In the Node private/internal/inner class (and only there), the \texttt{this} or \texttt{self} refers to the \textbf{node} rather than the linked list.
 
 
 
@@ -204,7 +204,9 @@ We start writing our add method by defining a
 
 When we do any kind of operation on a linked list, we need to think about how instance variables in a linked list will be altered. 
 Fortunately, we only have three instance variables: \texttt{size}, \texttt{head}, and \texttt{tail}.
-When adding to a linked list, the size will also
+When adding to a linked list, the size will always be altered as long as the index is valid.
+Our list's \texttt{head} will only be altered when we add an item to the beginning of the list and our \texttt{tail} will only be altered when we add to the end of the list.
+
 
 
 \subsubsection{Getting a Node at a Specific Index}
