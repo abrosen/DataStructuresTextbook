@@ -6,7 +6,10 @@
 \usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{minted}
-
+\usemintedstyle{colorful}
+%\definecolor{bg}{HTML}{282828} % from https://github.com/kevinsawicki/monokai
+%\setminted{bgcolor=bg,breaklines=true}
+\setminted{breaklines=true}
 \begin{document}
 \title{Data Structures}
 \author{Andrew Rosen}
@@ -48,6 +51,7 @@ The first writeup of the textbook will be done in Java, but I will try to add as
 
 
 \section{To The Student}
+
 
 %\section{Science and Art}
 
@@ -108,6 +112,9 @@ public static <E> boolean isPermutation(List<E> listA, List<E> listB) {
 	return true;
 }
 \end{minted}
+
+
+
 \section{ArrayLists}
 
 \subsection{Generics}
@@ -117,9 +124,101 @@ public static <E> boolean isPermutation(List<E> listA, List<E> listB) {
 
 
 \section{LinkedLists}
-\subsection{Building a LinkedList}
+
+
+I will be presenting the directions to building a fully functional  singly-linked list and doubly-lined list.  
+These directions will differ from the mechanics of how your programming language of choice implements them, but have the same time complexity for their operations.
+My implementation is constructed with the goal of making the code easy to understand and the decisions that need to be for adding and removing reflect each other.
+Finally, my code aims to minimize the number of null-pointer exceptions and their ilk a programmer would make.
+
+The full implementations ca be found at the end of the Chapter.
+
+\subsection{Building a Singly LinkedList}
+We open up our linked list with a class declaration. 
+If our language uses generics, we specify it there.
+I'll be choosing not to inherit from the built-in list so we can focus solely on our own code and no external distractions.
+
+
+In Java, our code looks like this.
+\begin{minted}{Java}
+public class LinkedList<E> { }
+\end{minted}
+
+
+In Python
+\begin{minted}{python3}
+class LinkedList(object):
+	pass
+\end{minted}
+
+
+\subsubsection{The Node}
+We want the Node class to be a private/internal class, so that the Node we write for a singly linked list and doubly linked list won't get mixed up in our coding environments.
+This also applies for other data structures that will be using nodes.
+
+\begin{minted}{Java}
+public class LinkedList<E> { 
+	
+	private static class Node<E>{
+		E item;
+		Node<E> next;
+		
+		public Node(E item){
+			this.item = item;
+		}
+	}
+}
+\end{minted}
+
+\begin{minted}{python3}
+class LinkedList(object):
+	class Node(object):
+		def __init__(self, item) -> None:
+		self.item = item
+		self.next = None
+
+	pass
+\end{minted}
+
+
+In the Node private/internal/inner class (and only there), the \texttt{this} or \texttt{self} refers to the \textbf{node} rather than the list.
+
+
+
+
+
+\subsubsection{Instance Variables and Constructor}
+
+
+\begin{minted}{Java}
+public class LinkedList<E> { 
+	private int size;
+	private Node<E> head;
+	private Node<E> tail;
+}
+\end{minted}
+
+\subsubsection{Adding}
+We start writing our add method by defining a 
+
+
+When we do any kind of operation on a linked list, we need to think about how instance variables in a linked list will be altered. 
+Fortunately, we only have three instance variables: \texttt{size}, \texttt{head}, and \texttt{tail}.
+When adding to a linked list, the size will also
+
+
+\subsubsection{Getting a Node at a Specific Index}
+
+
+
 
 \section{Analysis}
+Array lists and linked lists are both extremely powerful objects that fulfill  the same purpose, but in radically different ways. 
+
+\section{Source Code}
+\inputminted{python3}{code/linkedlist.py}
+
+
 \chapter{Stacks}
 
 \section{Building a Stack}
@@ -132,8 +231,14 @@ public static <E> boolean isPermutation(List<E> listA, List<E> listB) {
 
 \chapter{Queues}
 
-A queue (pronounced by saying the first letter and ignoring all the others) is a data structure which emulates the real word functionality of standing in a line (or queue, for those from the Commonwealth), 
-\section{Circular Arrays}
+A Queue (pronounced by saying the first letter and ignoring all the others) is a data structure which emulates the real word functionality of standing in a line (or queue, for those from Commonwealth nations).  
+In a Queue, items are processed in the order they are inserted into the Queue.  So if Alice enters the Queue, followed by Bob, followed by Carla, Alice would be the first to leave the Queue, then Bob, and then Carla.
+
+The use cases for Queues are fairly obi
+
+\section{Linked Based Implementation} 
+\section{Array Based Implementation}
+We could use 
 
 
 \chapter{Recursion}
@@ -156,7 +261,10 @@ A queue (pronounced by saying the first letter and ignoring all the others) is a
 
 \chapter{Trees}
 
+
 \section{Binary Search Trees}
+
+A diagram of a binary search tree.  It is made up of nodes, represented by circles, and edges (also called links or branches), represented by arrows.  
 
 
 \section{Heaps}
