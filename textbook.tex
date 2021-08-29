@@ -116,9 +116,29 @@ public static <E> boolean isPermutation(List<E> listA, List<E> listB) {
 
 
 \section{ArrayLists}
+An array list, as you might have guessed, are lists built using \textit{arrays}.\footnote{Shockingly, many of the names we give things at this point actually make sense.}
+They work by growing or shrinking the array\footnote{A lie.  As you'll see we don't actually change the size of an array;  we create a new array of the appropriate size and copy everything over} automatically as items are added or removed from the list, giving the illusion that the data structure can hold an arbitrary amount of data.
+
+We'll go into the specifics of how this works in Section \ref{buildingArraylist}.
+
+
+\subsubsection{Python's Lists}
+Python's lists, such as below:
+\begin{minted}{python3}
+l = [1,2,3] # this is a list, not an array!	
+\end{minted}
+are actually array lists! %TODO cite this https://docs.python.org/3/faq/design.html#how-are-lists-implemented-in-cpython
+
+Python uses a different vocabulary for some of the methods we'll be implementing below.  
+For example, take the action of adding an item to a list.
+Python uses the \texttt{append} method to add an item to end of the list and \texttt{insert} to put an item into the middle of the list.
+Java (who's vocabulary we'll be following), uses \texttt{add} for both these contexts. 
+
+
 
 \subsection{Generics}
 \subsection{Building an ArrayList}
+\label{buildingArraylist}
 
 \subsection{More Restrictive or Permissive Generics}
 
@@ -126,12 +146,12 @@ public static <E> boolean isPermutation(List<E> listA, List<E> listB) {
 \section{LinkedLists}
 
 
-I will be presenting the directions to building a fully functional  singly-linked list and doubly-lined list.  
+I will be presenting the directions to building a fully functional  singly-linked list and doubly-linked list.  
 These directions will differ from the mechanics of how your programming language of choice implements them, but have the same time complexity for their operations.
 My implementation is constructed with the goal of making the code easy to understand and the decisions that need to be for adding and removing reflect each other.
 Finally, my code aims to minimize the number of null-pointer exceptions and their ilk a programmer would make.
 
-The full implementations ca be found at the end of the Chapter.
+The full implementations can be found at the end of the Chapter.
 
 \subsection{Building a Singly LinkedList}
 We open up our linked list with a class declaration. 
