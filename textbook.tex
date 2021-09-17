@@ -153,7 +153,34 @@ Java (who's vocabulary we'll be following), uses \texttt{add} for both these con
 \subsection{More Restrictive or Permissive Generics}
 
 
-\section{LinkedLists}
+\section{Linked Lists}
+
+Array based lists use contiguous blocks of memory, allocated all at once and when then capacity of the list is filled up.  Utilizing an array makes these types of lists extremely efficient at retrieving an item from a specific index, but adding items anywhere but the end of the list incurs a $O(n)$ runtime.
+
+Linked Lists can do all the things an Array List can, but the underlying structure is completely different.  
+Each item in the list is stored in an Object called a \textit{Node}.  Nodes are created as items are added to list, rather than in advance.  This means that are not contiguous, but Rather they are scattered throughout the computer's memory . So how in the world do we keep track of where we've stored all these items ? The solution resembles the scavenger hunt through the computer's memory.  Each node Not only the memory location of the item that is being stored, but the memory location of the next node in the list . An example of this code can be found below\footnote{Why is this class private in Java \texttt{private}? An inner class  (or private class) is a class that lives within another class.  We use this for two reasons:  Our nodes only exist to build the linked list, so they don't need to have their own class.  The Second reason is   What about \texttt{static class}? This means that we can create nodes without having to make a Linked List first! }: %TODO Check this.
+
+\begin{minted}{Java}
+// a snippet of the Node Class
+// This will live inside the LinkedList class
+private static class Node<E> {
+	E item;
+	Node<E> next;
+	
+	public Node(E item) {
+		this.item =  item;
+	}
+} 
+\end{minted}
+Upon first glance, this code may be very confusing. Each node class contains a reference to a node inside of it.  This may give the impression that nodes  situated one inside another, like one of those Russian nesting matryoshka dolls.  
+However, keep in mind what the node is actually storing is not other objects, but instead memory locations of where to find them.
+This means that our linked list is more akin to a scavenger hunt where each objective in the hunt contains the instructions on how to find the next objective.
+
+
+
+
+
+ we keep track of only the first and last item in the list, referred to as the head and the tail . 
 
 
 I will be presenting the directions to building a fully functional  singly-linked list and doubly-linked list.  
@@ -204,8 +231,8 @@ public class LinkedList<E> {
 class LinkedList(object):
 	class Node(object):
 		def __init__(self, item) -> None:
-		self.item = item
-		self.next = None
+			self.item = item
+			self.next = None
 
 	pass
 \end{minted}
