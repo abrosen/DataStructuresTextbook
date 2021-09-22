@@ -263,9 +263,10 @@ Finally, it's probably a good idea to go ahead and write getter method for the s
 
 \begin{minted}{Java}
 public class LinkedList<E> { 
-	private int size;
 	private Node<E> head;
 	private Node<E> tail;
+	private int size;
+	
 	
 	public int size(){
 		return this.size;
@@ -327,16 +328,43 @@ I will be calling the node that holds the item we are inserting into the list \t
 
 Here's what our changes look like.
 
+\begin{minted}{Java}
+public void add(int index, E item) {
+	// Scenario 1: index is out of bound
+	if(index < 0 || index > size ) {  //O(1)
+		throw new IndexOutOfBoundsException(index + " is out of bounds");
+	}
+	
+	Node<E> adding = new Node<E>(item);
+	/* the rest of our code*/
+	size++;
+\end{minted}
+
+
 
 \subsubsection{Adding to an Empty List}
 Now let's consider Adding to an empty list.  An empty list means the size is 0.  If that's the case, we are going to make Adding the new head of the list, As well as the new tail.  Just like if you are the only person in line at checkout you are both the first person and the last person in line , this node will also be the first node and the last node in the list , which is why it Will be both the head and tail of the list (at least until we add another item).
 
-  
+\begin{minted}{Java}
+// Scenario 2: adding to an initially empty list
+if(size == 0) {
+	head = adding;
+	tail = adding;
+}	
+\end{minted}
+
 
 
 \subsubsection{Adding an item to the beginning of the list}
 Adding an item to the beginning of the list means that the node containing it becomes the new head of the list.  We do this bye attaching Adding to the list, Then informing the list adding is the new head .We do this by setting adding's .next Two point to the current head of the list, then setting The list had to be the node we added.
 
+\begin{minted}{Java}
+// Scenario 3: adding a new head
+else if(index == 0) {//(1)
+	adding.next = head;
+	head = adding;
+}
+\end{minted}
 
 
 
@@ -346,13 +374,131 @@ Failing to do this can have catastrophic results.  Consider below Where we set A
 
 
 
+\begin{minted}{Java}
+// Mistakes were made
+else if(index == 0) {
+	head = adding;  // oops
+	adding.next = head;
+}
+\end{minted}
+
+
 
 
 Note that the number of operations we do here Is always the same no matter how big the list is!  This means that adding to the head is a constant time operation.
 
 \subsubsection{Adding an item to the end of the list}
+\begin{minted}{Java}
+// Scenario 4: adding a new tail
+else if(index == size ){
+	tail.next = adding;
+	tail = adding;
+}
+\end{minted}
 
-\subsubsection{Getting a Node at a Specific Index}
+
+\subsubsection{Sidebar: Getting a Node at a Specific Index}
+\begin{minted}{Java}
+private Node<E> getNode(int index){  //O(n)
+	Node<E> current = head;
+	for (int i = 0; i < index; i++) {
+		current = current.next;
+	}
+	return current;
+}	
+\end{minted}
+
+
+
+\subsubsection{Inserting an item into a specific index}
+
+\begin{minted}{Java}
+// Scenario 5: everything else
+else {
+	Node<E> before =  getNode(index -1);  //O(n)
+	adding.next = before.next;
+	before.next = adding;
+}	
+\end{minted}
+
+\subsubsection{The end result}
+\begin{minted}{Java}
+public void add(int index, E item) {
+	// Scenario 1: index is out of bound
+	if(index < 0 || index > size ) {  //O(1)
+		throw new IndexOutOfBoundsException("Not a valid index :(");
+	}
+	
+	Node<E> adding = new Node<E>(item);
+	
+	// Scenario 2: adding to an initially empty list
+	if(size == 0) {
+		head = adding;
+		tail = adding;
+	}
+	// Scenario 3: adding a new head
+	else if(index == 0) {  //    O(1)
+		adding.next = head;
+		head = adding;
+	}
+	// Scenario 4: adding a new tail
+	else if(index == size ){
+		tail.next = adding;
+		tail = adding;
+	}
+	// Scenario 5: everything else
+	else {
+		Node<E> before =  getNode(index -1);  //O(n)
+		adding.next = before.next;
+		before.next = adding;
+	}
+	
+	
+	size++;
+}
+\end{minted}
+
+
+
+\section{Get and Set}
+Before we got onto our remove method, let's take a look at \texttt{get} and \texttt{set} very briefly.
+
+\subsection{Get}
+Just like with an ArrayList, the get method returns the item and the specified index.  
+However, since we can't go directly to a specific index like we can with an array or ArrayList, we need to iterate thru the \texttt{.next} links until we get to the appropriate node.
+Fortunately, we can just use our \texttt{getNode} function that we created when we were writing \texttt{add}.
+
+ 
+
+\begin{minted}{Java}
+public E get(int index) {
+	if(index < 0 || index >= size ) { 
+		throw new IndexOutOfBoundsException(index + " is out of bounds");
+	}
+	return getNode(index).item;
+}
+\end{minted}
+
+
+\subsection{Set}
+
+Set operates very similar to get.  Remember, set also returns the item that is already at the specified index, essentially replacing it.
+
+\begin{minted}{Java}
+public E set(int index, E item) {
+	if(index < 0 || index >= size ) {  //O(1)
+		throw new IndexOutOfBoundsException(index + " is out of bounds");
+	}
+	Node<E> node = getNode(index);
+	E toReturn = node.item;
+	node.item = item;
+	
+	return toReturn;
+}
+\end{minted}
+
+
+\section{Remove}
 
 
 
