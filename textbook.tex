@@ -58,9 +58,58 @@ The first writeup of the textbook will be done in Java, but I will try to add as
 
 \chapter{The Array}
 
+Since this is a data structures course, I assumed that students have had exposure to arrays or array like objects.
+This chapter goes into a bit of a deeper detail that may have been glossed over and Introduces the topic in the appropriate language if need be.
+
+In other words, I assume you know what an ray is , but not necessarily how to use it in Java or Python\footnote{Although we use lists in python}.
+
+
+
+
+
+\section{Java and Arrays}
+The Array is a built in class in Java, but the syntax is a bit unique \footnote{Enough so that I constantly had to look up how to do it my first two years of undergraduate studies, so don't feel too bad if you have to do the same}
+
+To create an
+
+
+
+\section{Python and Arrays}
+Python doesn't really do arrays 
+\texttt{myThings = []} Does not actually make an array like you assume it would in some other language.  Instead it makes A list (specifically an arraylist ) to contain these items.
+
+However, if you really want or need to use an array in python, you can.  There are 
+
+There are two ways to accomplish this.The first way is the built in \texttt{array} package.  You can bui  The python package \texttt{numpy} contains
+
+\subsection{Cool Ways to Build a List in Python}
+
+
+\subsubsection{Con}
+
+
+
+
 \section{Array Operations}
 
-\section{Finding Values in an Array}
+\subsection{Retrieving a item stored at an index}
+
+\subsection{Setting the value of an index}
+
+\section{Array Internals}
+
+\section{Common Array Algorithms}
+
+\subsection{Finding Values in an Array}
+\subsubsection{Finding the Minimum}
+
+\subsubsection{Finding the Average}
+
+
+\subsection{Limitations}
+Most frequent characters
+
+
 
 \chapter{Analyzing Algorithms}
 
@@ -81,7 +130,14 @@ Time is almost always \emph{the most important cost}.
 \subsubsection{Other costs - Bandwidth}
 
 \section{Big O Notation}
+
 \subsection{Space Complexity}
+
+\section{Examples with Arrays}
+
+
+
+
 
 \section{The Formal Mathematics of Big O Notation}
 \section{Other Notations}
@@ -565,17 +621,143 @@ Many of the things we are about to see should not be attempted in production and
 \chapter{Trees}
 
 
+Our next major data structure is trees.  Specifically, we will be looking at binary search trees.
+
+Trees are an excellent data structure for storing things since they implement all the operations we care about for collections in logarhythmic time\footnote{Specifically , Trees implement everything in average case log rhythmic time and worst case linear time , but if we do a bit of extra work and make it a self balancing binary tree (which will seem much later in this chapter) we can make this tree worst case log arhythmic for all operations}
+
+
+However, trees are not without limitations.  Trees will only work with data that can be stored hierarchically or in an order.
+
+\section{The Parts of a Tree}
+
+The first thing we need to do when introducing trees is define a vocabulary.  
+
+Much like the linked list, a tree is made of nodes.
+However, unlike a linked list , nodes in a tree are not arranged in a line,
+Instead, they are arranged in a heirachy.
+
+Each node sit above multiple other nodes , with the nodes below it being referred to as their children or child nodes.  The node connecting all these children is called the parent.
+
+<A picture of one node, Represented by a circle with four arrows coming out below it. Each arrow points to yet another node.  The Node with the arrows coming out of it is the parent, and the nodes below it are the children >
+
+
+This relationship can be extended Ad infinitum as we can see with the picture below 
+
+
+<Picture with nodes labeled>
+
+
+However anything above grandchild and grandparent just becomes tedious , so we tend to  Generalize this relationship to ancestors and descendants.  A key point here is to remember that while we are borrowing terms from the family tree , nodes will only have one parent . Each node can have multiple children, however .
+
+
+We refer to the links connect each of the nodes as branches or links or edges.  This tends to be a matter of personal preference.
+
+
+
+Finally , we have one special node that sits above all the other nodes . This note is the root and it is analogous to the head of a linked list . All of our operations will start at the root of the node\footnote{Remember , programmers are stereotypically outdoors of averse, So they May have forgotten what a real tree looks like.  Thus, we'll see that the root of the tree is at the top of the tree and our leaves are at the bottom\footnote{Or maybe it's some weird hydroponic zero-G kind of thing.}}.
+
+
+Remember , programmers are stereotypically outdoors of averse, So they May have forgotten what a real tree looks like.  Thus, we'll see that the root of the tree is at the top of the tree and our leaves are at the bottom\footnote{Or maybe it's some weird hydroponic zero-G kind of thing.}
+
+
+\subsection{Where the  Recursion comes in}
+There is a reason we learned recursion before we introduce trees. Trees are the exemplar recursive data structure
+
+Each tree has a root and That route has children .  If we view each of those children as the root of their own subtree , this can make our algorithms for adding removing and searching extremely easy to write.
+
+<picture Of tree, the recursive subtrees are dash circled.>
+
+<Picture of the left subtree, with it's trees circled>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \section{Binary Search Trees}
 
 A diagram of a binary search tree.  It is made up of nodes, represented by circles, and edges (also called links or branches), represented by arrows.  
 
 
-\section{Heaps}
+
+\section{Building a Binary Search Tree}
+
+\subsection{The Code Outline}
+
+
+We use the \texttt{Comparable} class in Java to require that all objects stored in the tree has a \textbf{total ordering}\footnote{The formal definition is as follows}.%TODO Formal defininition in the footnote
+In practice, this means that anything \texttt{Comparable} can be sorted.
+
+Python, of course, doesn't need these restrictions.
+\begin{minted}{Java}
+public class BinaryTree<E extends Comparable<E>> {
+}
+\end{minted}
+
+
+
+
+Much like our Linked List, we don't need much in the way of instance variables.  We'll create a \texttt{root} to keep track of the starting place for our tree and size to keep track of how many items we have stored.
+
+Finally, we will also create our inner \texttt{Node} class for the Tree.
+It needs to hold the item and the locations of the left and right children.
+We'll also go ahead and add a The constructor and a method for printing out the item in the node (\texttt{toString} in Java and \texttt{\_\_str\_\_} in Python )
+
+\begin{minted}{Java}
+public class BinaryTree<E extends Comparable<E>> {
+	private Node<E> root;
+	private int size;
+	
+	public BinaryTree() {
+		this.root = null;
+		
+	}
+
+	/* Other code will go here.*/
+
+	private static class Node<E extends Comparable<E>> {
+		private E item;
+		private Node<E> left;  // left child
+		private Node<E> right; // right child
+		public Node(E item) {
+			this.item = item;
+		}
+		public String toString() {
+			return item.toString();
+		}
+	}
+
+	
+}
+\end{minted}
+
+
+\subsection{Add}
+
+\subsection{Contains}
+
+\subsection{Delete}
+
+
+\chapter{Heaps}
 
 
 \subsection{Priority Queues}
 
-\section{Trees and Heaps in Java}
 \chapter{Sorting}
 
 
