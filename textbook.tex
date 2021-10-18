@@ -70,17 +70,29 @@ In other words, I assume you know what an ray is , but not necessarily how to us
 \section{Java and Arrays}
 The Array is a built in class in Java, but the syntax is a bit unique \footnote{Enough so that I constantly had to look up how to do it my first two years of undergraduate studies, so don't feel too bad if you have to do the same}
 
-To create an
+To create an array in Java we do:
+
+\begin{minted}{Java}
+Type[] myArray = new Type[sizeOfArray]
+\end{minted}
 
 
+Here, every item in the array is of whatever \texttt{Type} we want, which could be a Class or primitive.   Arrays can be whatever integer size we desire, but once set it cannot be changed.
+This is because to create an array, the computer allocates a contiguous block of memory.
+If we wanted to resize it, there is no guarantee that this chunk of memory won't have things directly before or after it, preventing us from safely extending its range.
 
 \section{Python and Arrays}
-Python doesn't really do arrays 
-\texttt{myThings = []} Does not actually make an array like you assume it would in some other language.  Instead it makes A list (specifically an arraylist ) to contain these items.
+Python doesn't really do arrays like other languages.
+\texttt{myNotArray\footnote{On styles:  Java convention is to use camel case for variable types (\texttt{myVariableName}), while python convention is to use underscores (\texttt{my\_variable\_name}).  I will be using the Java style camel-casing for variables throughout the book for consistency and because it is my preference.} = []} does not actually make an array like you assume it would in some other language.  Instead it makes A list (specifically an arraylist ) to contain these items.
+This works exactly like an array in other languages, but you get some nifty operations that allow us to dynamically resize this array if we need it bigger or smaller.\footnote{We cover the specifics in Chapter \ref{arraylist}}
 
-However, if you really want or need to use an array in python, you can.  There are 
 
+
+However, if you really want or need to use an array in python, you can.
 There are two ways to accomplish this.The first way is the built in \texttt{array} package.  You can bui  The python package \texttt{numpy} contains
+
+Why would we want to use a 
+
 
 \subsection{Cool Ways to Build a List in Python}
 
@@ -90,13 +102,16 @@ There are two ways to accomplish this.The first way is the built in \texttt{arra
 
 
 
-\section{Array Operations}
+\section{How an Array Works}
 
-\subsection{Retrieving a item stored at an index}
 
-\subsection{Setting the value of an index}
+\subsection{Operations}
 
-\section{Array Internals}
+\subsubsection{Retrieving a item stored at an index}
+
+\subsubsection{Setting the value of an index}
+
+\subsection{Array Internals and the Memory Formula}
 
 \section{Common Array Algorithms}
 
@@ -143,6 +158,7 @@ Time is almost always \emph{the most important cost}.
 \section{Other Notations}
 
 \chapter{Array Lists}
+\label{arraylist}
 The first data structure we will be studying is the list.
 The list is by far the most relatable data structure, as humans deal with lists on a regular basis.
 
@@ -771,8 +787,21 @@ public class BinaryTree<E extends Comparable<E>> {
 
 
 \section{Log-Linear Sorting Algorithms}
-
+The most commonly used sorting algorithms take $ O(n \lg(n)) $ time.
+This is the hard limit for runtime %TODO Cite or correct
 \subsection{Tree Sort}
+The tree sort is the simplest algorithm to we will cover. Performing Tree sort is a matter of three simple steps
+
+\begin{enumerate}
+	\item Create a tree.
+	\item Load the items you want to sort into the tree.
+	\item Perform an inorder traversal of the tree.
+\end{enumerate}
+
+
+The performance of this algorithm depends completely on the type of tree we create for this algorithm.  Using a self-balancing binary search tree, adding $ n $ items to the tree takes $ O(n\lg(n)) $ and an in order traversal takes $ O(n) $ steps, for a grand total of $ O(n) $ runtime.  Using a binary search tree that does not self balance means that there is a worst case scenario of $ O(n^{2}) $ for adding all the $ n $ items.
+
+Using a tree also means we use extra space since all the data has to be moved into a tree, using $ O(n) $ space.
 \subsection{Heap Sort}
 \subsection{Quick Sort}
 \subsection{Merge Sort}
