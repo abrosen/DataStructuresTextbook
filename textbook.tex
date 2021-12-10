@@ -585,8 +585,15 @@ Array lists and linked lists are both extremely powerful objects that fulfill  t
 
 
 \chapter{Stacks}
+Our next data structure is the Stack.
+The stack may seem unnecessary as a data structure after we introduce its features.  
+After all, can't a list do all the things that a stack can do and more? 
+
+Working with the limited operations of a allows us to approach problems with a different mindset.
 
 \section{Building a Stack}
+
+
 
 \section{Mazes - Stacks and Backtracking}
 
@@ -802,6 +809,9 @@ public class BinaryTree<E extends Comparable<E>> {
 
 \subsection{Add}
 
+
+
+
 \subsection{Contains}
 
 \subsection{Delete}
@@ -867,17 +877,49 @@ After all, a heap has the same structure as a tree and both are constructed to p
 
 \chapter{Sets and Maps}
 \section{Sets}
+Sets are the like mathematical 
+
+
 \section{Maps}
 \section{Hash Tables}
 \subsection{Creating a Hash Function}
-\section{Map Reduce}
+\chapter{Map Reduce}
 
 
+\section{Map}
+The \texttt{map()} operation\footnote{It is mildly confusing that there is a \texttt{map} data structure and a \texttt{map()} operation, so I will be marking the \texttt{map()} operation with a function invocation.} is a powerful function that may require us to think  differently about the way we have approached programming so far.
+
+The map operation takes in 2 arguments, a collection and a function to apply to every item in the collection
+
+
+
+
+When we are writing functions , we are creating new verbs for our programming language to use . These verbs take in arguments, nouns that we may have declared or defined ourselves. But one thing that we May not have done yet is passing a function as an argument to another function.
+
+This is not an uncommon operation in mathematics Example listed below 
+
+
+
+The semantics of this in every programming language is different , but the concept is the same 
+
+
+
+Why introduces here? Because a lot of common operations that can be done with map reduce involve using hash tables 
 \chapter{Graphs}
+
+In some ways, Graphs are the most important data structure.  
+Graphs represent and model relationships, and humans are defined by relationships.
+The archetypical examples of graphs used to be maps and the distances between landmarks or looking for the shortest path.
+
+With the advent of social media, we can talk about graphs with a few examples that might be easier to intuit.
+
 \section{Introduction and History}
 
 
 \section{Qualities of a Graph}
+
+
+
 
 \subsection{Undirected Edges}
 
@@ -928,18 +970,22 @@ After all, a heap has the same structure as a tree and both are constructed to p
 \end{figure}
 
 
-\section{Distributed Hash Tables}
 
 
 
+\chapter{A Nontechnical Introduction to NP-Completeness}
 
-
-\section{A Nontechnical Introduction to NP-Completeness}
-
-\subsection{The Traveling Salesperson Problem (TSP)}
-\subsection{The Longest Path Problem}
-\subsection{The Rudrata/Hamiltonian Path Problem}
+\section{The Traveling Salesperson Problem (TSP)}
+\section{The Longest Path Problem}
+\section{The Rudrata/Hamiltonian Path Problem}
 \chapter{Other Data Structures}
+
+
 \section{Skip Lists}
+
+
+\chapter{Distributed Hash Tables}
+
+
 
 \end{document}
