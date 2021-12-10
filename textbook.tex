@@ -620,17 +620,55 @@ As it turns out, while this technically works...it's pretty terrible.  In short,
 Many of the things we are about to see should not be attempted in production and serve only as examples, like our printThis function
 
 
-\section{Recursive Problem Solving}
 
-\subsection{Recursive Backtracking}
-\subsection{Recursive Combinations}
+
+
+\section{Recursive Backtracking}
+Recursion really comes in handy when we are trying to solve complex puzzles.
+One of the most famous examples of 
+
+\subsection*{The Recursive Backtracking Algorithm}
+
+
+
+
+\subsection{The Eight Queens Puzzle}
+
+\subsubsection{Brute Force Solution}
+
+\subsubsection{Recursive Solution Outline}
+
+\subsubsection{A Place Holder For Validity}
+
+\subsubsection{Performing the Recursion}
+
+\subsubsection{Checking just One condition}
+
+
+\subsubsection{Checking all the Conditions}
+
+
+
+
+\subsection{Additional Problems left to the Reader}
+
+\subsubsection{Knight's Tour}
+
+\subsubsection{Sudoku}
+
+
+
+
+\section{Recursive Combinations}
 
 
 
 \section{Recursion and Puzzles}
 
 
+
 \section{Recursion and Art}
+
 \section{Recursion and Nature}
 
 
@@ -788,7 +826,7 @@ public class BinaryTree<E extends Comparable<E>> {
 
 \section{Log-Linear Sorting Algorithms}
 The most commonly used sorting algorithms take $ O(n \lg(n)) $ time.
-This is the hard limit for runtime %TODO Cite or correct
+This is the hard limit on runtime %TODO Cite or correct
 \subsection{Tree Sort}
 The tree sort is the simplest algorithm to we will cover. Performing Tree sort is a matter of three simple steps
 
@@ -803,6 +841,11 @@ The performance of this algorithm depends completely on the type of tree we crea
 
 Using a tree also means we use extra space since all the data has to be moved into a tree, using $ O(n) $ space.
 \subsection{Heap Sort}
+You might expect that heapsort deserves the same treatment as treesort.
+After all, a heap has the same structure as a tree and both are constructed to perform operations in $log n $ time.
+
+\subsection{Heapify}
+
 \subsection{Quick Sort}
 \subsection{Merge Sort}
 
