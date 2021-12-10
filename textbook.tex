@@ -18,7 +18,7 @@
 \tableofcontents
 
 
-
+\part{Preliminaries}
 
 \chapter{Introduction}
 
@@ -58,10 +58,18 @@ The first writeup of the textbook will be done in Java, but I will try to add as
 
 \chapter{The Array}
 
-Since this is a data structures course, I assumed that students have had exposure to arrays or array like objects.
-This chapter goes into a bit of a deeper detail that may have been glossed over and Introduces the topic in the appropriate language if need be.
+\section{Why Arrays}
 
-In other words, I assume you know what an ray is , but not necessarily how to use it in Java or Python\footnote{Although we use lists in python}.
+\begin{itemize}
+	\item because new language: 
+	Since this is a data structures course, I assumed that students have had exposure to arrays or array like objects.
+	This chapter goes into a bit of a deeper detail that may have been glossed over and Introduces the topic in the appropriate language if need be.
+	
+	In other words, I assume you know what an array is , but not necessarily how to use it in Java or Python\footnote{Although we use lists in python}.
+	\item  because internal memory lookup
+	\item Becuase we need to make sure internal knowledge is cohesive (eg arrays of objects are arrays of pointers/references)
+\end{itemize}
+
 
 
 
@@ -146,16 +154,48 @@ Time is almost always \emph{the most important cost}.
 
 \section{Big O Notation}
 
+\begin{itemize}
+	\item What is big O
+	
+	\item  how to read it
+	\item Aside about big omega and theta
+	\item How wrong usage annoys mathematician
+	\item refers to cost in general, but used for time usually
+	\item  space complexity 
+	\item Common runtimes
+	\item runtimes we''ll focus on now
+	\item runtimes we focus on later
+\end{itemize}
+
+
+
 \subsection{Space Complexity}
 
 \section{Examples with Arrays}
 
+\begin{itemize}
+	
+	\item Retrieval  - refer back to earlier chapter for address lookup 
+	\item Replacement
+	\item Linear Search
+	\item Binary Search
+\end{itemize}
 
 
+
+\subsection{Selection Sort}
+
+
+
+\subsection{Bubble Sort}
+\subsection{Insertion Sort}
+\subsection{Other Sorting Algorithms}
 
 
 \section{The Formal Mathematics of Big O Notation}
 \section{Other Notations}
+
+\part{Lists}
 
 \chapter{Array Lists}
 \label{arraylist}
@@ -578,6 +618,11 @@ public E set(int index, E item) {
 \section{Analysis}
 Array lists and linked lists are both extremely powerful objects that fulfill  the same purpose, but in radically different ways. 
 
+
+
+
+\subsection{Some Algorithms Play Better}
+
 \section{Potential Project/Practice/Labs}
 
 \section{Source Code}
@@ -612,7 +657,7 @@ The use cases for Queues are fairly obvious
 \section{Array Based Implementation}
 We could use 
 
-
+\part{Recursion}
 \chapter{Recursion}
 
 \section{Introduction}
@@ -627,7 +672,12 @@ As it turns out, while this technically works...it's pretty terrible.  In short,
 Many of the things we are about to see should not be attempted in production and serve only as examples, like our printThis function
 
 
+\section{Binary Search}
 
+\subsection{How to not be scared of logarithms }
+Log means split
+
+\subsection{Runtime Analysis}
 
 
 \section{Recursive Backtracking}
@@ -636,6 +686,8 @@ One of the most famous examples of
 
 \subsection*{The Recursive Backtracking Algorithm}
 
+
+\subsection{Mazes Again}
 
 
 
@@ -754,6 +806,7 @@ Each tree has a root and That route has children .  If we view each of those chi
 A diagram of a binary search tree.  It is made up of nodes, represented by circles, and edges (also called links or branches), represented by arrows.  
 
 
+\footnote{An aside about array based implementations.}
 
 \section{Building a Binary Search Tree}
 
@@ -820,7 +873,9 @@ public class BinaryTree<E extends Comparable<E>> {
 \chapter{Heaps}
 
 
-\subsection{Priority Queues}
+\section{Priority Queues}
+
+\section{Removing From other locations}
 
 \chapter{Sorting}
 
@@ -872,17 +927,29 @@ After all, a heap has the same structure as a tree and both are constructed to p
 
 \subsection{Tim Sort}
 \subsection{Quick Sort}
-\subsection{Distributing and Parallelization}
+\section{But What if We Add More Computers: Parallelization and Distributed Algorithms}
 
 
-\chapter{Sets and Maps}
-\section{Sets}
-Sets are the like mathematical 
+
+\subsubsection{Parallel VS Distributed}
+
+\subsubsection{Map Reduce }
 
 
-\section{Maps}
-\section{Hash Tables}
+\section{Further Reading}
+
+\part{Hashing}
+
+\chapter{Sets}
+Sets are the like mathematical sets
+
+
+\chapter{Maps}
+\chapter{Hash Tables}
 \subsection{Creating a Hash Function}
+
+
+
 \chapter{Map Reduce}
 
 
@@ -905,6 +972,10 @@ The semantics of this in every programming language is different , but the conce
 
 
 Why introduces here? Because a lot of common operations that can be done with map reduce involve using hash tables 
+
+
+\part{Relationships}
+
 \chapter{Graphs}
 
 In some ways, Graphs are the most important data structure.  
@@ -936,7 +1007,7 @@ With the advent of social media, we can talk about graphs with a few examples th
 \subsection{Adjacency Matrix}
 
 
-\section{Graph Algorithms}
+\chapter{Graph Algorithms}
 
 \subsection{Searching and Traversing}
 
@@ -971,7 +1042,7 @@ With the advent of social media, we can talk about graphs with a few examples th
 
 
 
-
+\part{Beyond}
 
 \chapter{A Nontechnical Introduction to NP-Completeness}
 
