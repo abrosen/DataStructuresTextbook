@@ -17,7 +17,6 @@
 \maketitle
 \tableofcontents
 
-
 \part{Preliminaries}
 
 \chapter{Introduction}
@@ -27,6 +26,9 @@ Data Structures is all about defining the different ways we can organize data.
 
 
 \section{Why This Book?}
+
+This text
+
 
 \subsection{Where Does This Book Fit Into a Computer Science Curriculum }
 
@@ -44,16 +46,40 @@ Here, we focus on mastering the different ways to organize data, recognize the i
 
 This textbook assumes that the student has taken a programming course that has covered the basics.
 Namely: data types such as ints, doubles, booleans, and strings; if statements, for and while loops; and object orient programming.
-The first writeup of the textbook will be done in Java, but I will try to add as much Python into the book as well.
-
+This book is also suitable for the self taught programmer who has not learned much theoretical programming
 
 \section{To The Instructor}
+
+You'll note that this textbook lacks many of the 
+
+
+
+Does the lack of varied exercises make cheating on assignments easier as semesters go on?  Yes, but that bridge was burned long ago.  
+The cheating student can plagarize from various websites or anonymously hire another to do their work for them.
+However, the student who cheats isn't exactly clever and certainly hasn't been exposed to much game theory.  
+They will often cheat from the same source.  
+
+
 
 
 \section{To The Student}
 
 
 %\section{Science and Art}
+
+
+\chapter{Functions and How They Work}
+
+This will be an extremely short chapter, but an important one.
+
+\section{The Runtime Stack}
+
+
+\section{Passing Arguments}
+
+\subsection{How it Works in Java}
+
+\subsection{How it works in Python}
 
 
 \chapter{The Array}
@@ -75,6 +101,7 @@ The first writeup of the textbook will be done in Java, but I will try to add as
 
 
 
+
 \section{Java and Arrays}
 The Array is a built in class in Java, but the syntax is a bit unique \footnote{Enough so that I constantly had to look up how to do it my first two years of undergraduate studies, so don't feel too bad if you have to do the same}
 
@@ -85,12 +112,14 @@ Type[] myArray = new Type[sizeOfArray]
 \end{minted}
 
 
-Here, every item in the array is of whatever \texttt{Type} we want, which could be a Class or primitive.   Arrays can be whatever integer size we desire, but once set it cannot be changed.
+Here, every item in the array is of whatever \texttt{Type} we want, which could be a Class or primitive.   
+Arrays can be whatever integer size we desire, but once set it cannot be changed.
 This is because to create an array, the computer allocates a contiguous block of memory.
 If we wanted to resize it, there is no guarantee that this chunk of memory won't have things directly before or after it, preventing us from safely extending its range.
 
 \section{Python and Arrays}
-Python doesn't really do arrays like other languages.
+Python doesn't really do arrays.
+It instead uses Lists, as we'll see in Cahpter \ref{chap-arraylist}.
 \texttt{myNotArray\footnote{On styles:  Java convention is to use camel case for variable types (\texttt{myVariableName}), while python convention is to use underscores (\texttt{my\_variable\_name}).  I will be using the Java style camel-casing for variables throughout the book for consistency and because it is my preference.} = []} does not actually make an array like you assume it would in some other language.  Instead it makes A list (specifically an arraylist ) to contain these items.
 This works exactly like an array in other languages, but you get some nifty operations that allow us to dynamically resize this array if we need it bigger or smaller.\footnote{We cover the specifics in Chapter \ref{arraylist}}
 
@@ -105,7 +134,7 @@ Why would we want to use a
 \subsection{Cool Ways to Build a List in Python}
 
 
-\subsubsection{Con}
+
 
 
 
@@ -131,6 +160,7 @@ Why would we want to use a
 
 \subsection{Limitations}
 Most frequent characters
+Resizing
 
 
 
@@ -195,9 +225,14 @@ Time is almost always \emph{the most important cost}.
 \section{The Formal Mathematics of Big O Notation}
 \section{Other Notations}
 
+
+\section{When To Ignore Costs}
+
 \part{Lists}
 
 \chapter{Array Lists}
+\label{chap-arraylist}
+
 \label{arraylist}
 The first data structure we will be studying is the list.
 The list is by far the most relatable data structure, as humans deal with lists on a regular basis.
@@ -989,16 +1024,33 @@ With the advent of social media, we can talk about graphs with a few examples th
 
 \section{Qualities of a Graph}
 
+The physical layout of a graph doesn't actually matter\footnote{Some properies, such as whether a graph is \emph{planar} or \emph{bipartite} effectively care if a graph can be physically laid out in a certain way.}
+
+\subsection{Vertices}
+
+\begin{itemize}
+	\item Vertices must be unique.
+\end{itemize}
+
+\subsection{Edges}
+
+\subsubsection{Undirected Edges}
+
+\subsubsection{Directed Edges}
+
+\subsubsection{Weighted Edges}
+
+
+\section{Special Graphs and Graph Properties}
+
+\subsection{Planar Graphs}
+Graphs that are planar can have their vertices and edges laid out in such a way that no two edges will cross.
 
 
 
-\subsection{Undirected Edges}
+\subsection{Bipartite Graphs}
 
-\subsection{Directed Edges}
-
-\subsection{Weighted Edges}
-
-\section{Directed Acyclic Graphs}
+\subsection{Directed Acyclic Graphs}
 
 
 \section{Building a Graph}
@@ -1006,19 +1058,50 @@ With the advent of social media, we can talk about graphs with a few examples th
 \subsection{Adjacency List}
 \subsection{Adjacency Matrix}
 
+\section{Graph Libraries}
+
+\subsection{Java - JUNG}
+
+\subsection{Python - networkx}
+
+There is only one realistic choiceforusing graphs in Python.  The package networkx is extremely powerful, extremely versatile,and actively maintained.
+
+
 
 \chapter{Graph Algorithms}
 
-\subsection{Searching and Traversing}
+\section{Searching and Traversing}
 
-\subsubsection{Breadth First Search}
+\subsection{Breadth First Search}
 
-\subsubsection{Depth First Search}
+\subsection{Depth First Search}
 
 
-\subsection{Shortest Path}
-\subsection{Topological Sorting}
-\subsection{Minimum Spanning Trees}
+
+
+\section{Shortest Path}
+
+\subsection{Djikstra's Algorthim}
+
+\subsubsection{Improving The Algorithm}
+
+\subsubsection{Failure Cases}
+
+
+\subsection{Bellman-Ford}
+
+
+
+\section{Topological Sorting}
+
+\subsection{Khan's Algorithm}
+
+\section{Minimum Spanning Trees}
+
+
+\subsection{Kruskal's Algorithm}
+\subsection{Prim's Algorithm }
+
 
 
 \section{Graphs, Humans, and Networks}
