@@ -237,39 +237,19 @@ Time is almost always \emph{the most important cost}.
 The first data structure we will be studying is the list.
 The list is by far the most relatable data structure, as humans deal with lists on a regular basis.
 
-\section{What is a list?}
+\section{What is a List?}
 When you get right down to it, lists are defined by order.
 
 
-\begin{minted}{Java}
-public static <E> boolean isPermutation(List<E> listA, List<E> listB) {
-	
-	if(listA.size() != listB.size()) {
-		return false;
-	}
-	for(int i  = 0; i < listA.size() ; i++){
-		E item =  listA.get(i);
-		int countA = 0;
-		int countB = 0;
-		
-		for (E element : listA) {
-			if(item.equals(element)){
-				countA++;
-			}
-		}
-		for (E element : listB) {
-			if(item.equals(element)){
-				countB++;
-			}
-		}
-		if(countA != countB) {
-			return false;
-		}
-	}
-	return true;
-}
-\end{minted}
+Data in a list is stored sequentially\footnote{As you see, Arraylists do it spacially, but LinkedLists are more abstract}.
 
+\section{List Operations}
+
+\subsection{Add}  
+\subsection{Remove}
+\subsection{Get}
+\subsection{Set}
+\subsection{Size}
 
 
 \section{ArrayLists}
@@ -279,6 +259,7 @@ They work by growing or shrinking the array\footnote{A lie.  As you'll see we do
 We'll go into the specifics of how this works in Section \ref{buildingArraylist}.
 
 
+\subsubsection{Java's ArrayLists}
 \subsubsection{Python's Lists}
 Python's lists, such as below:
 \begin{minted}{python3}
@@ -293,7 +274,52 @@ Java (who's vocabulary we'll be following), uses \texttt{add} for both these con
 
 
 
+
+
 \section{Generics}
+
+
+\subsection{What are they?}
+
+\subsection{But Why?}
+
+
+
+
+\section{Example Algorithms}
+
+
+\begin{minted}{Java}
+	public static <E> boolean isPermutation(List<E> listA, List<E> listB) {
+		
+		if(listA.size() != listB.size()) {
+			return false;
+		}
+		for(int i  = 0; i < listA.size() ; i++){
+			E item =  listA.get(i);
+			int countA = 0;
+			int countB = 0;
+			
+			for (E element : listA) {
+				if(item.equals(element)){
+					countA++;
+				}
+			}
+			for (E element : listB) {
+				if(item.equals(element)){
+					countB++;
+				}
+			}
+			if(countA != countB) {
+				return false;
+			}
+		}
+		return true;
+	}
+\end{minted}
+
+
+
 \section{Building an ArrayList}
 \label{buildingArraylist}
 
@@ -671,8 +697,15 @@ After all, can't a list do all the things that a stack can do and more?
 
 Working with the limited operations of a allows us to approach problems with a different mindset.
 
+\section{Stack Operations}
+
+
 \section{Building a Stack}
 
+
+\section{Built-in Stacks}
+
+\section{Solving Problems with A Stack}
 
 
 \section{Mazes - Stacks and Backtracking}
@@ -704,16 +737,36 @@ As it turns out, while this technically works...it's pretty terrible.  In short,
 
 
 \section{Redoing Things With Recursion}
-Many of the things we are about to see should not be attempted in production and serve only as examples, like our printThis function
+Many of the things we are about to see should not be actually  used and serve only as examples, like our \texttt{printThis} function
+
+\subsection{Printing Recursively}
+\subsection{Recursive Linear Search}
 
 
 \section{Binary Search}
 
-\subsection{How to not be scared of logarithms }
-Log means split
+
 
 \subsection{Runtime Analysis}
 
+
+
+
+\subsubsection{How to not be scared of logarithms }
+You may have learned that logarithms are the inverse operation to exponentiation.
+
+
+This is an utterly useless definition when programming.
+
+
+A more way of thinking about logarithms is "how many times can I recursively split something?"
+For example, $\log b x$ asks "how many times can I recursively split my $x$ items into $b$ seperate piles?"
+
+A more concrete example: $\log_2 16 = 4$, not because $2^4 = 16$, but because a pile of 16 items can be split in half into two piles of 8, each pile of 8 can be split in half into two piles of 4, the 4's can be split into 2's, the 2's into 1's --- four splits total:
+
+<picture>
+
+\subsubsection{Back to it.}
 
 \section{Recursive Backtracking}
 Recursion really comes in handy when we are trying to solve complex puzzles.
