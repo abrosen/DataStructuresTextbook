@@ -1,10 +1,9 @@
 
 \part{Lists}
-
+\label{part-list}
 \chapter{Array Lists}
 \label{chap-arraylist}
 
-\label{arraylist}
 The first data structure we will be studying is the list.
 The list is by far the most relatable data structure, as humans deal with lists on a regular basis.
 
@@ -14,16 +13,61 @@ The list is by far the most relatable data structure, as humans deal with lists 
 When you get right down to it, lists are defined by order.
 
 
-Data in a list is stored sequentially\footnote{As you see, Arraylists do it spacially, but LinkedLists are more abstract}.
+\subsection*{Todo list example}
+
+
+\subsection*{shopping list example}
+While lists are defined by order, we don't necessarily  need to ascribe any meaning to the order.
+Take a look at the shopping list below:
+
+
+
+
+<Shopping List>
+While bread is the first item on this list, being the first item in the shopping list in this case has no special meaning.  It's not the most important item on the list\footnote{obviously, that's the cookies}, nor is it necessarily the item I'm going to pick up first.
+
+
+Data in a list is stored sequentially\footnote{As you see, Arraylists do it spatially, but LinkedLists are more abstract}.
+
+
+\subsection{A note on terminology}
+\subsection{Lists in Java}
+\subsubsection{An Aside about interfaces}
+\subsubsection*{Here is the source code}
+
+
+
+\section{Generics}
+
+\subsection{What are they?}
+
+
+Before we get to deep into lists, we need to have a discussion about generics. Generics are a way of restricting and specifying what types can go into a collection.
+
+\subsection{But Why?}
+
+
+
 
 \section{List Operations}
 
-\subsection{Add}  
-\subsection{Remove}
+
+\subsection{Size} We need some easy way of knowing how big our lists are, if for no other reason than to make sure our  add and remove methods can figure our their valid indices.
+
+
+\subsection{Add}  By default, we add items to the end of the list, but we can also add items to any index we want.
+
+When we add an item at some specific index $ i $, the item at $ i $ and all indices to the right shift over one.  In other words, what was at $ i $ is now at $ i+1 $, what was at $ i+1 $ is at $ i+2 $,  and so on.
+
+This also an understandable restriction to adding items to a list -  we cannot an item to any index greater than \texttt{myList.size() +1}.   Anything greater wouldn't be at the end of the list; it would be beyond it.  The same goes for negative indices.
+ 
+<possible picture showing a legal an illegal add>
+
+%We will cover this operation in more detail when we implement the add method for the arraylist 
+
+\subsection{Remove}  We can remove Items from a list much in the same way we can add them. When removing an item at index I , all the indices to the right shift one over to the left 
 \subsection{Get}
 \subsection{Set}
-\subsection{Size}
-
 
 \section{ArrayLists}
 An array list, as you might have guessed, are lists built using \textit{arrays}.\footnote{Shockingly, many of the names we give things at this point actually make sense.}
@@ -33,6 +77,7 @@ We'll go into the specifics of how this works in Section \ref{buildingArraylist}
 
 
 \subsubsection{Java's ArrayLists}
+Java's arrayList
 \subsubsection{Python's Lists}
 Python's lists, such as below:
 \begin{minted}{python3}
@@ -49,12 +94,6 @@ Java (who's vocabulary we'll be following), uses \texttt{add} for both these con
 
 
 
-\section{Generics}
-
-
-\subsection{What are they?}
-
-\subsection{But Why?}
 
 
 
@@ -96,9 +135,30 @@ Java (who's vocabulary we'll be following), uses \texttt{add} for both these con
 \section{Building an ArrayList}
 \label{buildingArraylist}
 
+
+\subsection{Instance Variables}
+
+\subsection{Constructor}
+
+\subsection{Get and Set}
+
+\subsection{Add}
+
+\subsubsection{Reallocation}
+
+\subsection{toString}
+Now that we supposedly have a method for adding items into the list.
+
+
+\subsection{Remove}
+
+
 \subsection{More Restrictive or Permissive Generics}
 
 \section{Analysis}
+
+
+
 \chapter{Linked Lists}
 Linked lists , also referred to as reference based lists , are the second type of lists typically seen in applications . To be clear a linked list is a list. That means it could be used anywhere an array list can.   So Why do we have two objects that are functionally equivalent , two collections that hold things in order, using indexes?  The answer is will see, is because each list is good at the thing the other list is less efficient at.
 
@@ -264,9 +324,6 @@ We can simplify our job by breaking the add method into five separate cases:
 Let's start with the first case.
 
 \subsubsection{Checking the index is in or out of bounds}
-
-
-
 
 Since we passed the check above , we should take a moment before we add an item to address things that need to happen no matter what for Every add condition . Specifically, we need to have a node to hold the item we are adding , and we want to go ahead and increment the size of the list At the end of the method so we don't forget about it.
 
