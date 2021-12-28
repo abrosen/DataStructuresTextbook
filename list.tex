@@ -1,0 +1,463 @@
+
+\part{Lists}
+
+\chapter{Array Lists}
+\label{chap-arraylist}
+
+\label{arraylist}
+The first data structure we will be studying is the list.
+The list is by far the most relatable data structure, as humans deal with lists on a regular basis.
+
+\section{What is a List?}
+
+
+When you get right down to it, lists are defined by order.
+
+
+Data in a list is stored sequentially\footnote{As you see, Arraylists do it spacially, but LinkedLists are more abstract}.
+
+\section{List Operations}
+
+\subsection{Add}  
+\subsection{Remove}
+\subsection{Get}
+\subsection{Set}
+\subsection{Size}
+
+
+\section{ArrayLists}
+An array list, as you might have guessed, are lists built using \textit{arrays}.\footnote{Shockingly, many of the names we give things at this point actually make sense.}
+They work by growing or shrinking the array\footnote{A lie.  As you'll see we don't actually change the size of an array;  we create a new array of the appropriate size and copy everything over} automatically as items are added or removed from the list, giving the illusion that the data structure can hold an arbitrary amount of data.
+
+We'll go into the specifics of how this works in Section \ref{buildingArraylist}.
+
+
+\subsubsection{Java's ArrayLists}
+\subsubsection{Python's Lists}
+Python's lists, such as below:
+\begin{minted}{python3}
+	l = [1,2,3] # this is a list, not an array!	
+\end{minted}
+are actually array lists! %TODO cite this https://docs.python.org/3/faq/design.html#how-are-lists-implemented-in-cpython
+
+Python uses a different vocabulary for some of the methods we'll be implementing below.  
+For example, take the action of adding an item to a list.
+Python uses the \texttt{append} method to add an item to end of the list and \texttt{insert} to put an item into the middle of the list.
+Java (who's vocabulary we'll be following), uses \texttt{add} for both these contexts. 
+
+
+
+
+
+\section{Generics}
+
+
+\subsection{What are they?}
+
+\subsection{But Why?}
+
+
+
+
+\section{Example Algorithms}
+
+
+\begin{minted}{Java}
+	public static <E> boolean isPermutation(List<E> listA, List<E> listB) {
+		
+		if(listA.size() != listB.size()) {
+			return false;
+		}
+		for(int i  = 0; i < listA.size() ; i++){
+			E item =  listA.get(i);
+			int countA = 0;
+			int countB = 0;
+			
+			for (E element : listA) {
+				if(item.equals(element)){
+					countA++;
+				}
+			}
+			for (E element : listB) {
+				if(item.equals(element)){
+					countB++;
+				}
+			}
+			if(countA != countB) {
+				return false;
+			}
+		}
+		return true;
+	}
+\end{minted}
+
+
+
+\section{Building an ArrayList}
+\label{buildingArraylist}
+
+\subsection{More Restrictive or Permissive Generics}
+
+\section{Analysis}
+\chapter{Linked Lists}
+Linked lists , also referred to as reference based lists , are the second type of lists typically seen in applications . To be clear a linked list is a list. That means it could be used anywhere an array list can.   So Why do we have two objects that are functionally equivalent , two collections that hold things in order, using indexes?  The answer is will see, is because each list is good at the thing the other list is less efficient at.
+
+
+Array based lists use contiguous blocks of memory, allocated all at once and when then capacity of the list is filled up.  Utilizing an array makes these types of lists extremely efficient at retrieving an item from a specific index, but adding items anywhere but the end of the list incurs a $O(n)$ runtime.
+
+
+
+Linked Lists can do all the things an Array List can, but the underlying structure is completely different.  
+Each item in the list is stored in an Object called a \textit{Node}.  Nodes are created as items are added to list, rather than in advance.  This means that are not contiguous, but Rather they are scattered throughout the computer's memory . So how in the world do we keep track of where we've stored all these items ? The solution resembles the scavenger hunt through the computer's memory.  Each node Not only the memory location of the item that is being stored, but the memory location of the next node in the list . An example of this code can be found below\footnote{Why is this class private in Java \texttt{private}? An inner class  (or private class) is a class that lives within another class.  We use this for two reasons:  Our nodes only exist to build the linked list, so they don't need to have their own class.  The Second reason is   What about \texttt{static class}? This means that we can create nodes without having to make a Linked List first! }: %TODO Check this.
+
+\begin{minted}{Java}
+	// a snippet of the Node Class
+	// This will live inside the LinkedList class
+	private static class Node<E> {
+		E item;
+		Node<E> next;
+		
+		public Node(E item) {
+			this.item =  item;
+		}
+	} 
+\end{minted}
+Upon first glance, this code may be very confusing. Each node class contains a reference to a node inside of it.  This may give the impression that nodes  situated one inside another, like one of those Russian nesting matryoshka dolls.  
+However, keep in mind what the node is actually storing is not other objects, but instead memory locations of where to find them.
+This means that our linked list is more akin to a scavenger hunt where each objective in the hunt contains the instructions on how to find the next objective.
+
+In other words, the item Is the data that is being stored (well actually the memory location, don't forget that ) , and next refers to the memory location of the next index in the list.  Crash course is an excellent video demonstrating this which you can find here: %TODO: Link video
+
+
+\section{Connecting Nodes into a list.}
+%TODO
+
+
+
+
+
+we keep track of only the first and last item in the list, referred to as the head and the tail . 
+
+
+I will be presenting the directions to building a fully functional  singly-linked list and doubly-linked list.  
+These directions will differ from the mechanics of how your programming language of choice implements them, but have the same time complexity for their operations.
+My implementation is constructed with the goal of making the code easy to understand and the decisions that need to be for adding and removing reflect each other.
+Finally, my code aims to minimize the number of null-pointer exceptions and their ilk a programmer would make.
+
+The full implementations can be found at the end of the Chapter.
+
+\section{Building a Singly LinkedList}
+We open up our linked list with a class declaration. 
+If our language uses generics, we specify it there.
+I'll be choosing not to inherit from the built-in list so we can focus solely on our own code and no external distractions.
+
+
+In Java, our code begins like this.
+\begin{minted}{Java}
+	public class LinkedList<E> { }
+\end{minted}
+
+
+In Python
+\begin{minted}{python3}
+	class LinkedList(object):
+	pass
+\end{minted}
+
+
+\subsection{The Node}
+We want the Node class to be a private/internal class, so that the Node we write for a singly linked list and doubly linked list won't get mixed up in our coding environments.
+This also applies for other data structures that will be using nodes.
+
+\begin{minted}{Java}
+	public class LinkedList<E> { 
+		
+		private static class Node<E>{
+			E item;
+			Node<E> next;
+			
+			public Node(E item){
+				this.item = item;
+			}
+		}
+	}
+\end{minted}
+
+\begin{minted}{python3}
+	class LinkedList(object):
+	class Node(object):
+	def __init__(self, item) -> None:
+	self.item = item
+	self.next = None
+	
+	pass
+\end{minted}
+
+In the Node private/internal/inner class (and only there), the \texttt{this} or \texttt{self} refers to the \textbf{node} rather than the linked list.
+
+
+
+
+
+\subsection{Instance Variables and Constructor}
+
+Our linked list Linkedlist only needs a few Instance  variables in order to Function. We need to keep track of the size; Without it we would have no idea what the valid indices are in the list. We need to keep track of the head so we know where to start our scavenger hunt for any particular index or item we're looking for.  Finally we'll keep track of the tail . While keeping track of the tail isn't strictly necessary , keeping track of it means that will be able to add an item to the end of the linked list very efficiently (\texttt{O(1)}).
+
+The only job of the constructor is to initialize everything to either zero or null.
+
+Finally, it's probably a good idea to go ahead and write getter method for the size of the list.
+
+\begin{minted}{Java}
+	public class LinkedList<E> { 
+		private Node<E> head;
+		private Node<E> tail;
+		private int size;
+		
+		
+		public int size(){
+			return this.size;
+		}
+	}
+\end{minted}
+
+
+
+
+
+
+\subsection{Adding}
+Our Linked list has two add methods, just like the array list.  The first only takes in an item and adds that item to the end of the linked list . It will do this by calling our second method which takes in an index and an item and inserts that item at that index.\footnote{If this sounds familiar, it's because this is precisely what the add method in the arraylist does. Shocking, right?}
+
+Let's take a look at our first add\footnote{As with the arraylist , the add method returns a boolean to signify that we were successfully able to add it to the list . This will always be true, but we do this because Java expects this for collections, as explained in arraylists } method:
+
+\begin{minted}{Java}
+	public boolean add(E item){
+		this.add(this.size, item);
+		return true;
+	}
+\end{minted}
+
+\begin{minted}{Python3}
+	def add(self, item):
+	self.add(self.size, item)
+	return True
+\end{minted}
+
+Simple enough!  But what about that second add method?
+When we do any kind of operation on a linked list, we need to think about how instance variables in a linked list will be altered. 
+Fortunately, we only have three instance variables: \texttt{size}, \texttt{head}, and \texttt{tail}.
+When adding to a linked list, the size will always be altered as long as the index is valid.
+Our list's \texttt{head} will only be altered when we add an item to the beginning of the list and our \texttt{tail} will only be altered when we add to the end of the list.  If the list is empty , then the node for that added item becomes both the head and the tail.
+
+
+
+We can simplify our job by breaking the add method into five separate cases:
+\begin{enumerate}
+	\item The index that we want to add to is out of bounds.
+	\item We are adding an item to a list that is completely empty. This is going to change the head and tail the list from nolta something. 
+	\item We are adding an item to index 0, which is going to change the head of the list.
+	\item We are going to add an item to the end of the list, which means that we are going to change what the tail is.
+	\item We are adding to some other index in the list , which means that we don't have to bother changing the head or the tail.
+\end{enumerate}
+
+
+Let's start with the first case.
+
+\subsubsection{Checking the index is in or out of bounds}
+
+
+
+
+Since we passed the check above , we should take a moment before we add an item to address things that need to happen no matter what for Every add condition . Specifically, we need to have a node to hold the item we are adding , and we want to go ahead and increment the size of the list At the end of the method so we don't forget about it.
+
+I will be calling the node that holds the item we are inserting into the list \texttt{adding}, As calling it node would be extremely confusing, since we are dealing with so many nodes and other variables like next that are also four letters long.
+
+Here's what our changes look like.
+
+\begin{minted}{Java}
+	public void add(int index, E item) {
+		// Scenario 1: index is out of bound
+		if(index < 0 || index > size ) {  //O(1)
+			throw new IndexOutOfBoundsException(index + " is out of bounds");
+		}
+		
+		Node<E> adding = new Node<E>(item);
+		/* the rest of our code*/
+		size++;
+	\end{minted}
+	
+	
+	
+	\subsubsection{Adding to an Empty List}
+	Now let's consider Adding to an empty list.  An empty list means the size is 0.  If that's the case, we are going to make Adding the new head of the list, As well as the new tail.  Just like if you are the only person in line at checkout you are both the first person and the last person in line , this node will also be the first node and the last node in the list , which is why it Will be both the head and tail of the list (at least until we add another item).
+	
+	\begin{minted}{Java}
+		// Scenario 2: adding to an initially empty list
+		if(size == 0) {
+			head = adding;
+			tail = adding;
+		}	
+	\end{minted}
+	
+	
+	
+	\subsubsection{Adding an item to the beginning of the list}
+	Adding an item to the beginning of the list means that the node containing it becomes the new head of the list.  We do this bye attaching Adding to the list, Then informing the list adding is the new head .We do this by setting adding's .next Two point to the current head of the list, then setting The list had to be the node we added.
+	
+	\begin{minted}{Java}
+		// Scenario 3: adding a new head
+		else if(index == 0) {//(1)
+			adding.next = head;
+			head = adding;
+		}
+	\end{minted}
+	
+	
+	
+	Here, we introduce one of the most important rules we need to follow when working with a linked list : when we are adding an item to the linked list attached the list first , then update the rest of the list to accommodate the new reality.
+	
+	Failing to do this can have catastrophic results.  Consider below Where we set Adding as new head first 
+	
+	
+	
+	\begin{minted}{Java}
+		// Mistakes were made
+		else if(index == 0) {
+			head = adding;  // oops
+			adding.next = head;
+		}
+	\end{minted}
+	
+	
+	
+	
+	Note that the number of operations we do here Is always the same no matter how big the list is!  This means that adding to the head is a constant time operation.
+	
+	\subsubsection{Adding an item to the end of the list}
+	\begin{minted}{Java}
+		// Scenario 4: adding a new tail
+		else if(index == size ){
+			tail.next = adding;
+			tail = adding;
+		}
+	\end{minted}
+	
+	
+	\subsubsection{Sidebar: Getting a Node at a Specific Index}
+	\begin{minted}{Java}
+		private Node<E> getNode(int index){  //O(n)
+			Node<E> current = head;
+			for (int i = 0; i < index; i++) {
+				current = current.next;
+			}
+			return current;
+		}	
+	\end{minted}
+	
+	
+	
+	\subsubsection{Inserting an item into a specific index}
+	
+	\begin{minted}{Java}
+		// Scenario 5: everything else
+		else {
+			Node<E> before =  getNode(index -1);  //O(n)
+			adding.next = before.next;
+			before.next = adding;
+		}	
+	\end{minted}
+	
+	\subsubsection{The end result}
+	\begin{minted}{Java}
+		public void add(int index, E item) {
+			// Scenario 1: index is out of bound
+			if(index < 0 || index > size ) {  //O(1)
+				throw new IndexOutOfBoundsException("Not a valid index :(");
+			}
+			
+			Node<E> adding = new Node<E>(item);
+			
+			// Scenario 2: adding to an initially empty list
+			if(size == 0) {
+				head = adding;
+				tail = adding;
+			}
+			// Scenario 3: adding a new head
+			else if(index == 0) {  //    O(1)
+				adding.next = head;
+				head = adding;
+			}
+			// Scenario 4: adding a new tail
+			else if(index == size ){
+				tail.next = adding;
+				tail = adding;
+			}
+			// Scenario 5: everything else
+			else {
+				Node<E> before =  getNode(index -1);  //O(n)
+				adding.next = before.next;
+				before.next = adding;
+			}
+			
+			
+			size++;
+		}
+	\end{minted}
+	
+	
+	
+	\section{Get and Set}
+	Before we got onto our remove method, let's take a look at \texttt{get} and \texttt{set} very briefly.
+	
+	\subsection{Get}
+	Just like with an ArrayList, the get method returns the item and the specified index.  
+	However, since we can't go directly to a specific index like we can with an array or ArrayList, we need to iterate thru the \texttt{.next} links until we get to the appropriate node.
+	Fortunately, we can just use our \texttt{getNode} function that we created when we were writing \texttt{add}.
+	
+	
+	
+	\begin{minted}{Java}
+		public E get(int index) {
+			if(index < 0 || index >= size ) { 
+				throw new IndexOutOfBoundsException(index + " is out of bounds");
+			}
+			return getNode(index).item;
+		}
+	\end{minted}
+	
+	
+	\subsection{Set}
+	
+	Set operates very similar to get.  Remember, set also returns the item that is already at the specified index, essentially replacing it.
+	
+	\begin{minted}{Java}
+		public E set(int index, E item) {
+			if(index < 0 || index >= size ) {  //O(1)
+				throw new IndexOutOfBoundsException(index + " is out of bounds");
+			}
+			Node<E> node = getNode(index);
+			E toReturn = node.item;
+			node.item = item;
+			
+			return toReturn;
+		}
+	\end{minted}
+	
+	
+	\section{Remove}
+	
+	
+	
+	
+	\section{Analysis}
+	Array lists and linked lists are both extremely powerful objects that fulfill  the same purpose, but in radically different ways. 
+	
+	
+	
+	
+	\subsection{Some Algorithms Play Better}
+	
+	\section{Potential Project/Practice/Labs}
+	
+	\section{Source Code}
+	\inputminted{python3}{code/linkedlist.py}
