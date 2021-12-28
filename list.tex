@@ -134,23 +134,77 @@ Java (who's vocabulary we'll be following), uses \texttt{add} for both these con
 
 \section{Building an ArrayList}
 \label{buildingArraylist}
+To truly understand how a data structure works we need to implement it ourselves.
 
+\subsection{Caveats}
+
+\subsubsection{MyArrayList.java}
+We will not be implementing the \texttt{List} interface. We don't need to implement all the functions to get an understanding of how the fundamentals of an arraylist work.
+Implementing the list interface would take up a hideous amount of physical space and get in the way of actually understanding the code.
+
+
+
+\subsubsection{myArrayList.py}
+
+For python, this will require some suspension of disbelief, as our array list will require using an array, and as previously discussed, arrays are shirked in favor of arraylists in python.  We'll be using a list and pretending it's an array. Silly?  Yes.  But it will keep our code compact and easier to understand.
+
+%Remember, the standard python list is built in the C programming language.
 
 \subsection{Instance Variables}
 
+Believe it or not, we only need to keep track of three instance variables to get our arraylist working.
+
+\begin{enumerate}
+	\item[array]  We need an array to actually store the items.  This is it.
+	\item[size] Size here refers to the total number of items we have stored in the array.
+	\item[capacity]  This is the number of items  the underlying \texttt{array} in our list can hold. It is the maximum size of the list before we have to do something about it. This is not strictly necessary as we can get it by querying \texttt{array}'s length. However, making it it's own variable will help with the readability.
+\end{enumerate}
+
+It is very easy to confuse size and capacity since they both deal with counting how many elements.  When I talk about \texttt{size}, I am talking about the number of items we have stored in the list we are making.  Capacity, on the other hand, depends on the length of the built in array. 
+
+\subsubsection{Java}
+
+\subsubsection{Python}
+
+
 \subsection{Constructor}
 
-\subsection{Get and Set}
+\subsubsection{Java}
+
+\subsubsection{Python}
+
+
+
+\subsection{Placeholder toString}
+
+\subsubsection{Java}
+
+\subsubsection{Python}
+
+
 
 \subsection{Add}
 
+
+
+
 \subsubsection{Reallocation}
 
-\subsection{toString}
+\subsection{toString and \_str\_}
 Now that we supposedly have a method for adding items into the list.
 
 
+\subsection{Get and Set}
+
+\subsubsection{Java}
+
+\subsubsection{Python}
+
+
+
+
 \subsection{Remove}
+
 
 
 \subsection{More Restrictive or Permissive Generics}
