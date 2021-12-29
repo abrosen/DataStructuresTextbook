@@ -1,0 +1,61 @@
+
+\chapter{Sorting}
+
+
+\section{Quadratic-Time Algorithms}
+
+\subsection{Bubble Sort}
+
+\subsection{Selection Sort}
+
+\subsection{Insertion Sort}
+
+
+\section{Log-Linear Sorting Algorithms}
+The most commonly used sorting algorithms take $ O(n \lg(n)) $ time.
+This is the hard limit on runtime %TODO Cite or correct
+\subsection{Tree Sort}
+The tree sort is the simplest algorithm to we will cover. Performing Tree sort is a matter of three simple steps
+
+\begin{enumerate}
+	\item Create a tree.
+	\item Load the items you want to sort into the tree.
+	\item Perform an inorder traversal of the tree.
+\end{enumerate}
+
+
+The performance of this algorithm depends completely on the type of tree we create for this algorithm.  Using a self-balancing binary search tree, adding $ n $ items to the tree takes $ O(n\lg(n)) $ and an in order traversal takes $ O(n) $ steps, for a grand total of $ O(n) $ runtime.  Using a binary search tree that does not self balance means that there is a worst case scenario of $ O(n^{2}) $ for adding all the $ n $ items.
+
+Using a tree also means we use extra space since all the data has to be moved into a tree, using $ O(n) $ space.
+\subsection{Heap Sort}
+You might expect that heapsort deserves the same treatment as treesort.
+After all, a heap has the same structure as a tree and both are constructed to perform operations in $log n $ time.
+
+\subsection{Heapify}
+
+\subsection{Quick Sort}
+\subsection{Merge Sort}
+
+
+
+\section{Unique Sorting Algorithms}
+
+
+\subsection{Shell Sort}
+
+\subsection{Radix Sort}
+
+\section{State of the Art Sorting Algorithms}
+
+\subsection{Tim Sort}
+\subsection{Quick Sort}
+\section{But What if We Add More Computers: Parallelization and Distributed Algorithms}
+
+
+
+\subsubsection{Parallel VS Distributed}
+
+\subsubsection{Map Reduce }
+
+
+\section{Further Reading}

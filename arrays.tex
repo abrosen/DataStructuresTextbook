@@ -1,0 +1,80 @@
+\chapter{The Array}
+
+\section{Why Arrays}
+
+\begin{itemize}
+	\item because new language: 
+	Since this is a data structures course, I assumed that students have had exposure to arrays or array like objects.
+	This chapter goes into a bit of a deeper detail that may have been glossed over and Introduces the topic in the appropriate language if need be.
+	
+	In other words, I assume you know what an array is , but not necessarily how to use it in Java or Python\footnote{Although we use lists in python}.
+	\item  because internal memory lookup
+	\item Because we need to make sure internal knowledge is cohesive (eg arrays of objects are arrays of pointers/references)
+\end{itemize}
+
+
+
+
+
+
+
+\section{Java and Arrays}
+The Array is a built in class in Java, but the syntax is a bit unique \footnote{Enough so that I constantly had to look up how to do it my first two years of undergraduate studies, so don't feel too bad if you have to do the same}
+
+To create an array in Java we do:
+
+\begin{minted}{Java}
+	Type[] myArray = new Type[sizeOfArray]
+\end{minted}
+
+
+Here, every item in the array is of whatever \texttt{Type} we want, which could be a Class or primitive.   
+Arrays can be whatever integer size we desire, but once set it cannot be changed.
+This is because to create an array, the computer allocates a contiguous block of memory.
+If we wanted to resize it, there is no guarantee that this chunk of memory won't have things directly before or after it, preventing us from safely extending its range.
+
+\section{Python and Arrays}
+Python doesn't really do arrays.
+It instead uses Lists, as we'll see in Cahpter \ref{chap-arraylist}.
+\texttt{myNotArray\footnote{On styles:  Java convention is to use camel case for variable types (\texttt{myVariableName}), while python convention is to use underscores (\texttt{my\_variable\_name}).  I will be using the Java style camel-casing for variables throughout the book for consistency and because it is my preference.} = []} does not actually make an array like you assume it would in some other language.  Instead it makes A list (specifically an arraylist ) to contain these items.
+This works exactly like an array in other languages, but you get some nifty operations that allow us to dynamically resize this array if we need it bigger or smaller.\footnote{We cover the specifics in Chapter \ref{arraylist}}
+
+
+
+However, if you really want or need to use an array in python, you can.
+There are two ways to accomplish this.The first way is the built in \texttt{array} package.    The python package \texttt{numpy} contains
+
+Why would we want to use a 
+
+
+\subsection{Cool Ways to Build an Array in Python}
+
+
+
+
+
+
+
+\section{How an Array Works}
+
+
+\subsection{Operations}
+
+\subsubsection{Retrieving a item stored at an index}
+
+\subsubsection{Setting the value of an index}
+
+\subsection{Array Internals and the Memory Formula}
+
+\section{Common Array Algorithms}
+
+\subsection{Finding Values in an Array}
+\subsubsection{Finding the Minimum}
+
+\subsubsection{Finding the Average}
+
+
+\subsection{Limitations}
+Most frequent characters
+Resizing
+

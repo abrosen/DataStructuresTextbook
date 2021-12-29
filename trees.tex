@@ -1,0 +1,137 @@
+\chapter{Trees}
+
+
+Our next major data structure is trees.  Specifically, we will be looking at binary search trees.
+
+Trees are an excellent data structure for storing things since they implement all the operations we care about for collections in logarhythmic time\footnote{Specifically , Trees implement everything in average case log rhythmic time and worst case linear time , but if we do a bit of extra work and make it a self balancing binary tree (which will seem much later in this chapter) we can make this tree worst case log arhythmic for all operations}
+
+
+However, trees are not without limitations.  Trees will only work with data that can be stored hierarchically or in an order.
+
+\section{The Parts of a Tree}
+
+The first thing we need to do when introducing trees is define a vocabulary.  
+
+Much like the linked list, a tree is made of nodes.
+However, unlike a linked list , nodes in a tree are not arranged in a line,
+Instead, they are arranged in a heirachy.
+
+Each node sit above multiple other nodes , with the nodes below it being referred to as their children or child nodes.  The node connecting all these children is called the parent.
+
+<A picture of one node, Represented by a circle with four arrows coming out below it. Each arrow points to yet another node.  The Node with the arrows coming out of it is the parent, and the nodes below it are the children >
+
+
+This relationship can be extended Ad infinitum as we can see with the picture below 
+
+
+<Picture with nodes labeled>
+
+
+However anything above grandchild and grandparent just becomes tedious , so we tend to  Generalize this relationship to ancestors and descendants.  A key point here is to remember that while we are borrowing terms from the family tree , nodes will only have one parent . Each node can have multiple children, however .
+
+
+We refer to the links connect each of the nodes as branches or links or edges.  This tends to be a matter of personal preference.
+
+
+
+Finally , we have one special node that sits above all the other nodes . This note is the root and it is analogous to the head of a linked list . All of our operations will start at the root of the node\footnote{Remember , programmers are stereotypically outdoors of averse, So they May have forgotten what a real tree looks like.  Thus, we'll see that the root of the tree is at the top of the tree and our leaves are at the bottom\footnote{Or maybe it's some weird hydroponic zero-G kind of thing.}}.
+
+
+Remember , programmers are stereotypically outdoors of averse, So they May have forgotten what a real tree looks like.  Thus, we'll see that the root of the tree is at the top of the tree and our leaves are at the bottom\footnote{Or maybe it's some weird hydroponic zero-G kind of thing.}
+
+
+\subsection{Where the  Recursion comes in}
+There is a reason we learned recursion before we introduce trees. Trees are the exemplar recursive data structure
+
+Each tree has a root and That route has children .  If we view each of those children as the root of their own subtree , this can make our algorithms for adding removing and searching extremely easy to write.
+
+<picture Of tree, the recursive subtrees are dash circled.>
+
+<Picture of the left subtree, with it's trees circled>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Binary Search Trees}
+
+A diagram of a binary search tree.  It is made up of nodes, represented by circles, and edges (also called links or branches), represented by arrows.  
+
+
+\footnote{An aside about array based implementations.}
+
+\section{Building a Binary Search Tree}
+
+\subsection{The Code Outline}
+
+
+We use the \texttt{Comparable} class in Java to require that all objects stored in the tree has a \textbf{total ordering}\footnote{The formal definition is as follows}.%TODO Formal defininition in the footnote
+In practice, this means that anything \texttt{Comparable} can be sorted.
+
+Python, of course, doesn't need these restrictions.
+\begin{minted}{Java}
+	public class BinaryTree<E extends Comparable<E>> {
+	}
+\end{minted}
+
+
+
+
+Much like our Linked List, we don't need much in the way of instance variables.  We'll create a \texttt{root} to keep track of the starting place for our tree and size to keep track of how many items we have stored.
+
+Finally, we will also create our inner \texttt{Node} class for the Tree.
+It needs to hold the item and the locations of the left and right children.
+We'll also go ahead and add a The constructor and a method for printing out the item in the node (\texttt{toString} in Java and \texttt{\_\_str\_\_} in Python )
+
+\begin{minted}{Java}
+	public class BinaryTree<E extends Comparable<E>> {
+		private Node<E> root;
+		private int size;
+		
+		public BinaryTree() {
+			this.root = null;
+			
+		}
+		
+		/* Other code will go here.*/
+		
+		private static class Node<E extends Comparable<E>> {
+			private E item;
+			private Node<E> left;  // left child
+			private Node<E> right; // right child
+			public Node(E item) {
+				this.item = item;
+			}
+			public String toString() {
+				return item.toString();
+			}
+		}
+		
+		
+	}
+\end{minted}
+
+
+\subsection{Add}
+
+
+
+
+\subsection{Contains}
+
+\subsection{Delete}
