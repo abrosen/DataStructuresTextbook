@@ -162,7 +162,7 @@ Believe it or not, we only need to keep track of three instance variables to get
 It is very easy to confuse size and capacity since they both deal with counting how many elements.  When I talk about \texttt{size}, I am talking about the number of items we have stored in the list we are making.  Capacity, on the other hand, depends on the length of the built-in array. 
 
 \subsubsection{Java}
-In Java, our 
+
 
 \begin{minted}{Java}
 public class MyArrayList<E> {
@@ -174,7 +174,7 @@ public class MyArrayList<E> {
 	
 \end{minted}
 
-First, note the \texttt{<E>} after MyArrayList.  This means that we're saying:
+First, note the \texttt{<E>} after \texttt{MyArrayList}.  This means that we're saying:
 \begin{itemize}
 	\item MyArrayList is designed to hold a specific type of object.
 	\item Every \texttt{E} we see is a placeholder for some type, which will be that same across the entire lifespan of the object.
@@ -182,6 +182,10 @@ First, note the \texttt{<E>} after MyArrayList.  This means that we're saying:
 
 
 \subsubsection{Python}
+\begin{minted}{Python3}
+class MyArrayList(object):
+	pass
+\end{minted}
 
 
 \subsection{Constructor}
@@ -234,6 +238,14 @@ Thus, when we add an item to a list, what really happens is we'll be adding a re
 \subsubsection{Python}
 Python is fairly straightforward, with the caveat that we are pretending \texttt{theData} is an array, and not a list.
 
+\begin{minted}{Python3}
+class MyArrayList(object):
+	def __init__(self):
+		self.size = 0
+		self.capacity = 10
+		self.theData = [None]*self.capacity
+\end{minted}
+
 
 %\subsection{Placeholder toString}
 %
@@ -241,6 +253,25 @@ Python is fairly straightforward, with the caveat that we are pretending \texttt
 %\subsubsection{Java}
 %
 %\subsubsection{Python}
+
+\subsection{Size}
+Now, we will add a size method to our list.
+Fairly straightfoward in \texttt{Java}
+
+\begin{minted}{Java}
+public int size() {  
+	return size;
+}
+\end{minted}
+
+In Python, we can go ahead and use the built in \texttt{\_\_len\_\_} method.
+
+\begin{minted}{Python3}
+def __len__(self):
+	return self.size
+\end{minted}
+
+It is worth reinforcing that by keeping track of the size in a variable and retrieving it, getting the size of our list is always $O(1)$
 
 \subsection{Add}
 
@@ -287,10 +318,33 @@ A \texttt{false} signals that we could not add the \texttt{item}.
 For example, this might happen with a \texttt{Set} (Chapter \ref{chap-sets})
 
 
-On the otherhand, our Adding at a specific index is unique to lists , and not part of collections,  and will always work. Therefore, there's no need to return a boolean. 
+On the other hand, our Adding at a specific index is unique to lists, and not part of collections,  and will always work. Therefore, there's no need to return a boolean. 
 
 \subsubsection{Reallocation}
 \label{arraylist-reallocate}
+
+%TODO fix this code or ensure that capacity is doubled before copying
+\begin{minted}{Java}
+
+
+private void reallocate(){
+	//doubles or 1.5x capacity
+	//don't do +1 capacity
+	E[] newData = (E[]) new Object[capacity];
+	for(int i = 0; i < theData.length; i++) {
+		newData[i] =  theData[i];
+	}
+	
+	theData = newData;
+	capacity = 2 * capacity;
+	
+}
+\end{minted}
+
+We want to double our capacity or at least increase it by 50\%, Rather than increasing it by a static number.
+Consider if we increase the capacity by one each time we reallocated.  If we did that, we would have to reallocate every time we added a new item to the list.  This would mean that every time we add an item to list, add becomes a linear time - $O(n)$ - operation.
+
+%TODO explain what happens to runtime amortization when we reallocate but double the size
 
 \subsection{toString and \_str\_}
 Now that we supposedly have a method for adding items into the list.

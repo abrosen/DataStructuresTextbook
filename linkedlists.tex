@@ -84,12 +84,12 @@ This also applies for other data structures that will be using nodes.
 \end{minted}
 
 \begin{minted}{python3}
-	class LinkedList(object):
+class LinkedList(object):
 	class Node(object):
-	def __init__(self, item) -> None:
-	self.item = item
-	self.next = None
-	
+		def __init__(self, item) -> None:
+		self.item = item
+		self.next = None
+
 	pass
 \end{minted}
 
@@ -108,16 +108,16 @@ The only job of the constructor is to initialize everything to either zero or nu
 Finally, it's probably a good idea to go ahead and write getter method for the size of the list.
 
 \begin{minted}{Java}
-	public class LinkedList<E> { 
-		private Node<E> head;
-		private Node<E> tail;
-		private int size;
-		
-		
-		public int size(){
-			return this.size;
-		}
+public class LinkedList<E> { 
+	private Node<E> head;
+	private Node<E> tail;
+	private int size;
+	
+	
+	public int size(){
+		return this.size;
 	}
+}
 \end{minted}
 
 
@@ -131,14 +131,14 @@ Our Linked list has two add methods, just like the array list.  The first only t
 Let's take a look at our first add\footnote{As with the arraylist , the add method returns a boolean to signify that we were successfully able to add it to the list . This will always be true, but we do this because Java expects this for collections, as explained in arraylists } method:
 
 \begin{minted}{Java}
-	public boolean add(E item){
-		this.add(this.size, item);
-		return true;
-	}
+public boolean add(E item){
+	this.add(this.size, item);
+	return true;
+}
 \end{minted}
 
 \begin{minted}{Python3}
-	def add(self, item):
+def add(self, item):
 	self.add(self.size, item)
 	return True
 \end{minted}
