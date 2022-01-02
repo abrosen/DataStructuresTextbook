@@ -246,6 +246,8 @@ class MyArrayList(object):
 		self.theData = [None]*self.capacity
 \end{minted}
 
+Since built-in lists in Python grow and shrink like we would expect a list to, we initialize \texttt{theData} with 10 \texttt{None} objects\footnote{This is the Python equivalent to the Java \texttt{null}.} to mimic the way an array would be initialized.
+
 
 %\subsection{Placeholder toString}
 %
@@ -255,8 +257,7 @@ class MyArrayList(object):
 %\subsubsection{Python}
 
 \subsection{Size}
-Now, we will add a size method to our list.
-Fairly straightfoward in \texttt{Java}
+Now, we will add a size method to our list; fairly straightforward in \texttt{Java}.
 
 \begin{minted}{Java}
 public int size() {  
@@ -271,11 +272,14 @@ def __len__(self):
 	return self.size
 \end{minted}
 
-It is worth reinforcing that by keeping track of the size in a variable and retrieving it, getting the size of our list is always $O(1)$
+Which can then be invoked with \texttt{len(myList)}.
+
+
+It is worth reinforcing that by keeping track of the size in a variable, retrieving the size of our list is always $O(1)$
 
 \subsection{Add}
 
-In python, these two \texttt{add} methods are called \texttt{append} and \texttt{insert} respectively, as python does not support method overloading.
+In Python, these two \texttt{add} methods are called \texttt{append} and \texttt{insert} respectively, as python does not support method overloading.
 
 \begin{minted}{Java}
 public void add(int index, E item) {
@@ -322,7 +326,7 @@ On the other hand, our Adding at a specific index is unique to lists, and not pa
 
 \subsubsection{Reallocation}
 \label{arraylist-reallocate}
-
+When we need to grow our arraylist
 %TODO fix this code or ensure that capacity is doubled before copying
 \begin{minted}{Java}
 
