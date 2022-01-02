@@ -10,10 +10,24 @@ The list is by far the most relatable data structure, as humans deal with lists 
 
 
 When you get right down to it, lists are defined by order.
+We don't have to take advantage of this order, but its there.
+Populated lists have a first item and they have a last item.
 
+Take a look at this quest below from a hypothetical fantasy game:
 
-\subsection*{Todo list example}
+\subsubsection*{Quest: Slay the Dragon of Doom}
+\begin{itemize}
+	\item Get Sword of Dragonslaying
+	\item Locate the map to Dragon Lair of Doom
+	\item Travel to the Dragon Lair of Doom 
+	\item Slay the Dragon of Doom
+	\item Return to the Castle
+\end{itemize}
 
+Here, the order is implied by the contents of the list - you can't beat the dragon without the macguffin and you certainly can't fight it without being able to find it.
+Generally speaking, going up against a dragon without any preparation is foolhardy in the extreme, but I digress.
+
+Thus, you must get the special sword\footnote{What if its possible to get the map before the sword? We'll see much later this kind of quest and it's requirements are much better handled by a directed acyclic graph in Chapter \ref{chap-graphs}, but this example is fine for teaching lists.} first, and you must get the map to find the lair before you can physically travel there.
 
 \subsection*{shopping list example}
 While lists are defined by order, we don't necessarily  need to ascribe any meaning to the order.
@@ -25,12 +39,27 @@ Take a look at the shopping list below:
 <Shopping List>
 While bread is the first item on this list, being the first item in the shopping list in this case has no special meaning.  It's not the most important item on the list\footnote{obviously, that's the cookies}, nor is it necessarily the item I'm going to pick up first.
 
+Where arrays and lists differ is that lists can grow to an arbitrary size, whereas
 
-Data in a list is stored sequentially\footnote{As you see, Arraylists do it spatially, but LinkedLists are more abstract}.
+\begin{itemize}
+	\item Lists can grow to any arbitrary size, but lists  
+\end{itemize}
+
+Data in a list is stored sequentially and array lists do this by creating a an 
 
 
 \subsection{A note on terminology}
+An \textbf{array list} is a type of list.  These are sometimes called dynamic arrays.
+
+As mentioned in Section \ref{sec-python-arrays-lists}, Python doesn't have arrays.  If you've been programming in Python, you've been using an array list the entire time you've declared \texttt{[]}.  They are usually just called lists rather than array lists.
+
+
+I will be using the Java nomenclature for the majority of the book as this allows me to be clear about the types and implementations of data structures.
+
 \subsection{Lists in Java}
+
+So what does
+
 \subsubsection{An Aside about interfaces}
 \subsubsection*{Here is the source code}
 
@@ -279,6 +308,8 @@ It is worth reinforcing that by keeping track of the size in a variable, retriev
 
 \subsection{Add}
 
+
+
 In Python, these two \texttt{add} methods are called \texttt{append} and \texttt{insert} respectively, as python does not support method overloading.
 
 \begin{minted}{Java}
@@ -300,6 +331,18 @@ public void add(int index, E item) {
 	size++;
 }
 \end{minted}
+
+
+\begin{minted}{Python3}
+def insert(self, index, item):
+	
+	
+	self.size += 1
+
+\end{minted}
+
+
+
 
 
 Finally, since adding to the end is an extremely common operation, we will overload our \texttt{add} method.
@@ -402,8 +445,61 @@ We can take advantage of some of the method calls built into python to make our 
 
 
 
-\subsection{More Restrictive or Permissive Generics}
 
 \section{Analysis}
 
+\section{More Restrictive or Permissive Generics}
 
+\section{A Few More Useful Methods}
+
+\subsection{Constructors}
+Java's \texttt{ArrayList} can optionally take in an integer as an argument
+
+\subsection{Trim}
+
+The \texttt{trim()} exists to mitigate the fact that arraylist capacity and size don't often match up.
+
+
+On the other hand, Python will automatically optimize lists for you CITATION NEEDED.
+
+For other languages, check to see if the equivalent exists
+
+\subsection{Adding Multiple Items in One Invocation}
+One common operation is to move or copy all the items from one list to another.
+In Java, we can use the \texttt{addAll()} method, which takes any Java collection as a parameter and all the items in that collection to the object.
+
+\begin{minted}{Java}
+List<Integer> a =  new ArrayList<>();
+List<Integer> b =  new ArrayList<>();
+for(int i = 0; i <3; i++) { 
+	a.add(i); 
+}
+for(int i = 3; i <6; i++) { 
+	b.add(i); 
+}
+a.addAll(b);
+System.out.println(a); // 0 to 5 inclusive
+System.out.println(b); // [3, 4, 5]
+\end{minted}
+
+In Python, we can use the \texttt{extend()} method on anything that is iterable or use some clever slicing.  However, I would always recommend using the method call over the slice, since a method invocation is always more readable.
+
+
+\begin{minted}{Python3}
+a = [0, 1, 2]
+b = [3, 4, 5]
+c = a + b # creates a new list, which is not extend
+a.extend(b) # adds all of b's items to a
+a[len(a):] = b # does the same thing but unreadble.
+\end{minted}
+A common beginner mistake in Python is to try to extend a list by calling \texttt{append} on the list like so.
+
+\begin{minted}{Python3}
+a = [0, 1, 2]
+b = [3, 4, 5]
+a.append(b) # a is now [0, 1, 2, [3, 4, 5]]
+\end{minted}
+
+
+
+This adds the entire list a single item in the list.  
