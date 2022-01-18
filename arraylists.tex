@@ -37,6 +37,7 @@ Take a look at the shopping list below:
 
 
 <Shopping List>
+
 While bread is the first item on this list, being the first item in the shopping list in this case has no special meaning.  It's not the most important item on the list\footnote{obviously, that's the cookies}, nor is it necessarily the item I'm going to pick up first.
 
 Where arrays and lists differ is that lists can grow to an arbitrary size, whereas
@@ -93,8 +94,12 @@ This also an understandable restriction to adding items to a list -  we cannot a
 
 %We will cover this operation in more detail when we implement the add method for the arraylist 
 
-\subsection{Remove}  We can remove Items from a list much in the same way we can add them. When removing an item at index I , all the indices to the right shift one over to the left 
+\subsection{Remove}  We can remove Items from a list much in the same way we can add them. When removing an item at index $i$, all the indices to the right shift one over to the left.
+
 \subsection{Get}
+
+
+
 \subsection{Set}
 
 \section{ArrayLists}
@@ -335,8 +340,6 @@ public void add(int index, E item) {
 
 \begin{minted}{Python3}
 def insert(self, index, item):
-	
-	
 	self.size += 1
 
 \end{minted}
@@ -445,19 +448,24 @@ We can take advantage of some of the method calls built into python to make our 
 
 
 
-
 \section{Analysis}
+
+
 
 \section{More Restrictive or Permissive Generics}
 
 \section{A Few More Useful Methods}
 
 \subsection{Constructors}
-Java's \texttt{ArrayList} can optionally take in an integer as an argument
+Java's \texttt{ArrayList} can optionally take in an integer as an argument.
+This will start the underlying array's length at that value, rather than the default of 10.
+This is useful if you know exactly how big your List will be.  
+However, if you aren't removing any items when populating your list, consider using an array instead.
 
 \subsection{Trim}
 
 The \texttt{trim()} exists to mitigate the fact that arraylist capacity and size don't often match up.
+
 
 
 On the other hand, Python will automatically optimize lists for you CITATION NEEDED.
