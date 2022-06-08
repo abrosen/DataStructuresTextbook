@@ -7,17 +7,25 @@ This will be an extremely short chapter, but an important one.
 \section{Argument vs Parameter}
 
 
-<Programming example?
+<Programming example?>
 
 \subsection{Does anyone actually care?}
 
-I cared enough to look it up.  But I had to look it up to double check that I'm correct.  
+I cared enough to look it up, but I also had to look it up to double check that I'm correct.  
 In a casual situation or talking with another programmer, I don't actually think anyone would care, but I would take care to get it correct for your assignments and exams, much like you would take care to avoid using ``ain't'' in a formal essay.
 
 \section{Passing Arguments}
 
+The vast majority of programming languages are \textit{pass by copy} with a huge honking asterisk.
+\begin{itemize}
+	\item Pass by copy means that when something is input as the argument to a function, the function gets a copy of the thing you are passing to it.
+	\item The \textit{huge honking asterisk} is that you are almost always passing a \textit{reference} or \textit{pointer} to an object, not the object itself.  The reason for this is that if we had a super mega huge object, copying it would take up a super mega huge amount of time and memory.
+\end{itemize}
+
+
 
 \subsection{How it Works in Java}
+
 
 \subsection{How it works in Python}
 
