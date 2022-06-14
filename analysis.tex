@@ -1,20 +1,34 @@
 \chapter{Analyzing Algorithms}
 
-\subsection{Cost}
-Every function, operation, algorithm, or what have you that a computer performs has a \emph{cost}. In fact, there are always multiples costs;  we often just focus on the most important one or two costs.  
+\section{Cost}
+Every function, operation, algorithm, or what have you that a computer performs has a \emph{cost}. 
+In fact, there are always multiples costs;  we often just focus on the most important one or two costs.  
+
 What is most important depends on context.
+However, in the vast majority of cases, the most important cost to focus on is \textbf{time}.
+When our program is eating away at our storage resources like a hungry child slurping up spaghetti, we can always go out and buy more memory/storage/RAM.
+If our program requires a large amount of energy consumption, energy is readily available from a variety of sources: batteries, power plugs, internal combustion engines, the giant fusion reactor in the sky.
 
-However, when we measure cost, we need to do abstractly.  
-When we measure the amount of time that an algorithm takes
+Time is different.  We cannot got out and buy another weeks worth of time.  
+Yes, processors get faster as technology marches on, but they get faster slowly and Moore's law ostensibly has its limits.
+The only way to make our programs realistically run faster is to make them more efficient.
+ 
 
-\subsubsection{Time}
+
+\subsubsection*{Measuring Cost}
+When we measure cost, we need to do abstractly.  
+When we measure the amount of time that an algorithm takes, we look at the number of operations that will be executed, not the overall elapsed time.
+
+\subsection{Time}
 A time cost is a measure of not just how long it takes a program to finish executing, bit also how the length of execution is affected by adding additional item.
 
 Time is almost always \emph{the most important cost}.
 
-\subsubsection{Space}
-\subsubsection{Energy}
-\subsubsection{Other costs - Bandwidth}
+\subsection{Space}
+
+
+\subsection{Energy}
+%\subsection{Other costs - Bandwidth}
 
 \section{Big O Notation}
 

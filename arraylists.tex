@@ -30,7 +30,7 @@ Generally speaking, going up against a dragon without any preparation is foolhar
 Thus, you must get the special sword\footnote{What if its possible to get the map before the sword? We'll see much later this kind of quest and it's requirements are much better handled by a directed acyclic graph in Chapter \ref{chap-graphs}, but this example is fine for teaching lists.} first, and you must get the map to find the lair before you can physically travel there.
 
 \subsection*{shopping list example}
-While lists are defined by order, we don't necessarily  need to ascribe any meaning to the order.
+While lists are defined by order, we don't necessarily ascribe any meaning to the order.
 Take a look at the shopping list below:
 
 
@@ -40,16 +40,9 @@ Take a look at the shopping list below:
 
 While bread is the first item on this list, being the first item in the shopping list in this case has no special meaning.  It's not the most important item on the list\footnote{obviously, that's the cookies}, nor is it necessarily the item I'm going to pick up first.
 
-Where arrays and lists differ is that lists can grow to an arbitrary size, whereas
+Where arrays and lists differ is that lists can grow to an arbitrary size, whereas arrays are static.  Arrays can't get bigger, lists can.
 
-\begin{itemize}
-	\item Lists can grow to any arbitrary size, but lists  
-\end{itemize}
-
-Data in a list is stored sequentially and array lists do this by creating a an 
-
-
-\subsection{A note on terminology}
+\subsection*{A note on terminology}
 An \textbf{array list} is a type of list.  These are sometimes called dynamic arrays.
 
 As mentioned in Section \ref{sec-python-arrays-lists}, Python doesn't have arrays.  If you've been programming in Python, you've been using an array list the entire time you've declared \texttt{[]}.  They are usually just called lists rather than array lists.
@@ -78,6 +71,7 @@ Before we get to deep into lists, we need to have a discussion about generics. G
 
 
 
+
 \section{List Operations}
 
 
@@ -88,15 +82,28 @@ Before we get to deep into lists, we need to have a discussion about generics. G
 
 When we add an item at some specific index $ i $, the item at $ i $ and all indices to the right shift over one.  In other words, what was at $ i $ is now at $ i+1 $, what was at $ i+1 $ is at $ i+2 $,  and so on.
 
-This also an understandable restriction to adding items to a list -  we cannot an item to any index greater than \texttt{myList.size() +1}.   Anything greater wouldn't be at the end of the list; it would be beyond it.  The same goes for negative indices.
+This also an understandable restriction to adding items to a list -  we cannot an item to any index greater than \texttt{myList.size() +1}.   Anything greater wouldn't be at the end of the list; it would be beyond it.  The same goes for negative indices\footnote{Python does allow negative indexes, but we will ignore that for now}.
  
 <possible picture showing a legal an illegal add>
 
-%We will cover this operation in more detail when we implement the add method for the arraylist 
+We will cover this operation in more detail when we implement the add method for the arraylist 
 
-\subsection{Remove}  We can remove Items from a list much in the same way we can add them. When removing an item at index $i$, all the indices to the right shift one over to the left.
+\subsection{Remove}  We can remove items from a list much in the same way we can add them. When removing an item at index $i$, the 
+
+For example, in the image below, we are removing the item at index 3, the word``cookie,'' from the list.
+
+
+<image before>
+
+C is for cookie that's good enough for me 
+
+<image after>
+
+C is for that's good enough for me 
 
 \subsection{Get}
+
+Get is how we retrieve our items from the list.  Given an index, get will give us the value that has been stored at that index.
 
 
 
@@ -175,8 +182,6 @@ To truly understand how a data structure works we need to implement it ourselves
 We will not be implementing the \texttt{List} interface. We don't need to implement all the functions to get an understanding of how the fundamentals of an arraylist work.
 Implementing the list interface would take up a hideous amount of physical space and get in the way of actually understanding the code.
 
-
-
 \subsubsection{myArrayList.py}
 
 For python, this will require some suspension of disbelief, as our array list will require using an array, and as previously discussed, arrays are shirked in favor of arraylists in python.  We'll be using a list and pretending it's an array. Silly?  Yes.  But it will keep our code compact and easier to understand.
@@ -216,6 +221,8 @@ First, note the \texttt{<E>} after \texttt{MyArrayList}.  This means that we're 
 
 
 \subsubsection{Python}
+In python, we will be creating our instance variables in the constructor.
+
 \begin{minted}{Python3}
 class MyArrayList(object):
 	pass
@@ -311,11 +318,16 @@ Which can then be invoked with \texttt{len(myList)}.
 
 It is worth reinforcing that by keeping track of the size in a variable, retrieving the size of our list is always $O(1)$
 
-\subsection{Add}
+\subsection{The Add Method}
+Now it's time to dig into the bulk of our code: adding items to our list.
+To do this, I'll be creating two methods:  one for adding to the end of the list (an extremely common operation) and one for adding at any index in the list.
+
+
+In Java, we will overload these two methods and call them both add.  We will have an \texttt{add( E item )} for adding to the end and an \texttt{add(int index, E item)} for every other case.  
+In Python, these two \texttt{add} methods are called \texttt{append} and \texttt{insert} respectively, as Python does not support method overloading.
 
 
 
-In Python, these two \texttt{add} methods are called \texttt{append} and \texttt{insert} respectively, as python does not support method overloading.
 
 \begin{minted}{Java}
 public void add(int index, E item) {
@@ -323,13 +335,13 @@ public void add(int index, E item) {
 		throw new IndexOutOfBoundsException("Index " + index + " out of bounds.");
 	}
 	
-	if(size == capacity) {  // O(n) time...sometimes.  Amortized over the cost of adding
-		this.reallocate();
+	if(size == capacity) {  
+		this.reallocate(); // O(n) time...sometimes.  Amortized over the cost of adding
 	}
 	
 	for(int i = size - 1; i >= index; i--) { //If adding to the end... constant
-		E temp = theData[i];
-		theData[i+1] = temp;
+		E temp = theData[i];  // Store the item from 
+		theData[i+1] = temp;  // Move the item from 
 	}
 	
 	theData[index] = item;
@@ -346,9 +358,7 @@ def insert(self, index, item):
 
 
 
-
-
-Finally, since adding to the end is an extremely common operation, we will overload our \texttt{add} method.
+As previously  mentioned, adding to the end is an extremely common operation, so we will overload our \texttt{add} method.
 If our list is provided with only an \texttt{item}, as opposed to an \texttt{item} and an \texttt{index}, we will just add that \texttt{item} to the end.
 Since we already wrote a perfectly good \texttt{add} method already that we know works, we'll just have our new method call that one.
 \begin{minted}{Java}
@@ -452,9 +462,9 @@ We can take advantage of some of the method calls built into python to make our 
 
 
 
-\section{More Restrictive or Permissive Generics}
+%\section{More Restrictive or Permissive Generics}
 
-\section{A Few More Useful Methods}
+%\section{A Few More Useful Methods}
 
 \subsection{Constructors}
 Java's \texttt{ArrayList} can optionally take in an integer as an argument.
@@ -511,3 +521,6 @@ a.append(b) # a is now [0, 1, 2, [3, 4, 5]]
 
 
 This adds the entire list a single item in the list.  
+
+\section{Source Code}
+\inputminted{python3}{code/arraylist.py}
