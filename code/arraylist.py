@@ -27,10 +27,14 @@ class MyArrayList(object):
         self.size += 1
 
     def append(self, item):
-        self.insert(self,self.size,item)
+        self.insert(self.size,item)
 
     def __reallocate(self):
-        pass
+        self.capacity = self.capacity * 2
+        newData =  [None] * self.capacity
+        for index, item in enumerate(self.theData):
+            newData[index] = item
+        self.theData = newData
     """
     def __str__(self): # first attempt
         output =  "["
@@ -47,8 +51,11 @@ class MyArrayList(object):
         output = output[:-1] # remove the last comma
         return output + "]"
 
+    def __getitem__(self, index):
+        return self.theData[index]
 
 l =  MyArrayList()
+l.append(3)
 l.insert(0, 1)
 l.insert(0, 1)
 l.insert(0, 1)
@@ -57,6 +64,6 @@ l.insert(0, 2)
 l.insert(0, 2)
 l.insert(0, 2)
 l.insert(0, 2)
-#l.insert(0, 2)
 l.insert(0, 2)
-print(l)
+l.insert(0, 2)
+print(l[-1])

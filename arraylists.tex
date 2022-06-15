@@ -455,6 +455,18 @@ Python supports negative indices.  It's up to you whether or not you want to sup
 
 We can take advantage of some of the method calls built into python to make our \texttt{myarraylist} support indexing.
 
+\begin{minted}{Python3}
+def __getitem__(self, index):
+	return self.theData[index]
+\end{minted}
+
+However, this has some flaws.
+This method, as written, will return \texttt{None} if the user tries to access an index that is within in the bounds of the capacity but above the size.
+The same thing will happen if we use negative indices.
+
+While this is fine for our pedagogical programming purposes, prudence posits proactive protection.  That is to say, we should ask ``how do we prevent out users from accidentally getting the wrong data when they should be getting an error.''
+
+Below, we will add two index checks.
 
 \subsection{Remove}
 
