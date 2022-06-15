@@ -27,16 +27,25 @@ class MyArrayList(object):
         self.size += 1
 
     def append(self, item):
-        pass
+        self.insert(self,self.size,item)
 
     def __reallocate(self):
         pass
-
-    def __str__(self):
+    """
+    def __str__(self): # first attempt
         output =  "["
         for item in self.theData:
             output += str(item) +","
-        return output[:-1]+ "]"
+        output = output[:-1] # remove the last comma
+        return output + "]"  
+    """
+    def __str__(self): # second attempt
+        output =  "["
+        #only include indexes from 0 to size-1
+        for item in self.theData[:self.size]:
+            output += str(item) +","
+        output = output[:-1] # remove the last comma
+        return output + "]"
 
 
 l =  MyArrayList()
@@ -48,6 +57,6 @@ l.insert(0, 2)
 l.insert(0, 2)
 l.insert(0, 2)
 l.insert(0, 2)
-l.insert(0, 2)
+#l.insert(0, 2)
 l.insert(0, 2)
 print(l)

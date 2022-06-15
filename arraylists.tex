@@ -401,8 +401,10 @@ private void reallocate(){
 }
 \end{minted}
 
-We want to double our capacity or at least increase it by 50\%, Rather than increasing it by a static number.
-Consider if we increase the capacity by one each time we reallocated.  If we did that, we would have to reallocate every time we added a new item to the list.  This would mean that every time we add an item to list, add becomes a linear time - $O(n)$ - operation.
+We want to double our capacity or at least increase it by 50\%, rather than increasing it by a static number.
+Consider if we increase the capacity by one each time we reallocated.  
+If we did that, we would have to reallocate every time we added a new item to the list.  
+This would mean that every time we add an item to list, add becomes a linear time - $O(n)$ - operation.
 
 %TODO explain what happens to runtime amortization when we reallocate but double the size
 
