@@ -25,7 +25,7 @@ class LinkedList(Generic[E]):
         return current
 
     def add(self, item: E) -> bool:
-        self.add(index,index,item)
+        self.add(self.size,item)
         return True
 
     def add(self, index: int, item: E) -> None:
