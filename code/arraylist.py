@@ -10,7 +10,7 @@ class MyArrayList(object):
     def __len__(self):
         return self.size
 
-    def insert(self, index, item):
+    def insert(self, index: int, item):
         if not isinstance(index, int):
             raise IndexError(index + " is not an integer.")
         if index < 0 or index > self.size:
@@ -35,6 +35,19 @@ class MyArrayList(object):
         for index, item in enumerate(self.theData):
             newData[index] = item
         self.theData = newData
+
+    def remove(self, index: int):
+        if index < 0 or index >= self.size:
+            raise IndexError("Index " + str(index) +  " is out of range.")
+
+        item = self.theData[index]
+
+        for index in range(index+1,self.size):
+            self.theData[index -1] = self.theData[index]
+
+        self.size = self.size - 1
+        return item
+
     """
     def __str__(self): # first attempt
         output =  "["
@@ -50,20 +63,41 @@ class MyArrayList(object):
             output += str(item) +","
         output = output[:-1] # remove the last comma
         return output + "]"
+    # obviated by dunder method
+    def get(self, index):
+        if index < 0 or index >= self.size:
+            raise IndexError("Index " + str(index) +  " is out of range.")
+        return self.theData[index]
+    
+    # obviated by dunder method
+    def set(self, index, item):
+        if index < 0 or index >= self.size:
+            raise IndexError("Index " + str(index) +  " is out of range.")
+        oldItem = self.theData[index]
+        self.theData[index] = item
+        return oldItem
+
 
     def __getitem__(self, index):
+        if index < 0: 
+            index =  index % self.size  # yes! 
+            # If you're confused, test modulo on 
+            # negative numbers in python.
+        if index >= self.size:
+            raise IndexError("Index " + str(index) +  " is out of range.")       
         return self.theData[index]
+    
+    def __setitem__(self, index, item):
+        if index < 0: 
+            index =  index % self.size
+        if index >= self.size:
+            raise IndexError("Index " + str(index) +  " is out of range.")
+        oldItem = self.theData[index]
+        self.theData[index] = item
+        return oldItem
 
 l =  MyArrayList()
-l.append(3)
-l.insert(0, 1)
-l.insert(0, 1)
-l.insert(0, 1)
-l.insert(0, 1)
-l.insert(0, 2)
-l.insert(0, 2)
-l.insert(0, 2)
-l.insert(0, 2)
-l.insert(0, 2)
-l.insert(0, 2)
-print(l[-1])
+for i in range(12):
+    l.append(i)
+l.remove(2)
+print(l)
