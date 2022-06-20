@@ -329,32 +329,34 @@ In Python, these two \texttt{add} methods are called \texttt{append} and \texttt
 
 
 
-\begin{minted}{Java}
-public void add(int index, E item) {
-	if(index < 0 || index > size) {
-		throw new IndexOutOfBoundsException("Index " + index + " out of bounds.");
-	}
-	
-	if(size == capacity) {  
-		this.reallocate(); // O(n) time...sometimes.  Amortized over the cost of adding
-	}
-	
-	for(int i = size - 1; i >= index; i--) { //If adding to the end... constant
-		E temp = theData[i];  // Store the item from 
-		theData[i+1] = temp;  // Move the item from 
-	}
-	
-	theData[index] = item;
-	size++;
-}
-\end{minted}
+\subsubsection{Cases}
+The \texttt{add} method has 5 basic parts, only three of which involve actual thinking about how to code:
+\begin{enumerate}
+	\item Check index to see if our index in bounds
+	\begin{itemize}
+		\item If it is, crash the program.
+	\end{itemize}
+	\item Check to see if our array list has room to add a new item.
+	\begin{itemize}
+		\item If there is no room, make some!
+		\item How we do this is covered in Section \ref{arraylist-reallocate}.
+	\end{itemize}
+	\item Shift all the existing items from \texttt{index} to the end of the list over one index to the right.
+\end{enumerate}
 
+The last steps are important but not complicated: actually storing the item and then incrementing the size.
+We will go ahead and handle that now and put in comments for the other parts.
+
+\begin{minted}{Java}
+	content...
+\end{minted}
 
 \begin{minted}{Python3}
-def insert(self, index, item):
-	self.size += 1
-
+	content...
 \end{minted}
+
+
+\subsubsection{Overloading and Method Names}
 
 
 
@@ -390,14 +392,12 @@ When we need to grow our arraylist
 private void reallocate(){
 	//doubles or 1.5x capacity
 	//don't do +1 capacity
+	capacity = 2 * capacity;
 	E[] newData = (E[]) new Object[capacity];
 	for(int i = 0; i < theData.length; i++) {
 		newData[i] =  theData[i];
 	}
-	
 	theData = newData;
-	capacity = 2 * capacity;
-	
 }
 \end{minted}
 
@@ -407,6 +407,38 @@ If we did that, we would have to reallocate every time we added a new item to th
 This would mean that every time we add an item to list, add becomes a linear time - $O(n)$ - operation.
 
 %TODO explain what happens to runtime amortization when we reallocate but double the size
+
+
+
+
+\subsubsection{Finished Code}
+\begin{minted}{Java}
+public void add(int index, E item) {
+	if(index < 0 || index > size) {
+		throw new IndexOutOfBoundsException("Index " + index + " out of bounds.");
+	}
+	
+	if(size == capacity) {  
+		this.reallocate(); // O(n) time...sometimes.  Amortized over the cost of adding
+	}
+	
+	for(int i = size - 1; i >= index; i--) { //If adding to the end... constant
+		E temp = theData[i];  // Store the item from 
+		theData[i+1] = temp;  // Move the item from 
+	}
+	
+	theData[index] = item;
+	size++;
+}
+\end{minted}
+
+
+\begin{minted}{Python3}
+	def insert(self, index, item):
+	self.size += 1
+	
+\end{minted}
+
 
 \subsection{toString and \_str\_}
 Now that we supposedly have a method for adding items into the list.
@@ -536,6 +568,10 @@ a.append(b) # a is now [0, 1, 2, [3, 4, 5]]
 
 This adds the entire list a single item in the list.  
 
+\newpage
 \section{Source Code}
+\subsection{Java}
 \inputminted{Java}{code/MyArrayList.java}
+\newpage
+\subsection{Python}
 \inputminted{Python3}{code/arraylist.py}

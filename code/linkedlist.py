@@ -30,7 +30,7 @@ class LinkedList(Generic[E]):
 
     def add(self, index: int, item: E) -> None:
         if(index < 0 or index > self.size):
-            raise Exception("Invalid add at index " + str(index) +" with item" + str(item) +".")
+            raise IndexError("Invalid add at index " + str(index) +" with item" + str(item) +".")
         
         adding = self.Node(item)
         if(self.size == 0):
@@ -55,15 +55,25 @@ class LinkedList(Generic[E]):
         
         toReturn = None
         if self.size == 1:
+            toReturn =  self.head.item
             self.head = None
             self.tail = None
         elif index == 0:
             toReturn = self.head.item
             self.head = self.head.next
-
+        elif index == self.size -1:
+            toReturn = self.tail.item
+            self.tail = self.getNode(index - 1)
+            self.tail.next =  None
+        else:
+            before =  self.getNode(index - 1)
+            toReturn = before.next.item
+            before.next = before.next.next
         self.size -= 1
         return toReturn
 
+    def get(self, index: int) -> E:
+        return self.getNode(index).item
 
 
 
