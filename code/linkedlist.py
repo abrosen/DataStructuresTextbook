@@ -75,7 +75,22 @@ class LinkedList(Generic[E]):
     def get(self, index: int) -> E:
         return self.getNode(index).item
 
+    def set(self, index: int, item: E) -> E:
+        node = self.getNode(index)
+        oldItem = node.item
+        node.item = item
+        return oldItem
+
+    def __str__(self) -> str:
+        output = ""
+        current = self.head
+        while current != None:
+            output += str(current.item) + "->"
+            current = current.next
+        return output[:-2]
 
 
 l = LinkedList()
-print(len(l))
+l.add(3)
+l.add(5)
+l.add(142)
