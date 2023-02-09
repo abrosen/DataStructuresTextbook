@@ -37,7 +37,7 @@ If we wanted to resize it, there is no guarantee that this chunk of memory won't
 \label{sec-python-arrays-lists}
 Python doesn't really do arrays.
 It instead uses Lists, as we'll see in Chapter \ref{chap-arraylist}.
-\texttt{myNotArray\footnote{On styles:  Java convention is to use camel case for variable types (\texttt{myVariableName}), while python convention is to use underscores (\texttt{my\_variable\_name}).  I will be using the Java style camel-casing for variables throughout the book for consistency and because it is my preference.} = []} does not actually make an array like you assume it would in some other language.  Instead it makes A list (specifically an arraylist ) to contain these items.
+\texttt{myNotArray = []}\footnote{On styles:  Java convention is to use camel case for variable types (\texttt{myVariableName}), while python convention is to use underscores (\texttt{my\_variable\_name}).  I will be using the Java style camel-casing for variables throughout the book for consistency and because it is my preference.}  does not actually make an array like you assume it would in some other language.  Instead it makes A list (specifically an arraylist ) to contain these items.
 This works exactly like an array in other languages, but you get some nifty operations that allow us to dynamically resize this array if we need it bigger or smaller.\footnote{We cover the specifics in Chapter \ref{arraylist}}
 
 
