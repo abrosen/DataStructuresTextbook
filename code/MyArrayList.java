@@ -1,5 +1,7 @@
 package arraylists;
 
+
+// Change this up to be distinct from KW;  been teaching so many years using their thext this is extremely close to what they do.
 public class MyArrayList<E> {
 
     private int size;  // how many items are in the list
@@ -30,7 +32,7 @@ public class MyArrayList<E> {
 
     public void add(int index, E item) {
         if(index < 0 || index > size) {
-            throw new IndexOutOfBoundsException("Index " +index+ " was out of bounds. What are you doing???");
+            throw new IndexOutOfBoundsException("Index " +index+ " is out of bounds.");
         }
 
         if(size == capacity) {  // O(n) time...sometimes.  Amortized over the cost of adding

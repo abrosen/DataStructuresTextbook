@@ -185,13 +185,13 @@ Java (who's vocabulary we'll be following), uses \texttt{add} for both these con
 
 \section{Building an ArrayList}
 \label{buildingArraylist}
-To truly understand how a data structure works we need to implement it ourselves.
+To truly understand how a data structure works we need to implement it ourselves.  We will be making simpler versions of what's actually implemented in the language of your choice, but the logic and obstacles we need to overcome are the same.  
 
 \subsection{Caveats}
 
 \subsubsection{MyArrayList.java}
 We will not be implementing the \texttt{List} interface. We don't need to implement all the functions to get an understanding of how the fundamentals of an arraylist work.
-Implementing the list interface would take up a hideous amount of physical space and get in the way of actually understanding the code.
+Implementing the list interface would take up a hideous amount of paper and get in the way of actually understanding the code.
 
 \subsubsection{myArrayList.py}
 
@@ -206,7 +206,7 @@ Believe it or not, we only need to keep track of three instance variables to get
 \begin{enumerate}
 	\item[theData]  We need an array to actually store the items.  This is it.
 	\item[size] Size here refers to the total number of items we have stored in the array.
-	\item[capacity]  This is the number of items  the underlying \texttt{array} in our list can hold. It is the maximum size of the list before we have to do something about it. This is not strictly necessary as we can get it by querying \texttt{array}'s length. However, making it it's own variable will help with the readability.
+	\item[capacity]  This is the number of items  the underlying array in our list can hold. It is the maximum size of the list before we have increase the capacity  and move everything \texttt{theData} to a new array of length \texttt{capacity}.   This is not strictly necessary as we can get it by querying \texttt{theData}'s length. However, making it it's own variable will help with the readability.
 \end{enumerate}
 
 It is very easy to confuse size and capacity since they both deal with counting how many elements.  When I talk about \texttt{size}, I am talking about the number of items we have stored in the list we are making.  Capacity, on the other hand, depends on the length of the built-in array. 
@@ -232,23 +232,27 @@ First, note the \texttt{<E>} after \texttt{MyArrayList}.  This means that we're 
 
 
 \subsubsection{Python}
-In python, we will be creating our instance variables in the constructor.
+In python, we will be creating our instance variables in the constructor below.  We will end up with this at the end of Section \ref{arraylist-constructor}.
 
 \begin{minted}{Python3}
 class MyArrayList(object):
-	pass
+	def __init__(self):
+		self.size = 0
+		self.capacity = 10
+		self.theData = [None]*self.capacity
+	
 \end{minted}
 
 
 \subsection{Constructor}
+\label{arraylist-constructor}
 
 We need to set the variables to their initial values upon creating the arraylist.
 The \texttt{size} will be 0, since we won't have any objects stored in it yet.
-We will set the \texttt{initial} capacity to 10.  
+We will set the \texttt{initial} capacity to 10, as this is the default behavior of Java's ArrayList class.  
 It's a small number and thus won't create much wasted space if we don't fill up \texttt{theData}.
 \texttt{theData} will be an empty array of \texttt{capacity} length.
-If \texttt{theData} becomes full, we will create a bigger array to hold our items using the \texttt{reallocate()} method (Section \ref{
-arraylist-reallocate})  %TODO Subection Depth
+If \texttt{theData} becomes full, we will create a bigger array to hold our items using the \texttt{reallocate()} method (Section \ref{arraylist-reallocate})  %TODO Subection Depth
 
 
 \subsubsection{Java}
@@ -285,8 +289,9 @@ theData = (E[]) new Object[10];
 
 
 Remember how Java and most modern programming languages deal with objects; if you're assigning an object to a variable, like in \texttt{Object o = new Object()}, we are storing a reference to that object.
-
 Thus, when we add an item to a list, what really happens is we'll be adding a reference to it - the instructions on how to find it in memory.
+
+
 \subsubsection{Python}
 Python is fairly straightforward, with the caveat that we are pretending \texttt{theData} is an array, and not a list.
 
@@ -299,6 +304,7 @@ class MyArrayList(object):
 \end{minted}
 
 Since built-in lists in Python grow and shrink like we would expect a list to, we initialize \texttt{theData} with 10 \texttt{None} objects\footnote{This is the Python equivalent to the Java \texttt{null}.} to mimic the way an array would be initialized.
+
 
 
 %\subsection{Placeholder toString}
@@ -317,27 +323,26 @@ public int size() {
 }
 \end{minted}
 
-In Python, we can go ahead and use the built in \texttt{\_\_len\_\_} method.
+In Python, we can go ahead and use the built in \texttt{\_\_len\_\_} method, which can then be invoked with \texttt{len(myList)}.
 
 \begin{minted}{Python3}
 def __len__(self):
 	return self.size
 \end{minted}
 
-Which can then be invoked with \texttt{len(myList)}.
 
 
-It is worth reinforcing that by keeping track of the size in a variable, retrieving the size of our list is always $O(1)$
+
+Retrieving the size of our list is always $O(1)$, as we are just accessing a variable and returning its value.
 
 \subsection{The Add Method}
 Now it's time to dig into the bulk of our code: adding items to our list.
 To do this, I'll be creating two methods:  one for adding to the end of the list (an extremely common operation) and one for adding at any index in the list.
 
-
 In Java, we will overload these two methods and call them both add.  We will have an \texttt{add( E item )} for adding to the end and an \texttt{add(int index, E item)} for every other case.  
 In Python, these two \texttt{add} methods are called \texttt{append} and \texttt{insert} respectively, as Python does not support method overloading.
 
-
+We will be looking at the case of adding to a specific index first.
 
 
 \subsubsection{Cases}
@@ -352,24 +357,235 @@ The \texttt{add} method has 5 basic parts, only three of which involve actual th
 		\item If there is no room, make some!
 		\item How we do this is covered in Section \ref{arraylist-reallocate}.
 	\end{itemize}
-	\item Shift all the existing items from \texttt{index} to the end of the list over one index to the right.
+	\item Shift all the existing items from \texttt{index} to the end of the list over one index to the right.  This moves all the items already in the list to their new locations.
+	\item Store the item.
+	\item Increment the size.
 \end{enumerate}
 
-The last steps are important but not complicated: actually storing the item and then incrementing the size.
-We will go ahead and handle that now and put in comments for the other parts.
+Those last two steps are important but not complicated. We will go ahead and handle them now and put in comments for the other parts.
 
 \begin{minted}{Java}
-	content...
+public void add(int index, E item) {
+	// Check the index
+	
+	// do we have room?
+	
+	//shift over existing items
+
+	theData[index] = item;
+	size++;
+}
 \end{minted}
 
 \begin{minted}{Python3}
-	content...
+def insert(self, index: int, item):
+	# Check the index
+	
+	# do we have room?
+	
+	# shift over existing items
+
+	self.theData[index] =  item
+	self.size += 1
+
 \end{minted}
 
 
-\subsubsection{Overloading and Method Names}
+\subsubsection{Checking The Index}
+An optional step for pedagogy, but good practice.  If the index is less than, we reject it. 
+If the \texttt{index > size}, we reject it.
+The case of \texttt{index == size} is perfectly fine, but it feels weird, since you should have the rule ``valid indexes are 0...\texttt{array\_size}'' carved into your soul by this point.  
+This is because the index \texttt{size} would be the next empty slot for use to put an item. 
+Once we insert the item, we increment the size at the  step of the method. 
+After that, our rule about valid indexes becomes true again.
 
 
+\begin{minted}{Java}
+public void add(int index, E item) {
+	// Check the index
+	if(index < 0 || index > size) {
+		throw new IndexOutOfBoundsException("Index " +index+ " is out of bounds.");
+	}
+	
+	// do we have room?
+	
+	//shift over existing items
+	
+	theData[index] = item;
+	size++;
+}
+\end{minted}
+
+
+In python, we take the additional step of checking if the index is an \texttt{int}.
+\begin{minted}{Python3}
+def insert(self, index: int, item):
+# Check the index
+	if not isinstance(index, int):
+		raise IndexError(index + " is not an integer.")
+	if index < 0 or index > self.size:
+		raise IndexError("Index " + str(index) +  " is out of range.")
+	# do we have room?
+	
+	# shift over existing items
+	
+	self.theData[index] =  item
+	self.size += 1
+
+\end{minted}
+
+
+
+
+
+\subsubsection{Deciding to Reallocate}
+Our array is only so big; if our current \texttt{size} and \texttt{capacity} are the same, we don't have any more room.
+In this situation, we call \texttt{reallocate}, which doubles\footnote{As we will see later, doubling is what we chose for our implementation, but other options exist.} our capacity.
+We will solve this issue in Section \ref{arraylist-reallocate} and handwave the implementation for now.
+
+\begin{minted}{Java}
+public void add(int index, E item) {
+	// Check the index
+	if(index < 0 || index > size) {
+		throw new IndexOutOfBoundsException("Index " +index+ " is out of bounds.");
+	}
+	
+	// do we have room?
+	if(size == capacity) { 
+		this.reallocate();
+	}
+	//shift over existing items
+	
+	theData[index] = item;
+	size++;
+}
+\end{minted}
+
+
+In python, we take the additional step of checking if the index is an \texttt{int}.
+\begin{minted}{Python3}
+def insert(self, index: int, item):
+	# Check the index
+	if not isinstance(index, int):
+		raise IndexError(index + " is not an integer.")
+	if index < 0 or index > self.size:
+		raise IndexError("Index " + str(index) +  " is out of range.")
+	# do we have room?
+	if self.size ==  self.capacity:
+		self.__reallocate()
+	
+	# shift over existing items
+	
+	self.theData[index] =  item
+	self.size += 1
+	
+\end{minted}
+
+
+\subsubsection{Shifting the Items}
+As mentioned previously, if \texttt{index == size}, we will be inserting the item we want to add into the next unused slot.
+
+
+\subsubsection{Reallocation Implementation}
+\label{arraylist-reallocate}
+When we need to grow our arraylist, can't actually physically change the size of the array \texttt{theData}; you can't change the size of an array.
+So we cheat.
+We create a new array twice \footnote{  The one thing worth noting is that the real implementation of a list in python, listobject.c, uses a completely different pattern than doubling the capacity.  This is more complicated than we need for this book; doubling is much simpler and accomplishes what we need.} the capacity of \texttt{theData}.
+We then copy everything over to the new array and then store the reference to that new array in \texttt{theData}, making it our new underlying array. 
+
+
+
+
+
+%TODO fix this code or ensure that capacity is doubled before copying
+\begin{minted}{Java}
+private void reallocate(){
+	//doubles or 1.5x capacity
+	//don't do +1 capacity
+	capacity = 2 * capacity;
+	E[] newData = (E[]) new Object[capacity];
+	for(int i = 0; i < theData.length; i++) {
+		newData[i] =  theData[i];
+	}
+	theData = newData;
+}
+\end{minted}
+
+We want to double our capacity or at least increase it by 50\%, rather than increasing it by a static number.
+Consider if we increase the capacity by one each time we reallocated.  
+If we did that, we would have to reallocate every time we added a new item to the list.  
+This would mean that every time we add an item to list, add becomes a linear time - $O(n)$ - operation.
+
+
+Having empty slots might seem wasteful, but the advantage is that it takes constant time to add to the end of the arraylist.  This is because we don't have to shift any existing elements around.  It is a classic time/space trade-off.
+
+%TODO clean up/get help
+Because reallocation is a \textit{relatively} rare event compared to adding, we don't typically take that cost into account when analyzing an algorithm with a large number of \texttt{add} commands.  This is because if we do have some capacity $n$, in order to trigger reallocation with a runtime of $O(n)$, we have to do $n$ add operations first.
+We can then ``spread out'' the cost of the \texttt{reallocate} operation over our \texttt{add} operations.
+
+
+\subsubsection{Finished Code}
+\begin{minted}{Java}
+public void add(int index, E item) {
+	if(index < 0 || index > size) {
+		throw new IndexOutOfBoundsException("Index " + index + " out of bounds.");
+	}
+	
+	if(size == capacity) {  
+		this.reallocate(); // O(n) time...sometimes.  Amortized over the cost of adding
+	}
+	
+	for(int i = size - 1; i >= index; i--) { //If adding to the end... constant
+		E temp = theData[i];  // Store the item from 
+		theData[i+1] = temp;  // Move the item from 
+	}
+	
+	theData[index] = item;
+	size++;
+}
+
+private void reallocate(){
+	//doubles or 1.5x capacity
+	//don't do +1 capacity
+	capacity = 2 * capacity;
+	
+	E[] newData = (E[]) new Object[capacity];
+	for(int i = 0; i < theData.length; i++) {
+		newData[i] =  theData[i];
+	}
+	
+	theData = newData;
+	
+	
+}
+\end{minted}
+
+
+\begin{minted}{Python3}
+	
+def insert(self, index: int, item):
+	if not isinstance(index, int):
+		raise IndexError(index + " is not an integer.")
+	if index < 0 or index > self.size:
+		raise IndexError("Index " + str(index) +  " is out of range.")
+	if self.size ==  self.capacity:
+		self.__reallocate()
+	for i in range(self.size -1, index -1, -1):
+		temp =  self.theData[i]
+		self.theData[i+1] = temp
+	self.theData[index] =  item
+	self.size += 1
+	
+def __reallocate(self):
+	self.capacity = self.capacity * 2
+	newData =  [None] * self.capacity
+	for index, item in enumerate(self.theData):
+	newData[index] = item
+	self.theData = newData
+\end{minted}
+
+
+\subsubsection{Adding to the End}
 
 As previously  mentioned, adding to the end is an extremely common operation, so we will overload our \texttt{add} method.
 If our list is provided with only an \texttt{item}, as opposed to an \texttt{item} and an \texttt{index}, we will just add that \texttt{item} to the end.
@@ -393,66 +609,14 @@ For example, this might happen with a \texttt{Set} (Chapter \ref{chap-sets})
 
 On the other hand, our Adding at a specific index is unique to lists, and not part of collections,  and will always work. Therefore, there's no need to return a boolean. 
 
-\subsubsection{Reallocation}
-\label{arraylist-reallocate}
-When we need to grow our arraylist
-%TODO fix this code or ensure that capacity is doubled before copying
-\begin{minted}{Java}
-
-
-private void reallocate(){
-	//doubles or 1.5x capacity
-	//don't do +1 capacity
-	capacity = 2 * capacity;
-	E[] newData = (E[]) new Object[capacity];
-	for(int i = 0; i < theData.length; i++) {
-		newData[i] =  theData[i];
-	}
-	theData = newData;
-}
-\end{minted}
-
-We want to double our capacity or at least increase it by 50\%, rather than increasing it by a static number.
-Consider if we increase the capacity by one each time we reallocated.  
-If we did that, we would have to reallocate every time we added a new item to the list.  
-This would mean that every time we add an item to list, add becomes a linear time - $O(n)$ - operation.
-
-%TODO explain what happens to runtime amortization when we reallocate but double the size
-
-
-
-
-\subsubsection{Finished Code}
-\begin{minted}{Java}
-public void add(int index, E item) {
-	if(index < 0 || index > size) {
-		throw new IndexOutOfBoundsException("Index " + index + " out of bounds.");
-	}
-	
-	if(size == capacity) {  
-		this.reallocate(); // O(n) time...sometimes.  Amortized over the cost of adding
-	}
-	
-	for(int i = size - 1; i >= index; i--) { //If adding to the end... constant
-		E temp = theData[i];  // Store the item from 
-		theData[i+1] = temp;  // Move the item from 
-	}
-	
-	theData[index] = item;
-	size++;
-}
-\end{minted}
-
-
-\begin{minted}{Python3}
-	def insert(self, index, item):
-	self.size += 1
-	
-\end{minted}
-
 
 \subsection{toString and \_str\_}
-Now that we supposedly have a method for adding items into the list.
+Now that we supposedly have a method for adding items into the list, the next step is to test it.  
+The easiest way to test it is by printing out the contents of the list.  
+We'll do this in the laziest way possible.
+
+
+
 
 
 \subsection{Get and Set}
@@ -493,13 +657,18 @@ public E set(int index, E item) {
 
 \subsubsection{Python}
 
-Python supports negative indices.  It's up to you whether or not you want to support that, but if you do you need to account for the \texttt{capacity} and the \texttt{size} of the internal list.
-
+Python supports negative indices.  
 
 We can take advantage of some of the method calls built into python to make our \texttt{myarraylist} support indexing.
 
 \begin{minted}{Python3}
 def __getitem__(self, index):
+	if index < 0: 
+		index =  index % self.size  # yes! 
+		# If you're confused, test modulo on 
+		# negative numbers in python.
+	if index >= self.size:
+		raise IndexError("Index " + str(index) +  " is out of range.")       
 	return self.theData[index]
 \end{minted}
 
@@ -517,6 +686,11 @@ Below, we will add two index checks.
 
 \section{Analysis}
 
+When reading through our analysis, please keep in mind that we made a number of pedagogical choices when writing our Array List. 
+
+We did this to make our code readable and to help gain an understanding of the mechanisms 
+
+The Array List implementation in your language of choice probably has a huge number of optimizations, at the cost of readability and complexity.  For example, at the time of writing, \texttt{listobject.c}, the source code for the Python list, is almost 3500 lines long \cite{py-list-source}.
 
 
 %\section{More Restrictive or Permissive Generics}
@@ -535,9 +709,8 @@ The \texttt{trim()} exists to mitigate the fact that arraylist capacity and size
 
 
 
-On the other hand, Python will automatically optimize lists for you CITATION NEEDED.
+On the other hand, Python will automatically optimize lists for you.  Python will automatically resize the list to shrink it if necessary \cite{py-list-source}.
 
-For other languages, check to see if the equivalent exists
 
 \subsection{Adding Multiple Items in One Invocation}
 One common operation is to move or copy all the items from one list to another.
