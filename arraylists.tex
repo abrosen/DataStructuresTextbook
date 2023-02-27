@@ -617,6 +617,38 @@ We'll do this in the laziest way possible.
 
 
 
+In java, that would be invoking the \texttt{Arrays.toString} method, since directly turning an array into a string gives you representation of the memory location:
+\begin{minted}{Java}
+public String toString(){
+	// return theData+""; // memory location
+	
+	return Arrays.toString(theData); // import the library 
+}
+\end{minted}
+
+That said, implementing it ourselves gives us good practice handling a common fence-posting problem, i.e. we need to print $n$ items separated by $n-1$ commas.
+\begin{minted}{Java}
+public String toString(){
+	String output = "["+theData[0];
+	for (int i = 1; i < size; i++) {
+		output+= ", " + theData[i];
+	}
+	
+	
+	return output + "]";
+}
+\end{minted}
+
+\begin{minted}{Python3}
+def __str__(self): # second attempt
+	output =  "["
+	#only include indexes from 0 to size-1
+	for item in self.theData[:self.size]:
+		output += str(item) +","
+	output = output[:-1] # remove the last comma
+	return output + "]"
+
+\end{minted}
 
 
 \subsection{Get and Set}
@@ -662,6 +694,26 @@ Python supports negative indices.
 We can take advantage of some of the method calls built into python to make our \texttt{myarraylist} support indexing.
 
 \begin{minted}{Python3}
+	def __getitem__(self, index):
+	if index < 0: 
+	index =  index % self.size  # yes! 
+	# If you're confused, test modulo on 
+	# negative numbers in python.
+	if index >= self.size:
+	raise IndexError("Index " + str(index) +  " is out of range.")       
+	return self.theData[index]
+\end{minted}
+
+
+
+This method, as written, will return \texttt{None} if the user tries to access an index that is within in the bounds of the capacity but above the size.
+The same thing will happen if we use negative indices.
+
+While this is fine for our pedagogical programming purposes, prudence posits proactive protection.  That is to say, we should ask ``how do we prevent out users from accidentally getting the wrong data when they should be getting an error.''
+
+Below, we will add two index checks.
+
+\begin{minted}{Python3}
 def __getitem__(self, index):
 	if index < 0: 
 		index =  index % self.size  # yes! 
@@ -672,17 +724,22 @@ def __getitem__(self, index):
 	return self.theData[index]
 \end{minted}
 
-However, this has some flaws.
-This method, as written, will return \texttt{None} if the user tries to access an index that is within in the bounds of the capacity but above the size.
-The same thing will happen if we use negative indices.
-
-While this is fine for our pedagogical programming purposes, prudence posits proactive protection.  That is to say, we should ask ``how do we prevent out users from accidentally getting the wrong data when they should be getting an error.''
-
-Below, we will add two index checks.
 
 \subsection{Remove}
 
 
+The code for \texttt{remove} is almost identical in structure to \texttt{add}, but without a case for checking if there's room.  Since we are removing, we don't have to worry about running out of room.  We also make sure we save the item we are removing and return it, for the same reason we do for the \texttt{set} method.
+\begin{itemize}
+	\item Check if \texttt{index} is valid.
+	\item Save the item at \texttt{index} for later.
+	\item Shift each item to the right of index over (indices greater than \texttt{index}) one to the left.  This will overwrite what's stored at index, which is why we saved it. 
+	\item Decrement the size.
+	\item Return the saved item.
+	
+\end{itemize}
+
+
+A word of warning with \texttt{remove} operations on  ``real'' implementations.  Removing items from a list while you are iterating over it has the potential to get messy.  Languages can sometimes even throw runtime exceptions to \textit{prevent} you from doing it.  See the problem in Section \ref{ex-remove-all}
 
 \section{Analysis}
 
@@ -695,7 +752,7 @@ The Array List implementation in your language of choice probably has a huge num
 
 %\section{More Restrictive or Permissive Generics}
 
-%\section{A Few More Useful Methods}
+\section{A Few More Useful Methods}
 
 \subsection{Constructors}
 Java's \texttt{ArrayList} can optionally take in an integer as an argument.
@@ -752,6 +809,19 @@ a.append(b) # a is now [0, 1, 2, [3, 4, 5]]
 
 This adds the entire list a single item in the list.  
 
+\newpage
+
+\section{Exercises}
+
+
+\subsection{Remove All Instances}
+\label{ex-remove-all}
+Write a method called \texttt{removeAllInstances()} which takes in a \texttt{List} and item\footnote{In other words, the first parameter is a list of generics and the other input is a single item of the same type the list holds.}.
+The method then proceeds to remove each item in the list that matches the given item.
+For example, if the method is passed the \texttt{List<Integer>} \texttt{[1, 4, 5, 6, 5, 5, 2]} and the \texttt{Integer }\texttt{5}, the method removes all \texttt{5}'s from the \texttt{List}.
+The \texttt{List} then becomes \texttt{[1, 4, 6, 2]}.
+It should return nothing, since the changes the \texttt{List} it was provided.
+\footnote{This one is extremely tricky, since removing an item shifts the indexes.}
 \newpage
 \section{Source Code}
 \subsection{Java}

@@ -10,6 +10,13 @@ Now that we have a handle on sorting =,
 
 \subsection{Selection Sort}
 
+Unlike Bubble Sort, Selection Sort has an actual use case.  
+While the number of comparisons is always $O(n^2)$, the number of exchanges is $O(n)$.  
+That means that we are doing only a single swap for every item we have to sort.
+
+In other words, sorting on a computer assumes that comparisons are more expensive operation, but if that actual exchange of items is what is expensive, you should definitely consider Selection Sort.
+This could be the case if we are moving 
+
 \subsection{Insertion Sort}
 
 
@@ -45,7 +52,10 @@ After all, a heap has the same structure as a tree and both are constructed to p
 
 \subsection{Shell Sort}
 
+The time complexity of Shell Sort is still an open problem.
 \subsection{Radix Sort}
+
+all of our prior algorithms relied on sorting items by comparing them with each other;  Radix sort is unique in that no comparisons occur.
 
 
 \section{State of the Art Sorting Algorithms}
@@ -80,4 +90,9 @@ There are many other parallel and distributed sorting algorithms as well, each w
 
 \subsection{Pedagogical Sorting Algorithms}
 
+\subsubsection{Bogo Sort}
 \subsubsection{Sleep Sort}
+\subsubsection{Stooge Sort}
+
+This is primarily used as a means of testing students on using the \textbf{Master Theorem} for calculating the time complexity for algorithms.
+

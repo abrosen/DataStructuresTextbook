@@ -1,7 +1,7 @@
 package arraylists;
 
 
-// Change this up to be distinct from KW;  been teaching so many years using their thext this is extremely close to what they do.
+// Change this up to be distinct from KW;  been teaching so many years using their text that this is extremely close to what they do.
 public class MyArrayList<E> {
 
     private int size;  // how many items are in the list
