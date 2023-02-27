@@ -1,4 +1,7 @@
 
+Text outside chapter=
+
+
 
 \chapter{Array Lists}
 \label{chap-arraylist}
@@ -68,6 +71,8 @@ What about python?  Python deals with polymorphism using duck typing, originatin
 
 
 \section{Generics}
+
+You may have noticed that when we create the arraylist
 
 \subsection{What are they?}
 
@@ -745,12 +750,27 @@ A word of warning with \texttt{remove} operations on  ``real'' implementations. 
 
 When reading through our analysis, please keep in mind that we made a number of pedagogical choices when writing our Array List. 
 
-We did this to make our code readable and to help gain an understanding of the mechanisms 
+We did this to make our code readable and to help gain an understanding of the mechanisms .
 
 The Array List implementation in your language of choice probably has a huge number of optimizations, at the cost of readability and complexity.  For example, at the time of writing, \texttt{listobject.c}, the source code for the Python list, is almost 3500 lines long \cite{py-list-source}.
 
+Those caveats aside, lets talk about the four primary operations for Lists that have a cost: add, remove, get, and set.
+
+
+\subsection{Add/Remove}
+
+The runtime for adda dnd 
+
+
+
+\subsection{Get/Set}
+
+Arraylists use the same memory formula discussed in Section \ref{array-formula} to find a specific index.  This calculation, which is an addition and multiplcation operation, takes the same amount of time no matter how big the ArrayList is.  Thus the runtime is $\Theta(1)$
 
 %\section{More Restrictive or Permissive Generics}
+
+
+\subsection{A Note on Storage}
 
 \section{A Few More Useful Methods}
 
@@ -760,13 +780,13 @@ This will start the underlying array's length at that value, rather than the def
 This is useful if you know exactly how big your List will be.  
 However, if you aren't removing any items when populating your list, consider using an array instead.
 
-\subsection{Trim}
+\subsection{Manually Adjusting the Capacity}
 
-The \texttt{trim()} exists to mitigate the fact that arraylist capacity and size don't often match up.
+Java provides two methods for manually adjusting the ArrayList capacity.   
+The method \texttt{ensureCapacity(n)} forces the ArrayList to grow  to a capacity of \texttt{n} items, if it can't already.
+Conversely The \texttt{trimToSize()} shrinks the capacity to be equal to the current size.  This is useful if we know the ArrayList won't get any larger than it currently is and want to eliminate the wasting memory with empty array slots.
 
-
-
-On the other hand, Python will automatically optimize lists for you.  Python will automatically resize the list to shrink it if necessary \cite{py-list-source}.
+Python will automatically optimize lists for you.  Python will automatically resize the list to shrink it if necessary \cite{py-list-source}.
 
 
 \subsection{Adding Multiple Items in One Invocation}

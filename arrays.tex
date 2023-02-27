@@ -89,7 +89,7 @@ and to store something in $arr$, you use:
 \end{verbatim}
 
 
-Interestingly enough, this is one of the few consitant accross multiple programming languages.
+Interestingly enough, this is one of the few consistent across multiple programming languages.
 
 Figuring out the length of an array in Java\footnote{This is one of the little things in Java that can be a source of frustration.  Strings use \texttt{.length()}, arrays use \texttt{.length}, and Collections like Lists and Sets use \texttt{.size()}.} is done with 
 
@@ -100,6 +100,9 @@ Figuring out the length of an array in Java\footnote{This is one of the little t
 and in python, a simple \texttt{len(arr)} works.
 
 \subsection{Array Internals and the Memory Formula}
+\label{array-formula}
+
+
 So how does an array actually work?  How do you actually retrieve a value from an index?
 The most crucial thing to keep in mind in this textbook is when you see something like the code below:
 \begin{verbatim}
@@ -113,12 +116,14 @@ This means that
 	int[] numbers = new int[10];
 \end{minted}
 
-stores a memory location in \texttt{numbers}.  It does not store 10 integers in \texttt{numbers}.  It only tells you where to find them.  Specifically, it stores the memory location of index 0 of the array.  This is true for not only Java, but C as well, and almost every programming language\footnote{Python and other interpreted languages are slightly more complicated because we are dealing with array lists, thus one additional level of abstraction, so this storage just happens a layer deeper.  Esoteric languages like ook prevent me from making a statement like ``all languages.'' }. 
+stores a memory location in \texttt{numbers}.  It does not store 10 integers in \texttt{numbers}.  It only tells you where to find them.  Specifically, it stores the memory location of index 0 of the array.  This is true for not only Java, but C as well, and almost every programming language\footnote{Python and other interpreted languages are slightly more complicated because we are dealing with array lists, thus one additional level of abstraction, so this storage just happens a layer deeper.  Esoteric languages like \textit{ook} and \textit{Malbolge}  prevent me from making a statement like ``all languages.'' }. 
 
 
 This means that 
 
-What if we aren't dealing with primitives, but with objects like Strings instead?
+What if we aren't dealing with primitives, but with objects like Strings instead?  
+In this case, each slot in the array doesn't hold the object itself but instead \textit{a reference to that object}.
+Thus, each slot needs to be big enough to hold a memory address, ie 32 bits or 64 bits depending on the machine.
 
 
 
