@@ -53,7 +53,29 @@ One of the most famous examples of this is using
 
 \subsection*{The Recursive Backtracking Algorithm}
 
-
+\begin{minted}{C}
+boolean solve(board,  pos){
+	
+	if( pos is such that there is nothing left to solve){
+		return true;
+	}
+	
+	for each possible choice {
+		if(valid(choice)){
+			mark board at pos with choice;
+			if(solve(board, pos + 1) == true){
+				return true;
+			}
+			unmark board at pos if needed, as choice was invalid
+		}
+	}
+	clear any choices entered at pos on board, if needed;
+	
+	return false; // backtrack
+}
+	
+	
+\end{minted}
 
 
 \subsection{Mazes Again}
@@ -74,6 +96,28 @@ There are a total of $\binom{64}{8} = 4426165368$
 possible ways to place 8 queens on a chessboard with 64 spaces.
 
 \subsubsection{Recursive Solution Outline}
+\begin{minted}{Java}
+public static boolean solve(int[][] board, int col){
+	
+	if( col == 8){
+		return true;
+	}
+	
+	for(int row = 0; row < 8;row++){
+		if(valid(choice)){
+			mark board at pos with choice;
+			if(solve(board, pos + 1) == true){
+				return true;
+			}
+			unmark board at pos if needed, as choice was invalid
+		}
+	}
+	clear any choices entered at pos on board, if needed;
+	
+	return false; // backtrack
+}
+
+\end{minted}
 
 \subsubsection{A Place Holder For Validity}
 
