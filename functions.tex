@@ -1,18 +1,54 @@
 \chapter{Functions and How They Work}
 
 This will be an extremely short chapter, but an important one.
+We are already going to assume that you know what a function, a method, or procedure is and that you have written them before.
+After all, data structures is a point continuing your education in programming, not beginning it.
+That said it is possible that you missed some subtleties along the way.
 
-\section{The Runtime Stack}
+That's understandable -  programming is a very large topic and there's more than enough concepts to  
+
+
+
+%\section{Function vs Method}
+
+%You'll often hear programmers use these true terms interchangeably to refer to what essentially amounts to a subprogram.
+%But what is the difference?  Methods are closely linked to objects;  they are the actions or verbs you want your objects to perform.
+
+
+
+%\section{The Runtime Stack}
 
 \section{Argument vs Parameter}
 An argument is the actual value you pass in, the parameter is the variable that accepts it.
 
-<Programming example?>
+
+\begin{minted}{Java}
+public static void doubleThis(int num) { 
+	return 2*num;
+}
+
+public static void main(String[] args){
+	int x = 7;
+	int y = doubleThis(x);
+}
+
+\end{minted}
+
+\begin{minted}{Python3}
+	def doubleThis(num): 
+		return 2*num
+		
+x =  7
+y =  doubleThis(x)
+\end{minted}
+
+In the about examples, \texttt{x} is an argument and \texttt{num} is a parameter.
+
 
 \subsection{Does anyone actually care?}
 
 I cared enough to look it up, but I also had to look it up to double check that I'm correct.  
-In a casual situation or talking with another programmer, I don't actually think anyone would care, but I would take care to get it correct for your assignments and exams, much like you would take care to avoid using ``ain't'' in a formal essay.
+In a casual situation or talking with another programmer, everyone will be able to \textit{grok} your meaning from the context, but I would take care to get it correct for your assignments and exams, much like you would take care to avoid using ``ain't'' in a formal essay.
 
 \section{Passing Arguments}
 
@@ -29,6 +65,36 @@ In Java, we have two broad categories of data types: primitives and objects.
 
 When you pass a primitive, such as an \texttt{int} or \texttt{double}, the value gets copied from where it is stored in memory and copied into the argument.
 
+When you create an object, as below:
+\begin{minted}{Java}
+Scanner scan =  new Scanner(System.in);
+\end{minted}
 
+The variable \texttt{scan} will hold not the Object that was created by the constructor, but the \textit{memory location} of where to find it.
+Look at the code below where we are we create an array in \texttt{main} and then pass it to another method, \texttt{setIndexZeroToZero}:
+
+\begin{minted}{Java}
+public static void setIndexZeroToZero(int[] array) {
+	array[0] = 0;
+}
+
+public static void main(String[] args) {
+	int[] arr = {5,5,6,6};
+	System.out.println(Arrays.toString(arr));
+	// prints [5, 5, 6, 6]
+	
+	setIndexZeroToZero(arr);
+	System.out.println(Arrays.toString(arr));
+	// prints [0, 5, 6, 6]
+}
+
+\end{minted}
+
+Because the memory location of the array \texttt{arr} was passed to \texttt{array}, the method \texttt{setIndexZeroToZero} was dealing with the same object. 
+
+
+Keep in mind that some objects are immutable, like any \texttt{String}.  This means you can't actually change them.  Operations that seem like they change them like replacing part of a string or converting things from upper case to lower case are all returning a newly generated string.
 \subsection{How it works in Python}
 
+%fact check
+Everything in Python is an object, so when things are passed or assigned into variables, the variable stores the memory location.
