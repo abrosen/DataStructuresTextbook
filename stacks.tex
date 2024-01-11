@@ -7,8 +7,25 @@ Working with the limited operations of a allows us to approach problems with a d
 
 \section{Stack Operations}
 
+The stack operations are limited and simple. 
+
+
+\begin{enumerate}
+	\item[Push] Put an item on the top of the stack.
+	\item[Pop]  Remove the item from the top of the stack and return it.  The item that was underneath the top of the stack becomes the new top.
+	\item[Peek] Return the top of the stack, without removing it.
+\end{enumerate}
+
+
+That's it.  That's all there is.  It is refreshingly simple.
+There will usually be additional functions, such as one to check if the stack is empty or a function to get the number of items stored in the stack, but \texttt{push}, \texttt{pop}, and \texttt{peek} are the important ones.
+
+
+
 
 \section{Building a Stack}
+
+We will be building a stack as a reference-based structure in this book.  This is so we can get a bit more practice with manipulating nodes.
 
 
 %https://runestone.academy/ns/books/published/pythonds3/BasicDS/ImplementingaStackinPython.html

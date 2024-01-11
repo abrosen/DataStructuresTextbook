@@ -78,10 +78,14 @@ Before we get to deep into lists, we need to have a discussion about generics. G
 \subsection{But Why?}
 
 
-Using generics has two big purposes: strong typing and the lack of need for casting.
+Using generics has two big purposes: strong typing and the lack of need for casting.  This textbook deals with handling collections of data.   In fact, the Java superclass for a lot of the topics we cover is called a \texttt{Collection}.  Generics allow us to predefine what precisely the collection will hold.  If we do not do so, the only thing we can assume a collection holds is objects of type \texttt{Object}.
 
-
-\subsubsection{title}
+This creates two big headaches
+\begin{itemize}
+	
+	\item In strongly typed languages like Java, we will need to cast  objects to the appropriate type when extracting them.  In duck-typed languages like Python, we rely on thoughts and prayers.
+	\item There are no safeguards to prevent us from inserting items of the wrong type into the collection.
+\end{itemize}
 
 
 \section{List Operations}

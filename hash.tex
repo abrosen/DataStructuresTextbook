@@ -1,4 +1,12 @@
 \chapter{Hash Tables}
 
 
+Our goal here is to do what seems impossible: achieve $O(1)$ lookup, insertion, and deletion of items in a collection.  Fortunately, it is possible, albeit with some sacrifices:
+
+\begin{itemize}
+\item In order to achieve the "ultimate" time efficiency, we need to sacrifice any semblance of memory efficiency.  We're still dealing with $O(n)$ space complexity, but realistically expect 33\% to 50\% of the space to be spent in sacrifice of our goal.
+
+\item The default way of building a HashMap will mean that we have no control over how items are stored in, meaning if we require items to be sorted or we need to keep track of any semblance of order for the inserted data, look to  another structure.
+\end{itemize}
+
 \section{Creating a Hash Function}
