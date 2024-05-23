@@ -50,10 +50,41 @@ Use \texttt{stackname[-1]} to \texttt{peek} at the top of the stack.
 
 \section{Mazes - Stacks and Backtracking}
 
+If you haven't ever done a hedge maze, you should try it out.  They are pretty fun in my opinion and certainly doing at least once.  That said, I would venture most people playing in a maze of some sort meander through with a vague strategy, picking a direction they hope will get them closer to the goal.
+
+Let me teach you two such strategies for when you get stuck in a maze.  The first strategy is the ``hand on wall'' rule or ``right hand'' rule.  It requires no preparation and works on almost every maze.  Simply take your right hand and lay it upon the wall of the corridor you are in.  Move forward and when you come to a turn, travel so that you never lift your hand off the wall.  So long as the entrance and exit are on the same wall (which they almost certainly are), you'll eventually make your way out.
+
+The second strategy is backtracking\footnote{Technically this is going to look a lot like Depth First Search, but this is a very specific variation of it.} and works on any maze you are likely to encounter.\footnote{The exception is mazes that change their configuration while you are in them.}
+
+% Greek mythology
+
+
+% how it works
+
+
+Restricting our operations in a maze actually makes solving the problem \textit{easier} by reducing the complexity.
+
+For this section, we will assume that mazes are arranged in a grid, rather than some funky hexagonal pattern.
+
+
+
 
 \section{Paren}
 
-A classic stack problem is to write a program that checks to see if a given string has balanced parenthesis.
+A classic stack problem is to write a program that checks to see if a given string has balanced parenthesis.  Specifically, you encounter this problem in three places: a data structures class like this, an interview question, or Computer Automata class\footnote{This is used to show the limits of Discrete Finite Automata/Regular Languages and introduce Stack Machines/Context Free Grammars}.
+The  question we're trying to answer is something like ``Does the string \texttt{ ((A + f(x[0])) + B} have balanced parentheses.  We humans can easily take a look and say no, \texttt{ ((A + f(x[0])) + B} doesn't balanced parentheses; it's missing a closing parenthesis.  But how did we do that?  Codifying that is how we solve this problem.  
+
+Now if it was a matter counting the number of opening and closing parenthesis, this would be an easy problem.  But in asking if the parenthesis are balanced, we're essentially asking if they match in a way that makes mathematical sense: everything is nested correctly; nothing closed before it opens. Simply counting the correct number of opening and closing parenthesis would fail on \texttt{a)(} and \texttt{fx)())}.
+
+Instead, we can use a specific tool to handle this problem.  If you guessed it is the stack, excellent work.  You must have caught on to the numerous hints, such as this being in the chapter about stacks, or the starting sentence talking about how this is a classic stack problem.
+
+We parse thru the string and skip anything not a parenthesis or bracket or the like.  When we see an open parenthesis/bracket, we push it onto the stack.  When we see a closing brace, we pop from the stack and compare. If we have a match, no issues.  But if the type of vrace or bracket or parenthesis doesn't match or there was nothing to pop off, return false.
+
+
+
+\begin{minted}{Java}
+	content...
+\end{minted}
 
 
 %\section{Discrete Finite Automata}

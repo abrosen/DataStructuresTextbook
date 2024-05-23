@@ -12,10 +12,7 @@ However, in the vast majority of cases, the most important cost to focus on is \
 When our program is eating away at our storage resources like a hungry child slurping up spaghetti, we can always go out and buy more memory/storage/RAM.
 If our program requires a large amount of energy consumption, energy is readily available from a variety of sources: batteries, power plugs, internal combustion engines, the giant fusion reactor in the sky.
 
-Time is different.  We cannot got out and buy another weeks worth of time.  You can't hand a bunch of money to the reaper and ask for a deferral. You can't buy another minute to spend with your mother\footnote{Call your mother.  She would love to hear from you.} 
-Yes, processors get faster as technology marches on, but they get faster slowly and Moore's law ostensibly has its limits.
-The only way to make our programs realistically run faster is to make them more efficient.
- 
+
 
 
 \subsubsection*{Measuring Cost}
@@ -25,13 +22,20 @@ When we measure the amount of time that an algorithm takes, we look at the numbe
 \subsection{Time}
 A time cost is a measure of not just how long it takes a program to finish executing, bit also how the length of execution is affected by adding additional item.
 
-Time is almost always \emph{the most important cost}.
+Time is almost always \emph{the most important cost}. We cannot got out and buy another weeks worth of time.  You can't hand a bunch of money to the reaper and ask for a deferral. You can't buy another minute to spend with your mother\footnote{Call your mother.  She would love to hear from you.} 
+Yes, processors get faster as technology marches on, but they get faster slowly and Moore's law ostensibly has its limits.
+The only way to make our programs realistically run faster is to make them more efficient.  And \textbf{Big O notation} is the way we will be measuring that efficiency.
+
 
 \subsection{Space}
 
+For data structures, we will be measuring their space efficiency in terms of \textit{auxiliary} cost, in other words, how much extra space we need to use over the space used for the items itself.   To clarify, any data structure that contains $ n $ items of roughly the same size will use $ n \times \mathtt{sizeOf(item)}$ space at minimum, no matter what data structure we use.  This accounts for the 
+Each data structures 
 
 \subsection{Energy}
 %\subsection{Other costs - Bandwidth}
+While not something this book concerns itself with, some programmers need to be wary of the amount of energy  an algorithm consumes.  If energy is expensive and/or battery life needs to be conserved, then choosing an energy efficient algorithm might be a better choice, even if the time or space complexity is higher.  Some examples where energy use is a large concern  is Mobile Ad-Hoc Networks (MANETs) and battery powered cameras.
+
 
 \section{Big O Notation}
 
