@@ -5,15 +5,20 @@ We are already going to assume that you know what a function, a method, or proce
 After all, data structures is a point continuing your education in programming, not beginning it.
 That said it is possible that you missed some subtleties along the way.
 
-That's understandable -  programming is a very large topic and there's more than enough concepts to  
+That's understandable -  programming is a very large topic and there's more than enough concepts that no one who graduates with a degree in computer science can be expected to be an expert in every area any more.
+
+With this in mind, let me take the time to review some subtilties surrounding the vocabulary of functions.
 
 
+\section{Function vs Method}
 
-%\section{Function vs Method}
+You'll often hear programmers use these true terms interchangeably to refer to what essentially amounts to a subprogram.
+But what is the difference?  
+I like to explain it this way:  functions are the verbs of the programming language.  When we create a new function, we a creating a new verb in the programming language we are working in.  
+Methods are a special type of function that are closely linked to objects;  they are the actions or verbs you want your objects to perform.
 
-%You'll often hear programmers use these true terms interchangeably to refer to what essentially amounts to a subprogram.
-%But what is the difference?  Methods are closely linked to objects;  they are the actions or verbs you want your objects to perform.
-
+Java blurs this a bit with \texttt{static} methods, but for the purposes of this text, when I write \textit{method}, I am talking about Java's \textit{instance methods}. \textit{Function}, in the context of this book, is analogous to \texttt{static methods}. 
+Similarly, if you are coming from python, when I say function, I am talking about a boring top-level, unindented function such as the ones you've been writing since you first learned python.  Method would refer to the functions you create as part of your classes.
 
 
 %\section{The Runtime Stack}
@@ -70,7 +75,7 @@ When you create an object, as below:
 Scanner scan =  new Scanner(System.in);
 \end{minted}
 
-The variable \texttt{scan} will hold not the Object that was created by the constructor, but the \textit{memory location} of where to find it.
+The variable \texttt{scan} will hold not the Object that was created by the constructor, but the \textit{memory location}, or  \textit{reference}m of where to find it.
 Look at the code below where we are we create an array in \texttt{main} and then pass it to another method, \texttt{setIndexZeroToZero}:
 
 \begin{minted}{Java}
@@ -97,4 +102,6 @@ Keep in mind that some objects are immutable, like any \texttt{String}.  This me
 \subsection{How it works in Python}
 
 %fact check
-Everything in Python is an object, so when things are passed or assigned into variables, the variable stores the memory location.
+Practilcally  speaking , everything in Python works the same as in Java.
+Everything in Python is an object (including the integers, which are immutable.), so when things are passed or assigned into variables, the variable stores the memory location, or \textit{reference}, to the object.  
+Thus when you pass in a variable to a function, the function receives the memory location of the object; data is never duplicated.
