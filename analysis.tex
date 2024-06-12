@@ -49,7 +49,7 @@ It is very common for beginning computer science students to compare their progr
 
 In order to answer this question, we need to remember that there is an important difference between a program and the underlying algorithm that the program is representing. As you have learned, an algorithm is a generic, step-by-step list of instructions for solving a problem. It is a method for solving any instance of the problem so that given a particular input, the algorithm produces the desired result. A program, on the other hand, is an algorithm that has been encoded into some programming language. There may be many programs for the same algorithm, depending on the programmer and the programming language being used. 
 
-To explore this difference further, consider the functions shown in Listing \ref{code:sumOfNJava1} and \ref{code:sumOfNPython1}. This function solves a familiar problem, computing the sum of the first n integers. The algorithm uses the idea of an accumulator variable that is initialized to 0. The solution then iterates through the $n$ integers, adding each to the accumulator
+To explore this difference further, consider the functions shown in Listing \ref{code:sumOfNJava1} and \ref{code:sumOfNPython1}. This function solves a familiar problem, computing the sum of the first n integers. The algorithm uses the idea of an accumulator variable that is initialized to 0. The solution then iterates through the $n$ integers, adding each to the accumulator.
 \begin{minted}[escapeinside=!!]{Java}
 public class FindSum { !\label{code:sumOfNJava1}!
 	public static long sumOfN(int n) {
@@ -67,14 +67,14 @@ public class FindSum { !\label{code:sumOfNJava1}!
 \end{minted}
 
 \begin{minted}[escapeinside=!!]{Python3}
-def sum_of_n(n): !\label{code:sumOfNPython1}!
-	the_sum = 0
+def sumOfN(n): !\label{code:sumOfNPython1}!
+	theSum = 0
 	for i in range(1, n + 1):
-		the_sum = the_sum + i
+		theSum = theSum + i
 
-return the_sum
+return theSum
 
-print(sum_of_n(10))
+print(sumOfN(10))
 \end{minted}
 
 Now look at the functions in Listing \ref{code:sumOfNJava2} and \ref{code:sumOfNPython2}. At first glance it may look strange, but upon further inspection you can see that this function is essentially doing the same thing as the previous one. The reason this is not obvious is poor coding. We did not use good identifier names to assist with readability, and we used an extra assignment statement that was not really necessary during the accumulation step.
@@ -109,18 +109,26 @@ print(foo(10))
 \end{minted}
 
 %This block from the Java book
-The question we raised earlier asked whether one method is better than another. The answer depends on your criteria. The method sumOfN is certainly better than the method foo if you are concerned with readability. In fact, you have probably seen many examples of this in your introductory programming course since one of the goals there is to help you write programs that are easy to read and easy to understand. In this course, however, we are also interested in characterizing the algorithm itself. (We certainly hope that you will continue to strive to write readable, understandable code.)
+The question we raised earlier asked whether one method is better than another. The answer depends on your criteria. The function \texttt{sumOfN} is certainly better than the function \texttt{foo} if you are concerned with readability. 
+In fact, you have probably seen many examples of this in your introductory programming course since one of the goals there is to help you write programs that are easy to read and easy to understand. 
+In this course, however, we are also interested in characterizing the algorithm itself. (We certainly hope that you will continue to strive to write readable, understandable code.)
 
-Algorithm analysis is concerned with comparing algorithms based upon the amount of computing resources that each algorithm uses. We want to be able to consider two algorithms and say that one is better than the other because it is more efficient in its use of those resources or perhaps because it simply uses fewer. From this perspective, the two methods above seem very similar. They both use essentially the same algorithm to solve the summation problem.
+Algorithm analysis is concerned with comparing algorithms based upon the amount of computing resources that each algorithm uses. 
+We want to be able to consider two algorithms and say that one is better than the other because it is more efficient in its use of those resources or perhaps because it simply uses fewer. From this perspective, the two methods above seem very similar. They both use essentially the same algorithm to solve the summation problem.
 
 At this point, it is important to think more about what we really mean by computing resources. There are two different ways to look at this. One way is to consider the amount of space or memory an algorithm requires to solve the problem. The amount of space required by a problem solution is typically dictated by the problem instance itself. Every so often, however, there are algorithms that have very specific space requirements, and in those cases we will be very careful to explain the variations.
 
-As an alternative to space requirements, we can analyze and compare algorithms based on the amount of time they require to execute. This measure is sometimes referred to as the execution time or running time of the algorithm. One way we can measure the execution time for the function sumOfN is to do a benchmark analysis. This means that we will track the actual time required for the program to compute its result. In Java, we can benchmark a function by noting the starting time and ending time within the system we are using. In the System module there is a method called nanoTime that will return the amount of time that the Java virtual machine has been running, in nanoseconds. By calling this function twice, at the beginning and at the end, and then computing the difference, we can get the number of seconds (fractions in most cases) for execution.
+As an alternative to space requirements, we can analyze and compare algorithms based on the amount of time they require to execute. This measure is sometimes referred to as the execution time or running time of the algorithm. One way we can measure the execution time for the function sumOfN is to do a benchmark analysis. This means that we will track the actual time required for the program to compute its result. 
+In most languages, we can benchmark a function by noting the starting time and ending time of the program or function we are executing. 
+For Java, the \texttt{System} module contains a method called \texttt{nanoTime} that will return the amount of time that the Java virtual machine has been running, in nanoseconds. 
+For Python, the \texttt{time} module has a \texttt{time} function\footnote{I love Python, but sometimes the repetitive naming is vexing.} which returns the number of seconds since January 1, 00:00:00 UTC.\footnote{This is commonly  referred to as Unix time and is extremely common.}
 
-Listing 2.2.3 lets you enter the number you want to sum up to (n). It then invokes the sumOfN method 25 times and calculates the time required for each trial:
+By using either of these tools to track the start and finish times and then computing the difference, we can get the number of seconds (fractions in most cases) for execution.
+
+Listing \ref{code:timingSumJava} and \ref{code:timingSumPython} lets you enter the number you want to sum up to $n$. It then invokes the sumOfN method 25 times and calculates the time required for each trial:
 
 \begin{minted}[escapeinside=!!]{Java}
-import java.util.Scanner;
+import java.util.Scanner; !\label{code:timingSumJava}!
 
 public class Timing {
 	public static long sumOfN(long n) {
@@ -149,7 +157,23 @@ public class Timing {
 }
 \end{minted}
 
-Listing 2.2.3 shows the original sumOfN function with the timing calls embedded before and after the summation. The function returns a tuple consisting of the result and the amount of time (in seconds) required for the calculation. Here is start and end of the output when we enter 10000 for the limit of the sum:
+
+\begin{minted}[escapeinside=!!]{Python3}
+import time !\label{code:timingSumPython}!
+
+def sum_of_n_2(n):
+	start = time.time()
+	
+	the_sum = 0
+	for i in range(1, n + 1):
+		the_sum = the_sum + i
+		
+	end = time.time()
+
+return the_sum, end - start
+\end{minted}
+
+Listing \ref{code:timingSumJava} shows the original sumOfN function with the timing calls embedded before and after the summation. The function returns a tuple consisting of the result and the amount of time (in seconds) required for the calculation. Here is start and end of the output when we enter 10000 for the limit of the sum using the Java code:
 
 \begin{verbatim}
 Trial 0: Sum 50005000: time 0.003886 sec.
@@ -165,7 +189,7 @@ Trial 24: Sum 50005000: time 0.000124 sec.
 \end{verbatim}
 
 
-Why does the time go down from .003886 seconds to .000124? Because the Java Virtual machine and the computer hardware itself cache results, keeping them in memory for future access. We run the trial loop 25 times in order to give the cache time to stabilize.
+Why does the time go down from .003886 seconds to .000124? Because the Java Virtual machine and the computer hardware itself cache results, keeping them in memory for future access. We run the trial loop 25 times in order to give the cache time to stabilize.\footnote{The Python results are similar, minus the caching.}
 
 We discover that the time is fairly consistent and it takes on average about 0.000125 seconds to execute that code. What if we run the function adding the first 100,000 integers? (Showing only the final five trials)
 
@@ -180,7 +204,6 @@ Trial 24: Sum 5000050000: time 0.001224 sec.
 
 Again, the time required for each run, although longer, is very consistent, averaging about 10 times more seconds. For $n = 1,000,000$  we get:
 
-
 \begin{verbatim}
 Trial 20: Sum 500000500000: time 0.012350 sec.
 Trial 21: Sum 500000500000: time 0.012411 sec.
@@ -191,19 +214,22 @@ Trial 24: Sum 500000500000: time 0.012447 sec.
 
 In this case, the average again turns out to be about 10 times the previous experiment.
 
-Now consider Listing 2.2.4, which shows a different means of solving the summation problem. This method, sumOfNImproved, takes advantage of a closed equation $\sum_{i=1}^{n} i = 1+2+3+\dots+(n-1)+n =  \frac {(n)(n+1)}{2}$
+Now consider Listings \ref{code:sumOfNImprovedJava} and \ref{code:sumOfNImprovedPython}, which shows a different means of solving the summation problem. This method, sumOfNImproved, takes advantage of a closed equation $\sum_{i=1}^{n} i = 1+2+3+\dots+(n-1)+n =  \frac {(n)(n+1)}{2}$
 to compute the sum of the first n integers without iterating\footnote{This sequence of numbers is the \textbf{Triangular Number Series} and shows up a lot in analysis.}.
+
 \begin{minted}[escapeinside=!!]{Java}
-public static long sumOfNImproved(long n) {
+public static long sumOfNImproved(long n) { !\label{code:sumOfNImprovedJava}!
 	long theSum = n * (n + 1) / 2;
 	return theSum;
 }
 \end{minted}
 
-We then change the call in line 23 of Listing 2.2.3 to:
-\begin{verbatim}
-long result = sumOfNImproved(n);
-\end{verbatim}
+
+\begin{minted}[escapeinside=!!]{Python3}
+def sumOfNImproved(n): !\label{code:sumOfNImprovedPython}!
+	return (n * (n + 1)) / 2
+print(sumOfNImproved(10))
+\end{minted}
 
 If we do the same benchmark measurement with this revised code, using five different values for n (10,000, 100,000, 1,000,000, 10,000,000, and 100,000,000), we get the following results from averaging the last five trials:
 \begin{verbatim}
@@ -213,10 +239,10 @@ Sum 500000500000:   time 0.0000082 sec.
 Sum 50000005000000: time 0.0000078 sec.
 \end{verbatim}
 
-There are two important things to notice about this output. First, the times recorded above are shorter than any of the previous examples. Second, they are very consistent no matter what the value of n. It appears that sumOfNImproved is hardly impacted by the number of integers being added.
+There are two important things to notice about this output. First, the times recorded above are shorter than any of the previous examples. Second, they are very consistent no matter what the value of n. It appears that \texttt{sumOfNImproved} is hardly impacted by the number of integers being added.
 
 
-But what does this benchmark really tell us? Intuitively, we can see that the iterative solutions seem to be doing more work since some program steps are being repeated. This is likely the reason it is taking longer. Also, the time required for the iterative solution seems to increase as we increase the value of n. However, if we ran the same function on a different computer or used a different method language, we would likely get different results. It could take even longer to perform sumOfNImproved if the computer were older.
+But what does this benchmark really tell us? Intuitively, we can see that the iterative solutions seem to be doing more work since some program steps are being repeated. This is likely the reason it is taking longer. Also, the time required for the iterative solution seems to increase as we increase the value of n. However, if we ran the same function on a different computer or used a different method language, we would likely get different results. It could take even longer to perform \texttt{sumOfNImproved} if the computer were older.
 
 We need a better way to characterize these algorithms with respect to execution time. The benchmark technique computes the actual time to execute. It does not really provide us with a useful measurement because it is dependent on a particular machine, program, time of day, compiler, and programming language. Instead, we would like to have a characterization that is independent of the program or computer being used. This measure would then be useful for judging the algorithm alone and could be used to compare algorithms across implementations.
 
@@ -254,7 +280,7 @@ Figure 2.3.2 shows graphs of the common functions from Table 2.3.1. Notice that 
 PLOT OF COMMON FUNCTIONS GOES HERE
 
 As a final example, suppose that we have the fragment of Java code shown in Listing 2.3.3. Although this program does not really do anything, it is instructive to see how we can take actual code and analyze performance.
-\begin{minted}[escapeinside=!!]{language}
+\begin{minted}[escapeinside=!!]{Java}
 int a = 5;
 int b = 6;
 int c = 10;
