@@ -7,14 +7,20 @@
 \subsection{Fibonacci}
 As it turns out, while this technically works...it's pretty terrible.  In short, using recursion, I managed to accidentally\footnote{All right, I did this totally on purpose.} write an $ O(2^n) $, or exponential time,  algorithm.  This is very bad.  This means increasing $ n $ by one \emph{doubles} the runtime of out algorithm!
 
-This is because to solving the current 
+This is because to solving the current $n$ requires solving $fib(n-1)$ and n-2.  Furthermore, each recursive call is independent
+
+
+
+Don't let this terrible runtime scare you away from recursion!  Recursion can make things quite efficient; this is merely an exception and presented here because fibonacci is such a classic example we would be remiss to not incluse it.
 
 
 \section{Printing Recursively}
 Some of the upcoming examples  of the things we are about to see should not be actually  used and serve only as examples, like our \texttt{printThis} function.
 
 
-\section{Recursive Linear Search}
+\subsection{Recursive Linear Search}
+
+
 
 
 \begin{minted}{Python3}
@@ -23,20 +29,28 @@ def search(theList, target):
 
 
 def search(theList, target, index):
+	if index >= len(theList):
+		return False 
 	if theList[item] == target:
 		return True
-	
+	return search(theList, target, index + 1)
 	
 \end{minted}
 
 
+\subsection{Binary Search}
+%Binary search is our reason for including Recursion at this location in the textbook. 
 
 
-\section{Binary Search}
 
 
 
-\subsection{Runtime Analysis}
+
+\subsubsection{Runtime Analysis}
+Each step of binary search eliminates either exactly or almost exactly half of the search space or sucessfully terminates the search.
+
+This halving at each step is represented by $log_2(n)$, where $n$ is the number of items.  Thus, with an array of 256 items, this algorithm would take approximately 8 steps. Doubling the size of the array to 512 items increases the amount of work only by a single step.   Compare that to our linear search, which starts at the beginning at goes thru the array one item at a time.  That takes $O(n)$ time.  In this case, doubling the number of items means doubling the amount of time the algorithm takes.
+
 
 
 
