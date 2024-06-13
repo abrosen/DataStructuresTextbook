@@ -2,14 +2,20 @@
 \chapter{Introduction}
 
 \section{What is a Data Structures Course}
-Data Structures is all about defining the different ways we can organize data.
+Data Structures is all about defining the different ways we can organize data.  This is not databases, which is concerned with defining the various attributes of a bunch of data;  this is much more granular.  We want to know how to store and retrieve a single item of data.
 
 
 \section{Why This Book?}
 
 This textbook is free.
 
-It is both Java and Python.
+It is both Java and Python, which is a bit insane.  You have two valid choices: 
+\begin{itemize}
+	\item 
+	\item Understand that the concepts we are learning are way more important than the language and treat the other language as psuedocode (which isn't hard for Python)
+	
+\end{itemize}
+be comfortable in multiple languages and embrace being a polyglot
 
 
 \subsection{Where Does This Book Fit Into a Computer Science Curriculum }
@@ -47,11 +53,37 @@ They will often cheat from the same source.
 
 In addition, during the writing of this text, technologies such as GPTChat were released.  This hasn't so much burned the bridge as dropped napalm on the entire surrounding forest.  Newer technologies will then salt that earth. I recommend an open and honest dialogue with your students and at least 50\% of their grade being the result of evaluations and assessments you do in class.  This can range from proctored exams to flipping the classroom and giving students the chance to work  on homework in class, where they are much more likely to turn to you or their peers for help.
 
+
+\subsection{Assignments}
+I will drop the sporadic assignment here or there, drawing from the same places you should draw from:
+\begin{itemize}
+	\item Nifty Assignments
+	\item  Problem Solving with Algorithms and Data Structures using Java (Miller)
+\end{itemize}
+
 \subsection{How to Use}
 
 %TODO create tag for teacher edition
 \section{To The Student}
 
+
+
+Why are we learning this?  As Brad Miller and David Ranum put in their aforementioned book (which is creative commons and you should totally check out):
+
+\begin{quotation}
+	
+	To manage the complexity of problems and the problem-solving process, computer scientists use abstractions to allow them to focus on the “big picture” without getting lost in the details. By creating models of the problem domain, we are able to utilize a better and more efficient problem-solving process. These models allow us to describe the data that our algorithms will manipulate in a much more consistent way with respect to the problem itself.
+	
+	Earlier, we referred to procedural abstraction as a process that hides the details of a particular function to allow the user or client to view it at a very high level. We now turn our attention to a similar idea, that of data abstraction. An abstract data type, sometimes abbreviated ADT, is a logical description of how we view the data and the operations that are allowed without regard to how they will be implemented. This means that we are concerned only with what the data is representing and not with how it will eventually be constructed. By providing this level of abstraction, we are creating an encapsulation around the data. The idea is that by encapsulating the details of the implementation, we are hiding them from the user’s view. This is called information hiding.
+	
+	Figure 2 shows a picture of what an abstract data type is and how it operates. The user interacts with the interface, using the operations that have been specified by the abstract data type. The abstract data type is the shell that the user interacts with. The implementation is hidden one level deeper. The user is not concerned with the details of the implementation.
+
+	
+	Figure 2: Abstract Data Type
+	
+	The implementation of an abstract data type, often referred to as a data structure, will require that we provide a physical view of the data using some collection of programming constructs and primitive data types. As we discussed earlier, the separation of these two perspectives will allow us to define the complex data models for our problems without giving any indication as to the details of how the model will actually be built. This provides an implementation-independent view of the data. Since there will usually be many different ways to implement an abstract data type, this implementation independence allows the programmer to switch the details of the implementation without changing the way the user of the data interacts with it. The user can remain focused on the problem-solving process.
+
+\end{quotation}
 
 \subsection{How to use}
 
