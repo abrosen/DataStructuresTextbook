@@ -1,0 +1,95 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+
+\usepackage{tcolorbox}
+\tcbuselibrary{minted}
+\begin{document}
+
+\definecolor{bg}{HTML}{282828} 
+
+\newtcblisting{myjava}{listing engine=minted,
+	minted style=monokai,
+	minted language=java,
+	minted options={fontsize=\small,breaklines,autogobble,linenos,numbersep=3mm},
+	colback=blue!5!white,colframe=blue!75!black,listing only,
+	left=5mm,
+	overlay={\begin{tcbclipinterior}\fill[red!20!blue!20!white] (frame.south west)
+			rectangle ([xshift=5mm]frame.north west);\end{tcbclipinterior}}}
+		
+\begin{myjava}
+	public class HelloWorld {
+		// A `Hello World' in Java
+		public static void main(String[] args) {
+			System.out.println("Hello World!");
+		}
+	}
+\end{myjava}
+
+
+
+\begin{listing}
+	content...
+\begin{minted}[style=colorful, frame=lines]{c}
+int main() {
+	printf("hello, world");
+	return 0;
+}
+\end{minted}
+\caption{foo}
+\end{listing}
+
+
+\begin{minted}[style=monokai,bgcolor=bg]{c}
+int main() {
+	printf("hello, world");
+	return 0;
+}
+\end{minted}
+
+\begin{minted}[style=friendly_grayscale]{c}
+int main() {
+	printf("hello, world");
+	return 0;
+}
+\end{minted}
+
+\begin{verbatim}
+int main() {
+	printf("hello, world");
+	return 0;
+}
+\end{verbatim}
+
+
+\begin{tcolorbox}
+	This is a \textbf{tcolorbox}.
+\end{tcolorbox}
+
+\begin{tcblisting}{colback=red!5!white,colframe=red!75!black}
+	This is a \LaTeX\ example which displays the text as source code
+	and in compiled form.
+\end{tcblisting}
+
+
+\begin{tcblisting}{colback=yellow!5,colframe=yellow!50!black,listing only,
+		title=This is source code in another language (XML), fonttitle=\bfseries,
+		listing engine=minted,minted language=xml}
+	<?xml version="1.0"?>
+	<project name="Package tcolorbox" default="documentation" basedir=".">
+	<description>
+	Apache Ant build file (http://ant.apache.org/)
+	</description>
+	</project>
+\end{tcblisting}
+
+\begin{tcblisting}{listing engine=minted,minted style=trac,
+	minted language=java,
+	colback=red!5!white,colframe=red!75!black,listing only}
+public class HelloWorld {
+	// A `Hello World' in Java
+	public static void main(String[] args) {
+		System.out.println("Hello World!");
+	}
+}
+\end{tcblisting}
+\end{document}
