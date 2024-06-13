@@ -161,7 +161,7 @@ public class Timing {
 \begin{minted}[escapeinside=!!]{Python3}
 import time !\label{code:timingSumPython}!
 
-def sum_of_n_2(n):
+def sumOfN(n):
 	start = time.time()
 	
 	the_sum = 0
@@ -266,9 +266,10 @@ However, as n gets large, our approximation will be just as accurate without it.
 
 As another example, suppose that for some algorithm, the exact number of steps is .
 When n is small, say 1 or 2, the constant 1005 seems to be the dominant part of the function. However, as n gets larger, the term becomes the most important. In fact, when n is really large, the other two terms become insignificant in the role that they play in determining the final result. Again, to approximate as n gets large, we can ignore the other terms and focus on . In addition, the coefficient becomes insignificant as n gets large. We would say then that the function has an order of magnitude , or simply that it is .
-🔗
+
 Although we do not see this in the summation example, sometimes the performance of an algorithm depends on the exact values of the data rather than simply the size of the problem. For these kinds of algorithms we need to characterize their performance in terms of best-case, worst-case, or average-case performance. The worst-case performance refers to a particular data set where the algorithm performs especially poorly, whereas a different data set for the exact same algorithm might have extraordinarily good (best-case) performance. However, in most cases the algorithm performs somewhere in between these two extremes (average-case performance). It is important for a computer scientist to understand these distinctions so they are not misled by one particular case.
-🔗
+
+
 A number of very common order of magnitude functions will come up over and over as you study algorithms. These are shown in Table 2.3.1. In order to decide which of these functions is the dominant part of any
 function, we must see how they compare with one another as n gets large.
 
