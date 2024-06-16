@@ -14,8 +14,32 @@
 	colback=blue!5!white,colframe=blue!75!black,listing only,
 	left=5mm,
 	overlay={\begin{tcbclipinterior}\fill[red!20!blue!20!white] (frame.south west)
-			rectangle ([xshift=5mm]frame.north west);\end{tcbclipinterior}}}
-		
+			rectangle ([xshift=5mm]frame.north west);\end{tcbclipinterior}
+		}
+}
+
+
+\newtcblisting[auto counter]{mycbox}[1]{%
+	colback=red!5!white,colframe=red!75!black,fonttitle=\bfseries,
+	title=Listing \thetcbcounter: #1
+}
+	
+	
+\newtcolorbox[auto counter,number within=section,
+number freestyle={(Q/\noexpand\thesection/\noexpand\Alph{\tcbcounter})},
+]{phbox}[2][]{%
+	colback=yellow!15!white,colframe=blue!75!black,fonttitle=\bfseries,
+	title=Question~\thetcbcounter: #2,#1
+}
+
+
+\begin{phbox}[label={myfreestyle}]{Title with freestyle number}
+	This box is automatically numbered with \ref{myfreestyle} on page
+	\pageref{myfreestyle}. Inside the box, the \thetcbcounter\ can
+	also be referenced by |\thetcbcounter|.
+	The real counter name is \texttt{\tcbcounter}.
+\end{phbox}	
+
 \begin{myjava}
 	public class HelloWorld {
 		// A `Hello World' in Java
@@ -92,4 +116,31 @@ public class HelloWorld {
 	}
 }
 \end{tcblisting}
+
+
+\newtcolorbox[auto counter,number within=section]{pabox}[2][]{%
+	colback=red!5!white,colframe=red!75!black,fonttitle=\bfseries,
+	title=Examp.~\thetcbcounter: #2,#1}
+\begin{pabox}[label={myautocounter}]{Title with number}
+	This box is automatically numbered with \ref{myautocounter} on page
+	\pageref{myautocounter}. Inside the box, the \thetcbcounter\ can
+	also be referenced by |\thetcbcounter|.
+	The real counter name is \texttt{\tcbcounter}.
+\end{pabox}
+
+\newtcolorbox[use counter from=pabox]{mybox}[2][]{%
+	colback=blue!5!white,colframe=blue!75!black,fonttitle=\bfseries,
+	title=Some Box \thetcbcounter: #2,#1}
+\begin{mybox}[label={tacos}]{Title with continued number}
+	This box is automatically numbered with \ref{tacos} on page
+	\pageref{tacos}. Inside the box, the \thetcbcounter\ can
+	also be referenced by |\thetcbcounter|.
+	The real counter name is \texttt{\tcbcounter}.
+\end{mybox}
+
+
+
+\ref{tacos} 
+
+
 \end{document}

@@ -2,7 +2,22 @@
 
 \section{Introduction}
 
+\subsection{Why?}
+
+Much in the same way we use Object Oriented Programming as a tool to organize our thoughts about how to design large programs, programmers can use recursion to craft elegant and efficient solutions. Once you get a hang of recursion, it's a really easy way create solutions.  I often refer to it as a way to be lazy at programming, with my recursive problem solving typically going like this:
+
+\begin{itemize}
+	\item I am at some amorphous spot in the puzzle or problem I am solving. 
+	\item This problem is too big to solve in one go.
+	\item Let's just write code that solves only this specific part of the problem.
+	\item Now that I have the solution to this portion, since I'm lazy, I'll just call a magic method that solves the rest of the problem starting at the point immediately  after what  I just solves.
+	\item It turns out the magic method is what I just wrote.
+\end{itemize}
+
+
+Confused?  That's fine.  It often takes a few attempts to get a handle on recursion.  It should start to make sense with some examples.
 \section{Recursive Mathematics}
+
 
 \subsection{Fibonacci}
 As it turns out, while this technically works...it's pretty terrible.  In short, using recursion, I managed to accidentally\footnote{All right, I did this totally on purpose.} write an $ O(2^n) $, or exponential time,  algorithm.  This is very bad.  This means increasing $ n $ by one \emph{doubles} the runtime of out algorithm!
@@ -14,8 +29,17 @@ This is because to solving the current $n$ requires solving $fib(n-1)$ and n-2. 
 Don't let this terrible runtime scare you away from recursion!  Recursion can make things quite efficient; this is merely an exception and presented here because fibonacci is such a classic example we would be remiss to not incluse it.
 
 
+
+\subsection{Summation of an Array}
+%https://runestone.academy/ns/books/published/javads/recursion_calculating-the-sum-of-a-list-of-numbers.html
+ADD REFERENCE HERE
+
+
+We will begin our investigation with a problem that you already know how to solve without using recursion. Suppose that you want to calculate the sum of an array of numbers such as:$[1, 3, 5, 7, 9]$ An iterative method that computes the sum is shown in Listing 4.3.1. The method uses an accumulator variable (theSum) to compute a running total of all the numbers in the array by starting with and adding each number in the array.
+
 \section{Printing Recursively}
 Some of the upcoming examples  of the things we are about to see should not be actually  used and serve only as examples, like our \texttt{printThis} function.
+
 
 
 \subsection{Recursive Linear Search}
