@@ -7,16 +7,7 @@
 
 \definecolor{bg}{HTML}{282828} 
 
-\newtcblisting{myjava}{listing engine=minted,
-	minted style=monokai,
-	minted language=java,
-	minted options={fontsize=\small,breaklines,autogobble,linenos,numbersep=3mm,bgcolor=bg},
-	colback=blue!5!white,colframe=blue!75!black,listing only,
-	left=5mm,
-	overlay={\begin{tcbclipinterior}\fill[red!20!blue!20!white] (frame.south west)
-			rectangle ([xshift=5mm]frame.north west);\end{tcbclipinterior}
-		}
-}
+%https://tex.stackexchange.com/questions/505313/add-captions-and-labels-to-custom-tcolorbox-listing
 
 
 \newtcblisting[auto counter]{mycbox}[1]{%
@@ -33,6 +24,16 @@ number freestyle={(Q/\noexpand\thesection/\noexpand\Alph{\tcbcounter})},
 }
 
 
+
+\newtcolorbox[auto counter,number within=section]{pycode}[2][]{%
+	colback=yellow!15!white,colframe=blue!75!black,fonttitle=\bfseries,
+	title= Listing \thetcbcounter: #2,#1
+	minted language=Python3,
+	minted style=colorful
+}
+
+
+
 \begin{phbox}[label={myfreestyle}]{Title with freestyle number}
 	This box is automatically numbered with \ref{myfreestyle} on page
 	\pageref{myfreestyle}. Inside the box, the \thetcbcounter\ can
@@ -40,14 +41,6 @@ number freestyle={(Q/\noexpand\thesection/\noexpand\Alph{\tcbcounter})},
 	The real counter name is \texttt{\tcbcounter}.
 \end{phbox}	
 
-\begin{myjava}
-	public class HelloWorld {
-		// A `Hello World' in Java
-		public static void main(String[] args) {
-			System.out.println("Hello World!");
-		}
-	}
-\end{myjava}
 
 
 
@@ -121,6 +114,7 @@ public class HelloWorld {
 \newtcolorbox[auto counter,number within=section]{pabox}[2][]{%
 	colback=red!5!white,colframe=red!75!black,fonttitle=\bfseries,
 	title=Examp.~\thetcbcounter: #2,#1}
+	
 \begin{pabox}[label={myautocounter}]{Title with number}
 	This box is automatically numbered with \ref{myautocounter} on page
 	\pageref{myautocounter}. Inside the box, the \thetcbcounter\ can
