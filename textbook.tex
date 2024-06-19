@@ -7,7 +7,8 @@
 \usepackage{amssymb}
 \usepackage{graphicx}
 %\usepackage[cache=false]{minted}
-\usepackage{minted}
+\usepackage{tcolorbox}
+\tcbuselibrary{minted}
 \usepackage{chessboard}
 \usepackage{hyperref}
 
@@ -25,6 +26,21 @@
 \maketitle
 \tableofcontents
 
+%defs
+
+\newtcblisting[auto counter,number within=section]{pycode}[2][]{%
+	colback=yellow!15!white,colframe=blue!75!black,fonttitle=\bfseries,
+	listing only,
+	listing engine= minted,
+	minted language=Python3,
+	minted style=colorful,
+	title= Listing \thetcbcounter: #2,#1
+}
+
+
+
+
+%The Document 
 \part{Preliminaries}
 \include{intro}
 % license  and ack https://runestone.academy/ns/books/published/pythonds3/index.html?mode=browsing after adapting text.

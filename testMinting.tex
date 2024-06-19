@@ -1,8 +1,9 @@
 \documentclass[10pt,a4paper]{article}
+\usepackage{FiraMono}
 \usepackage[T1]{fontenc}
-
 \usepackage{tcolorbox}
 \tcbuselibrary{minted}
+
 \begin{document}
 
 \definecolor{bg}{HTML}{282828} 
@@ -25,14 +26,59 @@ number freestyle={(Q/\noexpand\thesection/\noexpand\Alph{\tcbcounter})},
 
 
 
-\newtcolorbox[auto counter,number within=section]{pycode}[2][]{%
-	colback=yellow!15!white,colframe=blue!75!black,fonttitle=\bfseries,
-	title= Listing \thetcbcounter: #2,#1
+\newtcblisting[auto counter,number within=chapter]{pycode}[2][]{%
+	colback=black!85!white,
+	colframe=blue!75!black,fonttitle=\bfseries,
+	listing only,
+	listing engine= minted,
 	minted language=Python3,
-	minted style=colorful
+	minted style=monokai,
+	minted options={tabsize=4},
+	title= Listing \thetcbcounter: #2,#1
+}
+
+\newtcblisting[use counter from=pycode]{javacode}[2][]{%
+	colback=yellow!15!white,colframe=blue!75!black,fonttitle=\bfseries,
+	listing only,
+	listing engine= minted,
+	minted language=Python3,
+	minted style=colorful,
+	title= Listing \thetcbcounter: #2,#1
 }
 
 
+Some Text
+\begin{pycode}[label={thistest},listing and comment,comment={This is the classic hello world program}]{My Code}
+def Hello():
+    print("hello")
+\end{pycode}
+Other text
+
+\begin{pycode}[]{My Code}
+	def Hello():
+	print("hello")
+\end{pycode}
+
+
+\begin{pycode}[label=green]{My Code}
+def Hello():
+	print("hello")
+\end{pycode}
+
+\begin{javacode}{Some Code}
+public static void main(String[] args){
+	System.out.println("Sup.");
+
+}
+\tcblower
+This is Java
+\end{javacode}
+
+
+
+
+\ref{thistest}
+\ref{green}
 
 \begin{phbox}[label={myfreestyle}]{Title with freestyle number}
 	This box is automatically numbered with \ref{myfreestyle} on page
@@ -135,6 +181,14 @@ public class HelloWorld {
 
 
 \ref{tacos} 
+
+
+
+
+
+
+\section{Building}
+
 
 
 \end{document}
