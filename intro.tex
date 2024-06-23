@@ -38,12 +38,33 @@ This book is also suitable for the self taught programmer who has not learned mu
 
 \section{To The Instructor}
 
+
+\subsection{Professor Rosen's Extremely Opinionated Advice on How to Lecture}
 You'll note that this textbook lacks some of the features found in commercially available textbooks.  The biggest of these is slides.  
-
-
-
 For the most part, slides are too static to help students understand how to code. 
 
+I'll go a step further to be blunt: from intro to programming all the way thru data structures, slides are absolute trash;  use them if and only if you have no time to prepare.  In fact, even if you have no time to prepare, I would caution against using it.
+
+I have been teaching Data Structures since Fall 2011.  In order of preference, this is how I would tackle \textit{this} class, which I fully recognize may not work for you or your teaching style.
+
+\begin{description}
+	\item[Lecture with slides.]  Do this if slides are available (they are not for this book) and it is your first time teaching this class.  
+	\item[Lecture via live coding.] Basically, your lecture unit for a data structure should look like this\footnote{Conviently, the textbook is written for you to model this}:
+	\begin{itemize}
+		\item Introduce the ADT that you will be modeling.  So for a [array]list, describe what it is, why we want it over an array, and the operations.
+		\item Code a functional, pedagogical implementation live in class.
+		\begin{itemize}
+			\item Functional means a student could ostensibly use it in an assignment.  This means most of the work will focus on \texttt{add} and  \texttt{remove} or their equivalents.
+			\item Pedagogical means that you should keep straightforward  and not try to reproduce the entire built-in class.  If you're working in Java, your implemented \texttt{MyArrayList} shouldn't try to implement the \texttt{List} interface.  You should only focus on the primary ways a programmer interacts with the class in question. It also means you should emphasize that the built-in, real-world classes will have a number of optimizations that speed things up , but what you're covering is a close enough approximation.
+		\end{itemize}
+		\item This might be a bit unnerving to have to reproduce a class in front of the class, but watching someone program these things from scratch works better than just reading snippets of text.
+		\item Mistakes will be made, but students need to see mistakes are normal.  
+	\end{itemize}
+	\item Do the above, but flip the lecture.  You can see my example of this
+	\href{https://www.youtube.com/watch?v=FgnmWooD5Sg&list=PLNDWoTOY5hTYm38ST1lWvLy7uF4SgdtBx}{here}:
+\end{description}
+
+\subsection{Exercises}
 
 
 Does the lack of varied exercises make cheating on assignments easier as semesters go on?  Yes, but that bridge was burned long ago.  
@@ -52,6 +73,9 @@ However, the student who cheats isn't exactly clever and certainly hasn't been e
 They will often cheat from the same source.  
 
 In addition, during the writing of this text, technologies such as GPTChat were released.  This hasn't so much burned the bridge as dropped napalm on the entire surrounding forest.  Newer technologies will then salt that earth. I recommend an open and honest dialogue with your students and at least 50\% of their grade being the result of evaluations and assessments you do in class.  This can range from proctored exams to flipping the classroom and giving students the chance to work  on homework in class, where they are much more likely to turn to you or their peers for help.
+
+
+\subsection{The Order}
 
 
 \subsection{Assignments}

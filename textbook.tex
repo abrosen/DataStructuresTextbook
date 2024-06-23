@@ -1,5 +1,7 @@
 \documentclass[10pt,a4paper]{book}
 \usepackage[utf8]{inputenc}
+\usepackage{FiraMono}
+\usepackage{lmodern}
 \usepackage[T1]{fontenc}
 \usepackage{CJKutf8}
 \usepackage{amsmath}
@@ -12,12 +14,12 @@
 \usepackage{chessboard}
 \usepackage{hyperref}
 
-\usemintedstyle{colorful}
+%\usemintedstyle{colorful}
 
 %\definecolor{bg}{HTML}{282828} % from https://github.com/kevinsawicki/monokai
 %\definecolor{bg}{HTML}{BBBBBB} % from https://github.com/kevinsawicki/monokai
 %\setminted{bgcolor=bg,breaklines=true}
-\setminted{breaklines=true,linenos=true,frame=single}
+%\setminted{breaklines=true,linenos=true,frame=single}
 \begin{document}
 
 \title{Data Structures}
@@ -28,14 +30,26 @@
 
 %defs
 
-\newtcblisting[auto counter,number within=section]{pycode}[2][]{%
-	colback=yellow!15!white,colframe=blue!75!black,fonttitle=\bfseries,
+\newtcblisting[auto counter,number within=chapter]{pycode}[2][]{%
+	colback=black!5!white,
+	colframe=blue!75!black,fonttitle=\bfseries,
 	listing only,
 	listing engine= minted,
 	minted language=Python3,
 	minted style=colorful,
-	title= Listing \thetcbcounter: #2,#1
+	minted options={tabsize=4},
+	title= Listing (Python) \thetcbcounter: #2,#1
 }
+
+\newtcblisting[use counter from=pycode]{javacode}[2][]{%
+	colback=red!5!white,colframe=red!75!blue,fonttitle=\bfseries,
+	listing only,
+	listing engine= minted,
+	minted language=Java,
+	minted style=colorful,
+	title= Listing (Java) \thetcbcounter: #2,#1
+}
+
 
 
 

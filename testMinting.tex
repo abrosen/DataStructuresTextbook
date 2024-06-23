@@ -27,23 +27,23 @@ number freestyle={(Q/\noexpand\thesection/\noexpand\Alph{\tcbcounter})},
 
 
 \newtcblisting[auto counter,number within=chapter]{pycode}[2][]{%
-	colback=black!85!white,
+	colback=black!5!white,
 	colframe=blue!75!black,fonttitle=\bfseries,
 	listing only,
 	listing engine= minted,
 	minted language=Python3,
-	minted style=monokai,
+	minted style=colorful,
 	minted options={tabsize=4},
-	title= Listing \thetcbcounter: #2,#1
+	title= Listing (Python) \thetcbcounter: #2,#1
 }
 
 \newtcblisting[use counter from=pycode]{javacode}[2][]{%
-	colback=yellow!15!white,colframe=blue!75!black,fonttitle=\bfseries,
+	colback=red!5!white,colframe=red!75!blue,fonttitle=\bfseries,
 	listing only,
 	listing engine= minted,
-	minted language=Python3,
+	minted language=Java,
 	minted style=colorful,
-	title= Listing \thetcbcounter: #2,#1
+	title= Listing (Java) \thetcbcounter: #2,#1
 }
 
 
@@ -70,8 +70,7 @@ public static void main(String[] args){
 	System.out.println("Sup.");
 
 }
-\tcblower
-This is Java
+
 \end{javacode}
 
 

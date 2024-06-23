@@ -2,12 +2,12 @@
 \label{chap:analysis}
 Or we would look at the list, but we need to talk about Math.  Sorry for the bait-and-switch, but it will make sense shortly.
 
-You don't need  much math to be a good programmer, but if you want to be an amazing programmer, you probably need math or very math adjacent skills.
+You don't need much math to be a good programmer, but if you want to be an amazing programmer, you probably need math or very math adjacent skills.
 
 
 
 \section{Cost}
-Every function, operation, algorithm, or what have you that a computer performs has a \emph{cost}. 
+Every function , operation, algorithm, or what have you that a computer performs has a \emph{cost}. 
 In fact, there are always multiples costs;  we often just focus on the most important one or two costs.  
 
 What is most important depends on context.
@@ -49,9 +49,10 @@ It is very common for beginning computer science students to compare their progr
 
 In order to answer this question, we need to remember that there is an important difference between a program and the underlying algorithm that the program is representing. As you have learned, an algorithm is a generic, step-by-step list of instructions for solving a problem. It is a method for solving any instance of the problem so that given a particular input, the algorithm produces the desired result. A program, on the other hand, is an algorithm that has been encoded into some programming language. There may be many programs for the same algorithm, depending on the programmer and the programming language being used. 
 
-To explore this difference further, consider the functions shown in Listing \ref{code:sumOfNJava1} and \ref{code:sumOfNPython1}. This function solves a familiar problem, computing the sum of the first n integers. The algorithm uses the idea of an accumulator variable that is initialized to 0. The solution then iterates through the $n$ integers, adding each to the accumulator.
-\begin{minted}[escapeinside=!!]{Java}
-public class FindSum { !\label{code:sumOfNJava1}!
+%To explore this difference further, consider the functions shown in Listing \ref{code:sumOfNJava1} and \ref{code:sumOfNPython1}. This function solves a familiar problem, computing the sum of the first n integers. The algorithm uses the idea of an accumulator variable that is initialized to 0. The solution then iterates through the $n$ integers, adding each to the accumulator.
+
+\begin{javacode}[label={code:sumOfNJava1}]{Sum Of N}
+public class FindSum {
 	public static long sumOfN(int n) {
 		long theSum = 0;
 		for (int i = 1; i <= n; i++) {
@@ -64,7 +65,9 @@ public class FindSum { !\label{code:sumOfNJava1}!
 		System.out.println(sumOfN(10));
 	}
 }
-\end{minted}
+\end{javacode}
+
+
 
 \begin{minted}[escapeinside=!!]{Python3}
 def sumOfN(n): !\label{code:sumOfNPython1}!
