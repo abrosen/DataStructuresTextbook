@@ -49,7 +49,7 @@ It is very common for beginning computer science students to compare their progr
 
 In order to answer this question, we need to remember that there is an important difference between a program and the underlying algorithm that the program is representing. As you have learned, an algorithm is a generic, step-by-step list of instructions for solving a problem. It is a method for solving any instance of the problem so that given a particular input, the algorithm produces the desired result. A program, on the other hand, is an algorithm that has been encoded into some programming language. There may be many programs for the same algorithm, depending on the programmer and the programming language being used. 
 
-%To explore this difference further, consider the functions shown in Listing \ref{code:sumOfNJava1} and \ref{code:sumOfNPython1}. This function solves a familiar problem, computing the sum of the first n integers. The algorithm uses the idea of an accumulator variable that is initialized to 0. The solution then iterates through the $n$ integers, adding each to the accumulator.
+To explore this difference further, consider the functions shown in Listing \ref{code:sumOfNJava1} and \ref{code:sumOfNPython1}. This function solves a familiar problem, computing the sum of the first n integers. The algorithm uses the idea of an accumulator variable that is initialized to 0. The solution then iterates through the $n$ integers, adding each to the accumulator.
 
 \begin{javacode}[label={code:sumOfNJava1}]{Sum Of N}
 public class FindSum {
@@ -68,9 +68,8 @@ public class FindSum {
 \end{javacode}
 
 
-
-\begin{minted}[escapeinside=!!]{Python3}
-def sumOfN(n): !\label{code:sumOfNPython1}!
+\begin{pycode}[label={code:sumOfNPython1}]{Sum of N}	
+def sumOfN(n):
 	theSum = 0
 	for i in range(1, n + 1):
 		theSum = theSum + i
@@ -78,12 +77,12 @@ def sumOfN(n): !\label{code:sumOfNPython1}!
 return theSum
 
 print(sumOfN(10))
-\end{minted}
+\end{pycode}
 
 Now look at the functions in Listing \ref{code:sumOfNJava2} and \ref{code:sumOfNPython2}. At first glance it may look strange, but upon further inspection you can see that this function is essentially doing the same thing as the previous one. The reason this is not obvious is poor coding. We did not use good identifier names to assist with readability, and we used an extra assignment statement that was not really necessary during the accumulation step.
 
-\begin{minted}[escapeinside=!!]{Java}
-public class FindSum2 { !\label{code:sumOfNJava2}!
+\begin{javacode}[label={code:sumOfNJava2}]{Sum of N 2 - Obsfucated}
+public class FindSum2 {
 	public static long foo(int tom) {
 		long fred = 0;
 		for (int nancy = 1; nancy <= tom; nancy++) {
@@ -97,10 +96,10 @@ public class FindSum2 { !\label{code:sumOfNJava2}!
 		System.out.println(foo(10));
 	}
 }
-\end{minted}
+\end{javacode}
 
-\begin{minted}[escapeinside=!!]{Python3}
-def foo(tom): !\label{code:sumOfNPython2}!
+\begin{pycode}[label={code:sumOfNPython2}]{Sum of N 2 - Obsfucated}
+def foo(tom):
 	fred = 0
 	for bill in range(1, tom + 1):
 		barney = bill
@@ -109,7 +108,7 @@ def foo(tom): !\label{code:sumOfNPython2}!
 	return fred
 
 print(foo(10))
-\end{minted}
+\end{pycode}
 
 %This block from the Java book
 The question we raised earlier asked whether one method is better than another. The answer depends on your criteria. The function \texttt{sumOfN} is certainly better than the function \texttt{foo} if you are concerned with readability. 
@@ -130,8 +129,8 @@ By using either of these tools to track the start and finish times and then comp
 
 Listing \ref{code:timingSumJava} and \ref{code:timingSumPython} lets you enter the number you want to sum up to $n$. It then invokes the sumOfN method 25 times and calculates the time required for each trial:
 
-\begin{minted}[escapeinside=!!]{Java}
-import java.util.Scanner; !\label{code:timingSumJava}!
+\begin{javacode}[label={code:timingSumJava}]{Timing Sum of N in Java}
+import java.util.Scanner;
 
 public class Timing {
 	public static long sumOfN(long n) {
@@ -158,11 +157,11 @@ public class Timing {
 		}
 	}
 }
-\end{minted}
+\end{javacode}
 
 
-\begin{minted}[escapeinside=!!]{Python3}
-import time !\label{code:timingSumPython}!
+\begin{pycode}[label={code:timingSumPython}]{Timing Sum of N in Python}
+import time
 
 def sumOfN(n):
 	start = time.time()
@@ -175,7 +174,7 @@ def sumOfN(n):
 
 return the_sum, end - start
 
-\end{minted}
+\end{pycode}
 
 Listing \ref{code:timingSumJava} shows the original sumOfN function with the timing calls embedded before and after the summation. The function returns a tuple consisting of the result and the amount of time (in seconds) required for the calculation. Here is start and end of the output when we enter 10000 for the limit of the sum using the Java code:
 
@@ -218,22 +217,21 @@ Trial 24: Sum 500000500000: time 0.012447 sec.
 
 In this case, the average again turns out to be about 10 times the previous experiment.
 
-Now consider Listings \ref{code:sumOfNImprovedJava} and \ref{code:sumOfNImprovedPython}, which shows a different means of solving the summation problem. This method, sumOfNImproved, takes advantage of a closed equation $\sum_{i=1}^{n} i = 1+2+3+\dots+(n-1)+n =  \frac {(n)(n+1)}{2}$
-to compute the sum of the first n integers without iterating\footnote{This sequence of numbers is the \textbf{Triangular Number Series} and shows up a lot in analysis.}.
+Now consider Listings \ref{code:sumOfNImprovedJava} and \ref{code:sumOfNImprovedPython}, which shows a different means of solving the summation problem. This method, sumOfNImproved, takes advantage of a closed equation $\sum_{i=1}^{n} i = 1+2+3+\dots+(n-1)+n =  \frac {(n)(n+1)}{2}$ to compute the sum of the first $n$ integers without iterating\footnote{This sequence of numbers is the \textbf{Triangular Number Series} and shows up a lot in analysis.}.
 
-\begin{minted}[escapeinside=!!]{Java}
-public static long sumOfNImproved(long n) { !\label{code:sumOfNImprovedJava}!
+\begin{javacode}[label={code:sumOfNImprovedJava}]{An Improvement To Constant Time}
+public static long sumOfNImproved(long n) { 
 	long theSum = n * (n + 1) / 2;
 	return theSum;
 }
-\end{minted}
+\end{javacode}
 
 
-\begin{minted}[escapeinside=!!]{Python3}
-def sumOfNImproved(n): !\label{code:sumOfNImprovedPython}!
+\begin{pycode}[label={code:sumOfNImprovedPython}]{An Improvement To Constant Time}
+def sumOfNImproved(n):
 	return (n * (n + 1)) / 2
 print(sumOfNImproved(10))
-\end{minted}
+\end{pycode}
 
 If we do the same benchmark measurement with this revised code, using five different values for n (10,000, 100,000, 1,000,000, 10,000,000, and 100,000,000), we get the following results from averaging the last five trials:
 \begin{verbatim}
