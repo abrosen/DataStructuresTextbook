@@ -27,25 +27,25 @@ Similarly, if you are coming from python, when I say function, I am talking abou
 An argument is the actual value you pass in, the parameter is the variable that accepts it.
 
 
-\begin{minted}{Java}
-public static void doubleThis(int num) { 
+\begin{javacode}{Java Parameter vs Argument Example}
+public static void doubleThis(int num) {   // parameter
 	return 2*num;
 }
 
 public static void main(String[] args){
 	int x = 7;
-	int y = doubleThis(x);
+	int y = doubleThis(x);  // argument
 }
 
-\end{minted}
-foo
-\begin{minted}{Python3}
-	def doubleThis(num): 
-		return 2*num
+\end{javacode}
+
+\begin{pycode}{Python Parameter vs Argument Example}
+def doubleThis(num): # parameter
+	return 2*num
 		
-x =  7
-y =  doubleThis(x)
-\end{minted}
+x = 7
+y = doubleThis(x) # argument
+\end{pycode}
 
 In the about examples, \texttt{x} is an argument and \texttt{num} is a parameter.
 
@@ -70,12 +70,8 @@ In Java, we have two broad categories of data types: primitives and objects.
 
 When you pass a primitive, such as an \texttt{int} or \texttt{double}, the value gets copied from where it is stored in memory and copied into the argument.
 
-When you create an object, as below:
-\begin{minted}{Java}
-Scanner scan =  new Scanner(System.in);
-\end{minted}
-
-The variable \texttt{scan} will hold not the Object that was created by the constructor, but the \textit{memory location}, or  \textit{reference}m of where to find it.
+When you create an object, such as with\mintinline{Java}{Scanner scan =  new Scanner(System.in);}, 
+the variable \texttt{scan} will hold not the Object that was created by the constructor, but the \textit{memory location}, or  \textit{reference}m of where to find it.
 Look at the code below where we are we create an array in \texttt{main} and then pass it to another method, \texttt{setIndexZeroToZero}:
 
 \begin{minted}{Java}
