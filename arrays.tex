@@ -1,5 +1,5 @@
 \chapter{The Array}
-
+\label{chap:array}
 \section{Why Arrays}
 
 \begin{itemize}
@@ -34,11 +34,11 @@ This is because to create an array, the computer allocates a contiguous block of
 If we wanted to resize it, there is no guarantee that this chunk of memory won't have things directly before or after it, preventing us from safely extending its range.
 
 \section{Python and Arrays}
-\label{sec-python-arrays-lists}
+\label{sec:python-arrays-lists}
 Python doesn't really do arrays in the same way.
-It instead uses Lists, as we'll see in Chapter \ref{chap-arraylist}.
+It instead uses Lists, as we'll see in Chapter \ref{chap:arraylist}.
 \texttt{myNotArray = []}\footnote{On styles:  Java convention is to use camel case for variable types (\texttt{myVariableName}), while python convention is to use underscores (\texttt{my\_variable\_name}).  I will be using the Java style camel-casing for variables throughout the book for consistency and because it is my preference.}  does not actually make an array like you assume it would in some other language.  Instead it makes A list (specifically an array list ) to contain these items.
-This works exactly like an array in other languages, but you get access to some nifty operations in Python, like slicing, concatination, and  built-in methods.  In addition, Python dynamically resizes this array if we need it bigger or smaller.\footnote{We cover the specifics in Chapter \ref{arraylist}}
+This works exactly like an array in other languages, but you get access to some nifty operations in Python, like slicing, concatination, and  built-in methods.  In addition, Python dynamically resizes this array if we need it bigger or smaller.\footnote{We cover the specifics in Chapter \ref{chap:arraylist}}
 
 
 
@@ -85,19 +85,19 @@ For an array $arr$, retrieving a value from an array is and storing it in some v
 and to store something in $arr$, you use:
 
 \begin{verbatim}
-	myVar =  arr[index]
+	myVar = arr[index]
 \end{verbatim}
 
 
 Interestingly enough, this is one of the few consistent across multiple programming languages.
 
-Figuring out the length of an array in Java\footnote{This is one of the little things in Java that can be a source of frustration.  Strings use \texttt{.length()}, arrays use \texttt{.length}, and Collections like Lists and Sets use \texttt{.size()}.} is done with 
+Figuring out the length of an array in Java\footnote{This is one of the little things in Java that can be a source of frustration.  Strings use \texttt{.length()}, arrays use \texttt{.length}, and Collections like Lists and Sets use \texttt{.size()}.} is done with \mintinline{Java}{arr.length;}, 
+and in python, a simple \mintinline{Python3}{len(arr)} works.
 
-\begin{minted}{Java}
-	int len =  arr.length;
-\end{minted}
+%\begin{minted}{Java}
+%	int len = arr.length;
+%\end{minted}
 
-and in python, a simple \texttt{len(arr)} works.
 
 \subsection{Array Internals and the Memory Formula}
 \label{array-formula}
@@ -135,14 +135,21 @@ Thus, each slot needs to be big enough to hold a memory address, ie 32 bits or 6
 \subsubsection{Finding the Minimum}
 
 Hopefully you know this one by now!
-Simply assume the first item is the smallest item, then check it against every other item in the list.  If an item is smaller that the current item, 
+Simply assume the first item is the smallest item, then check it against every other item in the array.  If an item is smaller that the current smallest item, it replaces the smallest item.
 
-\begin{minted}{Java}
-public static int findMin(int[] ) {
-
+\begin{javacode}[listing and comment, comment={As seen in the comments, it is fairly straightforward to change this code to return the index, rather than the item.}]{Finding the Minimum of An Array}
+public static int findMin(int[] arr) {
+	int smallest = arr[0];
+	// int smallestIndex = 0;
+	for (int i = 1; i < arr.length; i++) {
+		if(arr[i] < smallest){
+			smallest = arr[i];
+			// int smallestIndex = i;
+		}
+	}
+	return smallest; // or smallestIndex
 }
-	
-\end{minted}
+\end{javacode}
 
 
 
@@ -159,7 +166,7 @@ Arrays are awesome solutions for many problems, but they are lacking in ability 
 \end{verbatim}
 Unless you've seen this problem before, there is no obvious solution.  Considerable thought eventually lands on an idea: characters are just integers, so we could assign each one of the characters an index and increment the index each time we see the character.
 
-\begin{minted}{Java}
+\begin{javacode}{Most Frequent ASCII Character}
 public static char mostFrequent(String text) {
 	int[] tally = new int[128]; 
 	for(char c : text.toCharArray()) {
@@ -175,7 +182,7 @@ public static char mostFrequent(String text) {
 	return (char) indexWithHighest;
 }
 
-\end{minted}
+\end{javacode}
 
 \begin{CJK}{UTF8}{MS Mincho}However, this has some serious limitations.  For one, this breaks if we are not using ascii.  What if the text is ``こんにちは'' or other non-english text?
 \end{CJK}
@@ -188,7 +195,7 @@ And now what if we change the problem to:
 	
 \end{verbatim}
 
-This suddenly becomes an extremely annoying problem to solve with just arrays\footnote{Those of you coming from Python can stop shouting ``use dictionaries!'' at the top of your lungs.}.  We will solve this problem when we visit Maps in Chapter \ref{chap-maps}, which are much better suited for this job than arrays.
+This suddenly becomes an extremely annoying problem to solve with just arrays\footnote{Those of you coming from Python can stop shouting ``use dictionaries!'' at the top of your lungs.}.  We will solve this problem when we visit Maps in Chapter \ref{chap:maps}, which are much better suited for this job than arrays.
 
 The other limitation of arrays  that their size is immutable.  Once an array has been declared, we cannot change its size.  This is rather inconvenient for a number of applications where we may not know how many items to store.  This will be the focus of our first new data structure:  The List.
 

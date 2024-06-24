@@ -70,11 +70,11 @@ In Java, we have two broad categories of data types: primitives and objects.
 
 When you pass a primitive, such as an \texttt{int} or \texttt{double}, the value gets copied from where it is stored in memory and copied into the argument.
 
-When you create an object, such as with\mintinline{Java}{Scanner scan =  new Scanner(System.in);}, 
+When you create an object, such as with\mintinline{Java}{Scanner scan = new Scanner(System.in);}, 
 the variable \texttt{scan} will hold not the Object that was created by the constructor, but the \textit{memory location}, or  \textit{reference}m of where to find it.
 Look at the code below where we are we create an array in \texttt{main} and then pass it to another method, \texttt{setIndexZeroToZero}:
 
-\begin{minted}{Java}
+\begin{javacode}{Code to change index 0 to the value 0}
 public static void setIndexZeroToZero(int[] array) {
 	array[0] = 0;
 }
@@ -89,7 +89,7 @@ public static void main(String[] args) {
 	// prints [0, 5, 6, 6]
 }
 
-\end{minted}
+\end{javacode}
 
 Because the memory location of the array \texttt{arr} was passed to \texttt{array}, the method \texttt{setIndexZeroToZero} was dealing with the same object. 
 
