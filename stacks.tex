@@ -31,7 +31,8 @@ We will be building a stack as a reference-based structure in this book.  This i
 %https://runestone.academy/ns/books/published/pythonds3/BasicDS/ImplementingaStackinPython.html
 	
 
-
+\begin{pyfile}{./code/stack.py}
+\end{pyfile}
 
 \section{Built-in Stacks}
 
@@ -54,22 +55,67 @@ If you haven't ever done a hedge maze, you should try it out.  They are pretty f
 
 Let me teach you two such strategies for when you get stuck in a maze.  The first strategy is the ``hand on wall'' rule or ``right hand'' rule.  It requires no preparation and works on almost every maze.  Simply take your right hand and lay it upon the wall of the corridor you are in.  Move forward and when you come to a turn, travel so that you never lift your hand off the wall.  So long as the entrance and exit are on the same wall (which they almost certainly are), you'll eventually make your way out.
 
-The second strategy is backtracking\footnote{Technically this is going to look a lot like Depth First Search, but this is a very specific variation of it.} and works on any maze you are likely to encounter.\footnote{The exception is mazes that change their configuration while you are in them.}
+The second strategy is backtracking\footnote{Technically this is going to look a lot like Depth First Search, but this is a very specific variation of it.} and works on any maze you are likely to encounter.\footnote{The exception is mazes that change their configuration while you are in them.}  Let's explore this using an example from Greek Mythology: the Labyrinth. 
 
 % Greek mythology
+\subsection{The Labyrinth}
+Once upon a time, King Minos, child of Zeus and big jerk of a demigod, really messed up and angered Poseidon.  Minos's wife then gave birth to the Minotaur, a half-man/half-bull.  Minos had the inventor Daedalus build the Labyrinth for him to keep the Minotaur in.  The Labyrinth was a giant maze, and Minos, being a big jerk, frequently tossed Athenians into the Labyrinth to feed the Minotaur.  
+
+This continued until Theseus, son of Poseidon, put a stop to it by navigating the Labyrinth and slaying the Minotaur. Theseus managed to pull this off with the help of Ariadne, Minos's daughter and noted not big jerk. Ariadne provided Theseus with a ball of thread, which allowed him to navigate the Labyrinth. Minos eventually died in a bizarre series of events involving him being a stalker, a seashell, and even more thread.
+
+It's the thread here that we are concerned with.  See, the Labyrinth is classically understood to have a ton of twists and turns and easy to get lost in.  Let's put ourselves in the shoes of Theseus for a second and think about how we can use that thread to navigate this maze.  
+
+Since we're pretending we're a demigod protagonist of a Greek myth, we might as well pretend that Ariadne's thread is magic too.  We won't run out of thread and it can't be cut by the Minotaur or otherwise tangled.  Let's also assume we're in one of the versions of the myth where we have a sword. We will let the thread unroll along the ground as a we traverse the maze.  When we come to a crossroads or some other choice of passages, we will travel down an unexplored passage.  
 
 
-% how it works
+It's possible we hit a dead end in one of two ways.  The first way we hit a dead end is that the corridor ends;  a literal dead end.  The second way we can hit a dead end is by coming to a crossroads and there are no unexplored passages.  In either case, we can backtrack.
+
+To backtrack, we turn around and follow the thread until we find an unexplored passage.  We wind the thread back up and mark the floor or walls with the sword to let our future selves know this was a dead end \footnote{If we don't have a sword, we don't wind the thread back up, because if we did, we'd end up essentially erasing markers we have that a passage has been explored. Instead, we will leave a second line of thread along the ground on passages we backtrack upon.  We have the sword for pedagogical reasons, a sentence I never thought I would write, but always hoped that I would.}. We know we have found an unexplored passage when find a passage with no thread or sword marks. This will allow us to navigate the entire maze and ensure we only ever traverse a passage twice:  once while exploring and once while backtracking.
 
 
-Restricting our operations in a maze actually makes solving the problem \textit{easier} by reducing the complexity.
+Abstracting this out, each corridor (or cell of the maze when we get programming) has three states:
 
-For this section, we will assume that mazes are arranged in a grid, rather than some funky hexagonal pattern.
+\begin{description}
+	\item[Unexplored] This is a part of the maze we haven't traveled down yet.
+	\item[Visited] This would be part of the maze we have traversed.
+	\item[Backtracked] This is a part of the maze we have traversed \textit{twice}, the second time being us reversing our trail.
+\end{description}
+
+We can use a Stack in place of our magic thread, using the \texttt{push} operation on a location to say we have traveled to this location, with the top of the Stack holding our current location.  This is analogous to unrolling the thread. If we need to backtrack, we \texttt{pop()} and go to the location that's now at the top of the task.  This represents the act of us rolling the thread back
+
+Rather than awesome sword, we will use much more mundane \texttt{booleans} or \texttt{enums} or \texttt{colors} to ensure we don't revisit an already explored or backtracked corridor.  Which we use depends on our implementation.
 
 
+This gives us our algorithm.
+
+\begin{verbatim}
+Given: a maze represented by a 2D array of cells
+Cell: represents a unit of the maze. 
+    Has a variable for color or exploration status.
+    Also has variables to represent walls or lack thereof
+    in each of the cardinal directions
+
+Algorithm:
+push start position on top of stack
+while maze exploration is not done and and stack isn't empty
+    peek at the stack to get our current position
+    if we can go north and haven't visited there yet
+        push the location to the north on the stack
+        mark the current location as visited
+    else if we can go south...
+    repeat for east and west
+    else
+    we can't go anywhere so we are at a dead end
+        mark current as a dead end
+        pop off the stack
+\end{verbatim}
 
 
-\section{Paren}
+We can assume that maze exploration is done if we find the exit.  If the stack is empty, we have come back to the beginning of the maze.  
+The last note I'll make before our next topic is possibly the most intriguing.  With a bit of creativity and some minor tweaks, we can take this algorithm and modify it to \textit{generate} mazes rather than solve them. Generating mazes is it's own fun subgenre, as each strategy and algorithm for creating mazes creates mazes with different biases. 
+
+
+\section{Parenthesis Matching}
 
 A classic stack problem is to write a program that checks to see if a given string has balanced parenthesis.  Specifically, you encounter this problem in three places: a data structures class like this, an interview question, or Computer Automata class\footnote{This is used to show the limits of Discrete Finite Automata/Regular Languages and introduce Stack Machines/Context Free Grammars}.
 The  question we're trying to answer is something like ``Does the string \texttt{ ((A + f(x[0])) + B} have balanced parentheses.  We humans can easily take a look and say no, \texttt{ ((A + f(x[0])) + B} doesn't balanced parentheses; it's missing a closing parenthesis.  But how did we do that?  Codifying that is how we solve this problem.  
@@ -78,13 +124,47 @@ Now if it was a matter counting the number of opening and closing parenthesis, t
 
 Instead, we can use a specific tool to handle this problem.  If you guessed it is the stack, excellent work.  You must have caught on to the numerous hints, such as this being in the chapter about stacks, or the starting sentence talking about how this is a classic stack problem.
 
-We parse thru the string and skip anything not a parenthesis or bracket or the like.  When we see an open parenthesis/bracket, we push it onto the stack.  When we see a closing brace, we pop from the stack and compare. If we have a match, no issues.  But if the type of vrace or bracket or parenthesis doesn't match or there was nothing to pop off, return false.
+We parse thru the string and skip anything not a parenthesis or bracket or the like.  When we see an open parenthesis/bracket, we push it onto the stack.  When we see a closing brace, we pop from the stack and compare. If we have a match, no issues.  But if the type of brace or bracket or parenthesis doesn't match or there was nothing to pop off, return false.
+
+\begin{javacode}{Parenthesis Matching in Java}
+public static boolean isBalanced(String expression) {
+	Stack<Character> stack = new Stack<>();
+	for (Character c : expression.toCharArray()) {
+		if(c == '(' || c=='[' || c == '{' ) {
+				stack.push(c);
+				
+			} else if( c== ')' || c== ']' || c == '}') {
+			if(stack.isEmpty()){
+				return false;
+			}
+			char opener = stack.pop();
+			if( !((opener=='(' && c==')') || (opener=='[' && c==']') || (opener=='{' && c=='}'))){
+				return false;
+			}
+			
+		}
+		
+	}
+	return stack.isEmpty();
+}
 
 
+\end{javacode}
 
-\begin{minted}{Java}
-	content...
-\end{minted}
-
-
+\begin{pycode}{Parenthesis Matching in Python}
+def isBalanced(expression):
+	stack = []
+	for c in expression:
+		if c in "([{":
+			stack.append(c)
+		elif c in ")]}":
+			if not stack:
+				return False
+	opener = stack.pop()
+	if not ((opener == '(' and c == ')') or 
+			(opener == '[' and c == ']') or 
+			(opener == '{' and c == '}')):
+		return False
+	return not stack
+\end{pycode}
 %\section{Discrete Finite Automata}
