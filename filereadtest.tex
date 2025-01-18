@@ -1,0 +1,25 @@
+\documentclass{report}
+\usepackage{tcolorbox}
+\tcbuselibrary{minted}
+% Create a new tcolorbox listing for Python code
+\newtcblisting[auto counter,number within=chapter]{pyfile}[2][]{%
+	colback=black!5!white, 
+	colframe=blue!75!black, 
+	fonttitle=\bfseries, 
+	listing only, 
+	listing engine=minted, 
+	minted language=Python, 
+	minted style=colorful, 
+	minted options={tabsize=4},
+	title=Listing (Python) \thetcbcounter: #2,#1,
+	listing file=#2   % Directly use the file parameter here
+}
+
+
+\begin{document}
+	
+	% Example usage with a Python file
+	\begin{pyfile}[]{code/stack.py}
+	\end{pyfile}
+	
+\end{document}
