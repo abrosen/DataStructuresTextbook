@@ -9,11 +9,10 @@ Working with the limited operations of a allows us to approach problems with a d
 
 The stack operations are limited and simple. 
 
-
 \begin{enumerate}
-	\item[Push] Put an item on the top of the stack.
-	\item[Pop]  Remove the item from the top of the stack and return it.  The item that was underneath the top of the stack becomes the new top.
-	\item[Peek] Return the top of the stack, without removing it.
+	\item[\textbf{Push}] Put an item on the top of the stack.
+	\item[\textbf{Pop}] Remove the item from the top of the stack and return it.  The item that was underneath the top of the stack becomes the new top.
+	\item[\textbf{Peek}] Return the top of the stack, without removing it.
 \end{enumerate}
 
 
@@ -31,44 +30,123 @@ We will be building a stack as a reference-based structure in this book.  This i
 %https://runestone.academy/ns/books/published/pythonds3/BasicDS/ImplementingaStackinPython.html
 	
 
+\begin{javacode}{The Stack (Java)}
+public class Stack<E> {
+	private Node<E> top;
+	
+	public boolean isEmpty(){
+		return top == null;
+	}
+	
+	public E peek() {
+		return top.item;
+	}
+	
+	public E pop() {
+		E toReturn =  top.item;
+		top = top.next;
+		return toReturn;
+	}
+	
+	public E push(E item){
+		Node<E> newTop = new Node<E>(item);
+		newTop.next = top;
+		top = newTop;
+		return item;
+	}
+	
+	private static class Node<E>{
+		E item;
+		Node<E> next;
+		public Node(E item) {
+			this.item = item;
+		}
+	}
+	
+	
+	public static void main(String[] args) {
+		Stack<Integer> s = new Stack<>();
+		for (int i = 1; i <= 10 ; i++) {
+			s.push(i);
+		}
+		
+		while(!s.isEmpty()){
+			System.out.println(s.pop());
+		}
+	}
+	
+}
+
+\end{javacode}
+
+
+% converted the above code with chatGPT
+% Then made edits to remove injected error messages
+% and match style
+
+
+
 \begin{pycode}{The Stack}
-# Original: Problem Solving with Algorithms and Data Structures using Python
-# Brad Miller and David Ranum, Luther College
-# https://runestone.academy/ns/books/published/pythonds3/BasicDS/ImplementingaStackinPython.html
+	
 class Stack:
-	"""Stack implementation as a list"""
+	class Node:
+		def __init__(self, item):
+			self.item = item
+			self.next = None
 	
 	def __init__(self):
-		"""Create new stack"""
-		self._items = []
+		self.top = None
 	
-	def is_empty(self):
-		"""Check if the stack is empty"""
-		return not bool(self._items)
-	
-	def push(self, item):
-		"""Add an item to the stack"""
-		self._items.append(item)
-	
-	def pop(self):
-		"""Remove an item from the stack"""
-		return self._items.pop()
+	def isEmpty(self):
+		return self.top is None
 	
 	def peek(self):
-		"""Get the value of the top item in the stack"""
-		return self._items[-1]
+		return self.top.item
 	
-	def size(self):
-		"""Get the number of items in the stack"""
-		return len(self._items)
+	def pop(self):
+		toReturn = self.top.item
+		self.top = self.top.next
+		return toReturn
+		
+	def push(self, item):
+		newTop = self.Node(item)
+		newTop.next = self.top
+		self.top = newTop
+		return item
+
+
+if __name__ == "__main__":
+	s = Stack()
+	for i in range(1, 11):
+		s.push(i)
+	
+	while not s.isEmpty():
+		print(s.pop())
+
 \end{pycode}
+
 
 \section{Built-in Stacks}
 
+Our programming languages have functionality for Stacks built into them, although it is different than 
+our pedagogical model.
+\subsection{The Stack - Java}
+The built in \texttt{Stack} for Java uses an array-based\footnote{Stack is a subclass of the \texttt{Vector} class, itself a subclass of the \texttt{AbstractList} abstract class.  The \texttt{Vector} is extremely similar to \texttt{ArrayList} but older.  You should not use a \texttt{Vector} unless you have an extremely specific reason;  I have never had a reason.} implementation, rather than a reference based implementation, like above.  It uses all the conventional Stack
 
+However, if you were to actually use a Stack in production, you should instead use a \texttt{Deque} according to the JavaDoc:
+%TODO: CITE https://docs.oracle.com/javase/8/docs/api/java/util/Deque.html
+``Deques can also be used as LIFO (Last-In-First-Out) stacks. This interface should be used in preference to the legacy \texttt{Stack} class. When a deque is used as a stack, elements are pushed and popped from the beginning of the deque.'' 
+However, \texttt{Deque} uses a different naming system for its operations, rather that names like \texttt{push} ir \texttt{pop}.  As a result, \texttt{Deque} will be more briefly mentioned in Chapter \ref{chap-queue}'s coverage of Java's Queue, but it is worth the mention here. 
+ 
+Conclusion, use \texttt{Stack} in this course, but be prepared to use \texttt{Deque} outside the course.
+
+
+\subsection{The List - Python's Stack}
 Python has no separate built-in stack. Rather, we instead use a  \href{https://docs.python.org/3/tutorial/datastructures.html#using-lists-as-stacks} {Rather, it uses the List that we are already familiar with} to emulate a stack\footnote{And the Queue, as we will see in Chapter \ref{chap-queue}} and operates on the last (right-most) index of the list.
 
-If you want to use a Python list as a stack, merely restrict yourself to using the \texttt{append(item)} function in place of \texttt{push}.  Python lists have a \texttt{pop} method;  when called without any argument\footnote{When provided an index, \texttt{pop} removes and returns the item at that index.  Python uses \texttt{pop} to remove at an index, whereas \texttt{remove} is used to remove and return the first occurrence a specified item.},  it removes and returns the last element in the list.
+If you want to use a Python list as a stack, merely restrict yourself to using the \texttt{append(item)} function in place of \texttt{push}.
+Python lists have a \texttt{pop} method;  when called without any argument\footnote{When provided an index, \texttt{pop} removes and returns the item at that index.  
+Python uses \texttt{pop} to remove at an index, whereas \texttt{remove} is used to remove and return the first occurrence a specified item.},  it removes and returns the last element in the list.
 
 Use \texttt{stackname[-1]} to \texttt{peek} at the top of the stack.
 
