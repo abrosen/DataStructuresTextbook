@@ -7,7 +7,7 @@ class Stack:
     def __init__(self):
         self.top = None
 
-    def is_empty(self):
+    def isEmpty(self):
         return self.top is None
 
     def peek(self):
@@ -30,5 +30,5 @@ if __name__ == "__main__":
     for i in range(1, 11):
         s.push(i)
 
-    while not s.is_empty():
+    while not s.isEmpty():
         print(s.pop())

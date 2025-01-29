@@ -2,23 +2,23 @@
 
 This will be an extremely short chapter, but an important one.
 We are already going to assume that you know what a function, a method, or procedure is and that you have written them before.
-After all, data structures is a point continuing your education in programming, not beginning it.
+After all, Data Structures is a point continuing your education in programming, not beginning it.
 That said it is possible that you missed some subtleties along the way.
 
 That's understandable -  programming is a very large topic and there's more than enough concepts that no one who graduates with a degree in computer science can be expected to be an expert in every area any more.
 
-With this in mind, let me take the time to review some subtilties surrounding the vocabulary of functions.
+With this in mind, let me take the time to review some subtleties surrounding the vocabulary of functions.
 
 
 \section{Function vs Method}
 
-You'll often hear programmers use these true terms interchangeably to refer to what essentially amounts to a subprogram.
+You'll often hear programmers use these two terms interchangeably to refer to what essentially amounts to a subprogram.
 But what is the difference?  
 I like to explain it this way:  functions are the verbs of the programming language.  When we create a new function, we a creating a new verb in the programming language we are working in.  
 Methods are a special type of function that are closely linked to objects;  they are the actions or verbs you want your objects to perform.
 
-Java blurs this a bit with \texttt{static} methods, but for the purposes of this text, when I write \textit{method}, I am talking about Java's \textit{instance methods}. \textit{Function}, in the context of this book, is analogous to \texttt{static methods}. 
-Similarly, if you are coming from python, when I say function, I am talking about a boring top-level, unindented function such as the ones you've been writing since you first learned python.  Method would refer to the functions you create as part of your classes.
+Java blurs this a bit with \texttt{static} methods, but for the purposes of this text, when I write \textit{method}, I am talking about Java's \textit{instance methods}. \textit{Function}, in the context of this book, is analogous to \textit{static methods}. 
+Similarly, if you are coming from Python, when I say function, I am talking about a boring top-level, unindented function such as the ones you've been writing since you first learned Python.  Method would refer to the functions you create as part of your classes.
 
 
 %\section{The Runtime Stack}
@@ -47,7 +47,7 @@ x = 7
 y = doubleThis(x) # argument
 \end{pycode}
 
-In the about examples, \texttt{x} is an argument and \texttt{num} is a parameter.
+In the above examples, \texttt{x} is an argument and \texttt{num} is a parameter.
 
 
 \subsection{Does anyone actually care?}
@@ -70,8 +70,9 @@ In Java, we have two broad categories of data types: primitives and objects.
 
 When you pass a primitive, such as an \texttt{int} or \texttt{double}, the value gets copied from where it is stored in memory and copied into the argument.
 
-When you create an object, such as with\mintinline{Java}{Scanner scan = new Scanner(System.in);}, 
-the variable \texttt{scan} will hold not the Object that was created by the constructor, but the \textit{memory location}, or  \textit{reference}m of where to find it.
+When you create an object, such as with 
+\mintinline{Java}{Scanner scan = new Scanner(System.in);},
+the variable \texttt{scan} will hold not the Object that was created by the constructor, but the \textit{memory location}, or  \textit{reference} of where to find it.
 Look at the code below where we are we create an array in \texttt{main} and then pass it to another method, \texttt{setIndexZeroToZero}:
 
 \begin{javacode}{Code to change index 0 to the value 0}
@@ -94,10 +95,12 @@ public static void main(String[] args) {
 Because the memory location of the array \texttt{arr} was passed to \texttt{array}, the method \texttt{setIndexZeroToZero} was dealing with the same object. 
 
 
-Keep in mind that some objects are immutable, like any \texttt{String}.  This means you can't actually change them.  Operations that seem like they change them like replacing part of a string or converting things from upper case to lower case are all returning a newly generated string.
+Keep in mind that some objects are immutable, like any \texttt{String}.  
+This means you can't actually change them.  
+Operations that seem like they change them like replacing part of a string or converting things from upper case to lower case are all returning a newly generated string.
 \subsection{How it works in Python}
 
 %fact check
-Practilcally  speaking , everything in Python works the same as in Java.
+Practically  speaking , everything in Python works the same as in Java.
 Everything in Python is an object (including the integers, which are immutable.), so when things are passed or assigned into variables, the variable stores the memory location, or \textit{reference}, to the object.  
 Thus when you pass in a variable to a function, the function receives the memory location of the object; data is never duplicated.
