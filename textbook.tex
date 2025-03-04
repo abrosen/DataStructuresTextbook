@@ -2,7 +2,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{FiraMono}
 \usepackage{lmodern}
-\usepackage[T1]{fontenc}
+%\usepackage[T1]{fontenc}
 \usepackage{xeCJK}
 %\usepackage{CJKutf8}
 \usepackage{amsmath}
@@ -15,7 +15,10 @@
 \usepackage{chessboard}
 \usepackage{hyperref}
 
-%\usemintedstyle{colorful}
+\usepackage[english, bidi=default]{babel}
+\babelfont[hebrew]{rm}{NewComputerModern10}
+
+\usepackage{csquotes} %for quotes
 
 %\definecolor{bg}{HTML}{282828} % from https://github.com/kevinsawicki/monokai
 %\definecolor{bg}{HTML}{BBBBBB} % from https://github.com/kevinsawicki/monokai
@@ -130,6 +133,6 @@
 
 %\chapter{Distributed Hash Tables}
 \bibliographystyle{acm}
-\bibliography{python}
+\bibliography{python,others}
 
 \end{document}

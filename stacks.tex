@@ -20,6 +20,14 @@ That's it.  That's all there is.  It is refreshingly simple.
 There will usually be additional functions, such as one to check if the stack is empty or a function to get the number of items stored in the stack, but \texttt{push}, \texttt{pop}, and \texttt{peek} are the important ones.
 
 
+The common metaphor used for this is a stack of pancakes (Figure \ref{fig:pancakeai}).  You wouldn't remove a pancake from the bottom of the stack or the middle --- that would know over the whole stack! Instead, you move would only want to add or remove pancakes from the top of the stack.\footnote{I find the metaphor silly as that implies there's a situation I would willingly remove pancakes from my stack.}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{pics/pancake_ai}
+	\caption[AI Pancakes]{Delicious, AI-generated pancakes}
+	\label{fig:pancakeai}
+\end{figure}
 
 
 \section{Building a Stack}
@@ -61,23 +69,8 @@ public class Stack<E> {
 		public Node(E item) {
 			this.item = item;
 		}
-	}
-	
-	
-	public static void main(String[] args) {
-		Stack<Integer> s = new Stack<>();
-		for (int i = 1; i <= 10 ; i++) {
-			s.push(i);
-		}
-		
-		while(!s.isEmpty()){
-			System.out.println(s.pop());
-		}
-	}
-	
-}
-
-\end{javacode}
+	}	
+}\end{javacode}
 
 
 % converted the above code with chatGPT
@@ -113,16 +106,6 @@ class Stack:
 		newTop.next = self.top
 		self.top = newTop
 		return item
-
-
-if __name__ == "__main__":
-	s = Stack()
-	for i in range(1, 11):
-		s.push(i)
-	
-	while not s.isEmpty():
-		print(s.pop())
-
 \end{pycode}
 
 
@@ -150,10 +133,8 @@ Python uses \texttt{pop} to remove at an index, whereas \texttt{remove} is used 
 Use \texttt{stackname[-1]} to \texttt{peek} at the top of the stack.
 
 
-
-
-\section{Solving Problems with A Stack}
-
+\section{Why?}
+Why use a stack over a much more powerful data structure?    Using stacks (and queues) help focus on seeing if there's a particular strategy for solving a problem.  With stacks, that strategy is typically backtracking.   Furthermore, limiting the operations of storing and retrieving data to operating on only the front/top of a list-like structure means that we can ensure all storage and retrieval operations run in $O(1)$ time.
 
 
 \section{Mazes - Stacks and Backtracking}
@@ -224,8 +205,8 @@ The last note I'll make before our next topic is possibly the most intriguing.  
 
 \section{Parenthesis Matching}
 
-A classic stack problem is to write a program that checks to see if a given string has balanced parenthesis.  Specifically, you encounter this problem in three places: a data structures class like this, an interview question, or Computer Automata class\footnote{This is used to show the limits of Discrete Finite Automata/Regular Languages and introduce Stack Machines/Context Free Grammars}.
-The  question we're trying to answer is something like ``Does the string \texttt{ ((A + f(x[0])) + B} have balanced parentheses.  We humans can easily take a look and say no, \texttt{ ((A + f(x[0])) + B} doesn't balanced parentheses; it's missing a closing parenthesis.  But how did we do that?  Codifying that is how we solve this problem.  
+A classic stack problem is to write a program that checks to see if a given string has balanced parenthesis.  As a student, you encounter this problem in three places: a data structures class like this, an interview question, or Computer Automata class.\footnote{This problem is used to show the limits of Discrete Finite Automata/Regular Languages and introduce Stack Machines/Context Free Grammars}
+The question we're trying to answer is something like ``Does the string \texttt{ ((A + f(x[0])) + B} have balanced parentheses.  We humans can easily take a look and say no, \texttt{ ((A + f(x[0])) + B} doesn't balanced parentheses; it's missing a closing parenthesis.  But how did we do that?  Codifying that is how we solve this problem.  
 
 Now if it was a matter counting the number of opening and closing parenthesis, this would be an easy problem.  But in asking if the parenthesis are balanced, we're essentially asking if they match in a way that makes mathematical sense: everything is nested correctly; nothing closed before it opens. Simply counting the correct number of opening and closing parenthesis would fail on \texttt{a)(} and \texttt{fx)())}.
 

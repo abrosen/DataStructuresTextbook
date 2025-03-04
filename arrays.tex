@@ -144,7 +144,7 @@ In the above formula, \texttt{arr} is the variable holding the reference to the 
 
 Here's an example.  Suppose we have some arr \texttt{arr}, which is a reference to an array of 64-bit  floating point numbers (\texttt{double} in Java, \texttt{float} in Python\footnote{stings like a C.}). 64-bits is 8 bytes, so each ``slot'' of the array is 8 bytes.  Let's say that \texttt{arr}'s memory location is at address\footnote{When dealing with memory locations/addresses, convention is to use hexadecimal.} 0x0000BEEF, which means index 0 is at 0x0000BEEF. If we want to find index 3, we can plug it into the formula.
 
-\begin{equation} \label{formula}
+\begin{equation} \label{eq:arr-formula}
 	\begin{split}
 		\mathtt{location} & \mathtt{arr} + \mathtt{index} \cdot \mathtt{sizeof(element)} \\
 		& = \mathtt{0x0000BEEF} + 3 \cdot \mathtt{sizeof(double)} \\

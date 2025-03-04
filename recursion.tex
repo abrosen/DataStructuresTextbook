@@ -2,6 +2,7 @@
 
 \section{Introduction}
 
+
 \subsection{Why?}
 
 Much in the same way we use Object Oriented Programming as a tool to organize our thoughts about how to design large programs, programmers can use recursion to craft elegant and efficient solutions. Once you get a hang of recursion, it's a really easy way create solutions.  I often refer to it as a way to be lazy at programming, with my recursive problem solving typically going like this:
@@ -18,8 +19,125 @@ Much in the same way we use Object Oriented Programming as a tool to organize ou
 Confused?  That's fine.  It often takes a few attempts to get a handle on recursion.  It should start to make sense with some examples.
 \section{Recursive Mathematics}
 
+We'll start our discussion with some mathematical examples that you might already be familiar with.
+
+\subsection{Factorial}
+The factorial function is hopefully something you have seen before.  The function, if not the name, has been know for thousands of years.  Here it is in Sefer Yetzerah (4:12)\cite{sefery} \cite{mordell1914origin}, the oldest book of Jewish Mysticism.
+\begin{displayquote}
+\foreignlanguage{hebrew}{שבע כפולות כיצד צרפן. שתי אבנים בונות שני בתים. שלש בונות ששה בתים. ארבע בונות ארבעה ועשרים בתים. חמש בונות מאה ועשרים בתים. שש בונות שבע מאות ועשרים בתים. שבע בונות חמשת אלפים וארבעים בתים. מכאן ואילך צא וחשוב מה שאין הפה יכול לדבר ואין האוזן יכולה לשמוע.}
+
+Seven doubles - how are they combined? Two ``stones'' produce two houses; three form six; four form twenty-four; five form one hundred and twenty; six form seven hundred and twenty; seven form five thousand and forty; and beyond this their numbers increase so that the mouth can hardly utter them, nor the ear hear the number of them.
+\end{displayquote}
+Mathematically, we use the \texttt{!} symbol for factorial and define:
+
+$$n! = 1\cdot2\cdot3\cdot\dots (n-1)\cdot n$$  
+
+
+In other words, $n!$ is the product of all the numbers from 1 to $n$.  Thus,
+
+$$1! = 1$$
+$$2! = 2$$
+$$3! = 6$$
+$$4! = 24$$
+$$5! = 120$$
+$$6! = 720$$
+$$7! = 5040$$
+
+
+$0!$ defined as 1, as we are multiplying no numbers together  and the multiplicative identity is 1. Less formally, if you do a running sum, you start at zero, but for a running product, you start with 1, since if you started your running product with zero, you'd get zero.
+
+We can write an iterative implementation of this fairly easily.
+
+\begin{javacode}[label={code:factiterjava}]{Factorial - Iterative}
+public static long factorialIter(int n) {
+	long total = 1;
+	for(int i = 1; i <= n; i++) {
+		total =  total * i;
+	}
+	return total;
+}
+\end{javacode}
+
+
+Notice that I use \texttt{long} in Listing \ref{code:factiterjava}.  The total gets very, very big, very very fast.  Or as Sefer Yetzerah put it: ``their numbers increase so that the mouth can hardly utter them, nor the ear hear the number of them.''
+
+Now, let's play around with the equation a bit.  It's fairly trivial to see in the calculations above that we can get the next value factorial value by multplying by the next integer, e.g. we can go from $2!$ to $3!$ by muliplying $2!$ by $3$.
+
+$$1! = 1 \cdot 0! = 1$$
+$$2! = 2 \cdot 1! = 2$$
+$$3! = 3 \cdot 2! = 6$$
+$$4! = 4 \cdot 3! = 24$$
+$$5! = 5 \cdot 4! = 120$$
+$$6! = 6 \cdot 5! = 720$$
+$$7! = 7 \cdot 6! = 5040$$
+
+Going the other direction, we can say that some $n!$ can be figured out by calculating $(n-1)!$ and multiplying by $n$. 
+
+
+
+\begin{equation} \label{eq:fact-recus}
+	\begin{split}
+		n! & = 1\cdot2\cdot3\cdot\dots (n-1)\cdot n \\
+		& = n \cdot (n-1) \cdot (n-2) \dots 3 \cdot 2 \cdot 1   \\
+		& = n \cdot (n-1)!
+	\end{split}
+\end{equation}
+
+We call this function, where a function is calculated by solving the same function on a (usually) smaller value, a \textbf{recursive} function.
+Let's implement it and take a look.
+
+\begin{javacode}[label={code:factrecurjava}]{Factorial - Recursive}
+public static long factorial(int n) {
+	if(n == 0) {
+		return 1;
+	}
+	return n * factorial(n-1);
+}\end{javacode}
+
+\begin{pycode}[label={code:factrecurpy}]{Factorial - Recursive}
+def factorial(n):
+	if n == 0:
+		return 1
+	return n * factorial(n-1)\end{pycode}
+
+
+
+
+A recursive function requires two parts: a base case and a recursive case.  
+The base case is the foundation of our recursive problem.  
+It is where we have a defined solution for some value.
+In the factorial, this is the line that checks  if  $n == 0$ in our code, or just defining $0! = 1$ in the mathematics.
+I look at the base case as the point where we can answer the question reflexively and without much thought.
+
+
+The recursive case is where we solve our problem by solving a simpler subproblem.
+In our code, we
+So in our code, we look at solving \texttt{factorial(n)}, decide that's way too much work and decide to solve \texttt{factorial(n-1)} and multiply that by \texttt{n}.
+Solving \texttt{factorial(n-1)} presents us with the same challenge, so we call \texttt{factorial(n-2)} to multiply that against \texttt{(n-1)}.  
+Solving \texttt{factorial(n-2)} presents us with the same challenge, so we call \texttt{factorial(n-3)} to multiply that against \texttt{(n-2)}\dots  
+This continues until we call \texttt{factorial(1)}, which calls \texttt{factorial(0)}, the base case, which finally gives us 1.  \texttt{facorial(1)} takes that 1 and returns \texttt{1 * 1}. 
+Then \texttt{factorial(2)} takes the answer from \texttt{factorial(1)} and returns \texttt{2 * \texttt{factorial(1)}}
+Then \texttt{factorial(3)} takes the answer from \texttt{factorial(2)} and returns \texttt{3 * \texttt{factorial(1)}}
+And so on and so forth until \texttt{factorial(n)} takes the answer from \texttt{factorial(n-1)} and returns \texttt{n * \texttt{factorial(n-1)}}
+
+We know this works because for any given non-negative integer\footnote{negative factorials are undefined and I'm ignoring that case in our code.} $n$  each recursive call on \texttt{factorial} is on a smaller and smaller number, making progress to calculating \texttt{factorial(0)}. Once we hit \texttt{factorial(0)}, the answers start being calculated and trickling up this stack of function calls.
+
+\subsection{Recursive Rules}
+
+More generally, all recursive functions :
+\begin{itemize}
+	\item Must have one or more base cases where the solution is well defined.
+	\item Must have one or more recursive cases, where the problem is defined by a smaller subproblem of the same type as the original.
+	\item Must ensure the recursive cases make progress towards the defined base case.
+\end{itemize}
 
 \subsection{Fibonacci}
+
+
+
+
+
+\subsubsection{A Flaw appears in the plan}
 As it turns out, while this technically works...it's pretty terrible.  In short, using recursion, I managed to accidentally\footnote{All right, I did this totally on purpose.} write an $ O(2^n) $, or exponential time,  algorithm.  This is very bad.  This means increasing $ n $ by one \emph{doubles} the runtime of out algorithm!
 
 This is because to solving the current $n$ requires solving $fib(n-1)$ and n-2.  Furthermore, each recursive call is independent
@@ -28,6 +146,8 @@ This is because to solving the current $n$ requires solving $fib(n-1)$ and n-2. 
 
 Don't let this terrible runtime scare you away from recursion!  Recursion can make things quite efficient; this is merely an exception and presented here because fibonacci is such a classic example we would be remiss to not incluse it.
 
+
+\section{Arrays with Recursion}
 
 
 \subsection{Summation of an Array}
