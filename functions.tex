@@ -53,13 +53,13 @@ In the above examples, \texttt{x} is an argument and \texttt{num} is a parameter
 \subsection{Does anyone actually care?}
 
 I cared enough to look it up, but I also had to look it up to double check that I'm correct and I keep coming back to this page as a reference for myself.  
-In a casual situation or talking with another programmer, everyone will be able to \textit{grok} your meaning from the context, but I would take care to get it correct for your assignments and exams, much like you would take care to avoid using ``ain't'' in a formal essay.
+In a casual situation or talking with another programmer, everyone will be able to \textit{grok} your meaning from the context, as you just did with the word \texttt{grok.} I would take care to get it correct for your assignments and exams, much like you would take care to avoid using ``ain't'' in a formal essay.  One professor might be a stickler about it and one might not care.
 
 \section{Passing Arguments}
 
 The vast majority of programming languages are \textit{pass by copy} with a huge honking asterisk.
 \begin{itemize}
-	\item Pass by copy means that when something is input as the argument to a function, the function gets a copy of the thing you are passing to it.
+	\item Pass by copy means that when something is input as the argument to a function (or method), the function gets a copy of the thing you are passing to it.
 	\item The \textit{huge honking asterisk} is that you are almost always passing a \textit{reference} or \textit{pointer} to an object, not the object itself.  The reason for this is that if we had a super mega huge object, copying it would take up a super mega huge amount of time and memory.
 \end{itemize}
 
