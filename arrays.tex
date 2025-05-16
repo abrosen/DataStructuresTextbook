@@ -2,7 +2,9 @@
 \label{chap:array}
 \section{Why Arrays}
 
-Since this is a data structures course, I assumed that students have had exposure to arrays or array like objects. This chapter goes into a bit of a deeper detail that may have been glossed over and introduces the topic in the appropriate language if need be.  In other words, I assume you know what an array is, but not necessarily how to use it in Java or Python\footnote{Although we use lists in python}.
+Since this is a data structures course, I assume that students have had exposure to arrays or array like objects. 
+This chapter goes into a bit of a deeper detail that may have been glossed over and introduces the topic in the appropriate language if need be.  
+In other words, I assume you know what an array is and that you've used it to solve problems;  writing something like a function to find the average of an array of integers in the language of your choice should be laughably straightforward at this point. However, I don't necessarily assume you know how to use it in Java or Python\footnote{Although we use lists in python}, nor have you ``peeked under the hood,'' so to speak.
 
 There are two other important bits.
 The first is I want you to understand how your programming language of choice finds an arbitrary index in an array.
@@ -33,7 +35,6 @@ To create an array in Java we do:
 %\begin{minted}{Java}
 %	Type[] myArray = new Type[sizeOfArray]
 %\end{minted}
-
 \begin{minted}{Java}
 Type[] myArray = new Type[sizeOfArray]
 \end{minted}
@@ -50,20 +51,20 @@ This small fact can lead to some fun shenanigans in other programming languages 
 \label{sec:python-arrays-lists}
 Python doesn't really do arrays in the same way.
 It instead uses Lists, as we'll see in Chapter \ref{chap:arraylist}.
-\texttt{myNotArray = []}  does not actually make an array like you assume it would in some other language.  Instead it makes a list (specifically an arraylist ) to contain these items.
-This works exactly like an array in other languages, but you get access to some nifty operations in Python, like slicing, concatenation, and  built-in methods.  In addition, Python dynamically resizes this array if we need it bigger or smaller.\footnote{We cover the specifics in Chapter \ref{chap:arraylist}}
 
+The Python code \mintinline{Python3}|myNotArray = []|  does not actually make an array like you assume it would in some other language.  Instead it makes a list (specifically an arraylist) to contain these items.
+The syntax works exactly like an array in other languages, but you get access to some nifty operations in Python, like slicing, concatenation, and  built-in methods.  In addition, Python dynamically resizes this array if we need it bigger or smaller.\footnote{We cover the specifics in Chapter \ref{chap:arraylist}}
 
 
 However, if you really want or need to use an array in python, you can.
 %TODO factcheck
 There are two ways to accomplish this.
-The first way is the built in \texttt{array} package.  This builds a wrapper for the more primitive but efficient c-based array. 
+The first way is the built in \texttt{array} package.  This builds a wrapper for the more primitive but efficient C-based array. 
 The python package \texttt{numpy} contains yet \textit{another} type of array, this time much more focused on mathematical operations. 
-In short, if you're working in python, use a list unless you know you should use something more specialized.
+In short, if you're working in python, use a the default list where you would normally use an array unless you know you should use something more specialized.
 
 
-Regardless, the next sections will still be valuable, because an array-based list, like what Python uses, uses an array internally.
+Regardless, the next sections will still be valuable because an array-based list, like what Python uses, uses an array internally.
 
 \section{How an Array Works}
 
@@ -78,31 +79,17 @@ As previously mentioned, an array creates a contiguous block of memory.  But wha
 	\node[right of=array] (label) {$arr$};
 \end{tikzpicture}
 
-Here, $arr$ does not contain the array; it holds the memory location, the reference, or the pointer to the array.  The correct term varies on the language you are using, but the point is that $arr$ tells you the location of the array rather than holding the array itself.  Remember, arrays are objects;  any variable holding an object is, in reality, holding the memory location of that object.
+Here, $arr$ does not contain the array; it holds a reference to the array.  The correct term varies on the language you are using, but the point is that $arr$ tells you the location of the array rather than holding the array itself.  Remember, arrays are objects;  any variable holding an object is, in reality, holding the memory location of that object.
 
 
 \subsection{Operations}
 
-To review, arrays have two operations and one attribute: storing  a value at an index, retrieving a value from an index, and obtaining the size. 
-
-
-For an array \texttt{arr}, retrieving a value from an array is and storing it in some variable is done with:
-
-\begin{minted}{Java}
-myVar =  arr[index]
-\end{minted}
-
-and to store some \texttt{newItem} in \texttt{arr}, you use:
-
-\begin{minted}{Java}
-arr[index] = newItem
-\end{minted}
-
-
+To review, arrays have two operations and one attribute: storing a value at an index, retrieving a value from an index, and their size. 
 Interestingly enough, this is one of the few consistent notations across multiple programming languages.
-
-Figuring out the length of an array in Java\footnote{This is one of the little things in Java that can be a source of frustration.  Strings use \texttt{.length()}, arrays use \texttt{.length}, and Collections like Lists and Sets use \texttt{.size()}.} is done with \mintinline{Java}{arr.length;}, 
-and in python, a simple \mintinline{Python3}{len(arr)} works.
+For an array \texttt{arr}, retrieving a value from an array is and storing it in some variable is done with \mintinline{Java}|myVar = arr[index]|.
+To store some \texttt{newItem} in \texttt{arr}, you use \mintinline{Java}|arr[index] = newItem|.
+Figuring out the length of an array in Java is done with \mintinline{Java}|arr.length|,\footnote{This is one of the little things in Java that can be a source of frustration.  Strings use \texttt{.length()}, arrays use \texttt{.length}, and Collections like Lists and Sets use \texttt{.size()}. I understand why, but I die a little inside every time I have to explain it.}
+and in Python, a simple \mintinline{Python3}|len(arr)| works.
 
 %\begin{minted}{Java}
 %	int len = arr.length;
@@ -123,17 +110,14 @@ The expression on the right side always\footnote{except for primitives, like \te
 This means you should repeat to yourself ``the memory location on the right gets stored in the variable on the left.''
 
 This means that 
-\begin{minted}{Java}
-int[] numbers = new int[10];
-\end{minted}
-
+\mintinline{Java}{int[] numbers = new int[10]}
 stores a memory location in \texttt{numbers}.  
 It does not store 10 integers in \texttt{numbers}.  It only tells you where to find them.  
-Specifically, it stores the memory location of index 0 of the array.  
-This is true for not only Java, but C as well, and almost every programming language\footnote{Python and other interpreted languages are slightly more complicated because we are dealing with array lists, thus one additional level of abstraction, so this storage just happens a layer deeper.  Esoteric languages like \textit{ook} and \textit{Malbolge}  prevent me from making a statement like ``all languages.'' }. 
+Specifically, \texttt{numbers} stores the memory location of index 0 of the array.  
+This is true for not only Java, but C as well, and almost every programming language\footnote{Python and other interpreted languages are slightly more complicated because we are dealing with array lists, thus one additional level of abstraction, so this storage just happens a layer deeper.  Esoteric languages like \textit{ook} and \textit{Malbolge}  prevent me from making a statement like ``all languages.''}. 
 
 
-This means that the variable that holds the reference to the array is always holding the location of the first index \textemdash index 0. In addition, we always know the size of an individual ``slot'' in an array, either because it is an array of primitives or objects(see below).
+This means that the variable that holds the reference to the array is always holding the location of the first index - index 0. In addition, we always know the size of an individual ``slot'' in an array, either because it is an array of primitives or objects(see below).
 
 This means that your program can find the memory location of any index of an array using a constant time\footnote{See Chapter \ref{chap:analysis} for that term, but basically, no matter how big the array, an index lookup requires only a single multiplication and addition operation.} using the following formula. 
 
@@ -142,15 +126,16 @@ $$\mathtt{location} = \mathtt{arr} + \mathtt{index} \cdot \mathtt{sizeof(element
 In the above formula, \texttt{arr} is the variable holding the reference to the array, which is the starting memory location. Next, \texttt{index} is the desired index and \texttt{sizeof(element)} is the size (in bytes) of a ``slot''  of \texttt{arr}.
 
 
-Here's an example.  Suppose we have some arr \texttt{arr}, which is a reference to an array of 64-bit  floating point numbers (\texttt{double} in Java, \texttt{float} in Python\footnote{stings like a C.}). 64-bits is 8 bytes, so each ``slot'' of the array is 8 bytes.  Let's say that \texttt{arr}'s memory location is at address\footnote{When dealing with memory locations/addresses, convention is to use hexadecimal.} 0x0000BEEF, which means index 0 is at 0x0000BEEF. If we want to find index 3, we can plug it into the formula.
+Here's an example.  Suppose we have some arr \texttt{arr}, which is a reference to an array of 64-bit  floating point numbers (\texttt{double} in Java, \texttt{float} in Python\footnote{stings like a C.}). 64-bits is 8 bytes, so each ``slot'' of the array is 8 bytes.  Let's say that \texttt{arr}'s memory location is at address\footnote{When dealing with memory locations/addresses, convention is to use hexadecimal or base 16.  If you're unfamiliar, this just means each digit can have 16 distinct symbols, representing the decimal values 0-15, with A being 10 and F being 15.} 0x0000BEEF, which means index 0 is at 0x0000BEEF. If we want to find index 3, we can plug it into the formula.
 
 \begin{equation} \label{eq:arr-formula}
 	\begin{split}
-		\mathtt{location} & \mathtt{arr} + \mathtt{index} \cdot \mathtt{sizeof(element)} \\
+		\mathtt{location} & = \mathtt{arr} + \mathtt{index} \cdot \mathtt{sizeof(element)} \\
 		& = \mathtt{0x0000BEEF} + 3 \cdot \mathtt{sizeof(double)} \\
 		& = \mathtt{0x0000BEEF} + 3 \cdot 8 \\
 		& = \mathtt{0x0000BEEF} + 24 \\
-		& = \mathtt{0x0000BEEF} + \mathtt{0x00000018}
+		& = \mathtt{0x0000BEEF} + \mathtt{0x00000018} \\
+		& = \mathtt{0x0000BF07}
 	\end{split}
 \end{equation}
 
@@ -164,6 +149,12 @@ Thus, each slot needs to be big enough to hold a memory address, ie 32 bits or 6
 
 
 \section{Common Array Algorithms}
+Once again, this chapter isn't designed to teach you how to use arrays or how to solve these simple problems.  You have already done that.  I present this problems for a few reasons:
+\begin{itemize}
+	\item For comparison with Lists in Part \ref{part-list}
+	\item You may be learning Java or Python, while knowing the other or neither language.
+	\item We will reexamine these problems in the context of runtime analysis.
+\end{itemize}
 
 \subsection{Finding Values in an Array}
 \subsubsection{Finding the Minimum}
@@ -185,9 +176,19 @@ public static int findMin(int[] arr) {
 }
 \end{javacode}
 
+\begin{pycode}[listing and comment, comment={Realistically, just use \mintinline{Python3}|min(arr)|. If you want to find the index, loop thru using \mintinline{Python3}|enumerate|.}  ]{Finding the Minimum of An Array 2}
+def findMin(arr):
+	smallest = arr[0]
+	for num in arr:
+		if num < smallest:
+			smallest = num
+	return smallest
+\end{pycode}
 
 
 \subsubsection{Finding the Average}
+Another common problem.  Sum up all the numbers and divide that by how many numbers there were.
+
 
 
 \subsection{Limitations}
@@ -223,10 +224,7 @@ However, this has some serious limitations.  For one, this breaks if we are not 
 You could create a larger array for all 100000+ unicode characters, but this begins to become less and less feasible.  
 And now what if we change the problem to:
 
-\begin{verbatim}
-	
-	Given a string of text, determine what the most common word is. 
-	
+\begin{verbatim}Given a string of text, determine what the most common word is. 
 \end{verbatim}
 
 This suddenly becomes an extremely annoying problem to solve with just arrays\footnote{Those of you coming from Python can stop shouting ``use dictionaries!'' at the top of your lungs.}.  We will solve this problem when we visit Maps in Chapter \ref{chap:maps}, which are much better suited for this job than arrays.
@@ -247,6 +245,10 @@ The other limitation of arrays that their size is immutable.  Once an array has 
 \subsubsection{Higher-Dimensional Arrays (3D and beyond)}
 % Analogy: cube (for 3D), collection of cubes, etc.
 % Mention that while possible, they can become complex to manage.
+
+
+\subsubsection{A Warning On Notation}
+
 
 \subsection{Declaration and Initialization}
 \subsubsection{Java}
