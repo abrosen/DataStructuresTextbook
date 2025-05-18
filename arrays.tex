@@ -106,20 +106,16 @@ variable = expression;
 \end{minted}
 
 The left side is always a variable.  
-The expression on the right side always\footnote{except for primitives, like \texttt{int} in Java} yields some memory location.  
-This means you should repeat to yourself ``the memory location on the right gets stored in the variable on the left.''
-
-This means that 
-\mintinline{Java}{int[] numbers = new int[10]}
-stores a memory location in \texttt{numbers}.  
+The expression on the right side always yields some memory location.\footnote{except for primitives, like \texttt{int} in Java}  
+%This means you should repeat to yourself ``the memory location on the right gets stored in the variable on the left.''
+This means that \mintinline{Java}|int[] numbers = new int[10]| stores a memory location in \texttt{numbers}.  
 It does not store 10 integers in \texttt{numbers}.  It only tells you where to find them.  
 Specifically, \texttt{numbers} stores the memory location of index 0 of the array.  
 This is true for not only Java, but C as well, and almost every programming language\footnote{Python and other interpreted languages are slightly more complicated because we are dealing with array lists, thus one additional level of abstraction, so this storage just happens a layer deeper.  Esoteric languages like \textit{ook} and \textit{Malbolge}  prevent me from making a statement like ``all languages.''}. 
 
 
-This means that the variable that holds the reference to the array is always holding the location of the first index - index 0. In addition, we always know the size of an individual ``slot'' in an array, either because it is an array of primitives or objects(see below).
-
-This means that your program can find the memory location of any index of an array using a constant time\footnote{See Chapter \ref{chap:analysis} for that term, but basically, no matter how big the array, an index lookup requires only a single multiplication and addition operation.} using the following formula. 
+Thus, the variable that holds the reference to the array is always holding the location of the first index - index 0. In addition, we always know the size of an individual ``slot'' in an array, either because it is an array of primitives or objects(see below).
+As a result, our programs can find the memory location of any index of an array using a constant time\footnote{See Chapter \ref{chap:analysis} for that term, but basically, no matter how big the array, an index lookup requires only a single multiplication and addition operation.} lookup using the following formula. 
 
 $$\mathtt{location} = \mathtt{arr} + \mathtt{index} \cdot \mathtt{sizeof(element)}$$
 
@@ -190,18 +186,36 @@ def findMin(arr):
 Another common problem.  Sum up all the numbers and divide that by how many numbers there were.
 
 
+\begin{javacode}{Finding the Average in Java}
+public static double getAverage(int[] arr) {
+	int total = 0;
+	for(int num : arr) {
+		total += num;
+	}
+	return ((double) total)/arr.length;
+}
+\end{javacode}
+
+\begin{pycode}[listing and comment, comment={Or just \mintinline{Python3}|sum(nums)/len(nums)| for a one liner and impress your classmates with how little code you write.}  ]{Finding the Average in Python}
+def getAverage(nums):
+	total = 0
+	for num in nums:
+		total += num
+	return total/len(nums)	
+\end{pycode}
+
+
 
 \subsection{Limitations}
 Arrays are awesome solutions for many problems, but they are lacking in ability for some problems.  Consider the following exercise:
 
 \begin{verbatim}
-	
-	Given a string of text, determine what the most common character of text is. 
-	
+Given a string of text, determine what the most common character of text is. 	
 \end{verbatim}
-Unless you've seen this problem before, there is no obvious solution.  Considerable thought eventually lands on an idea: characters are just integers, so we could assign each one of the characters an index and increment the index each time we see the character.
+Unless you've seen this problem before, there is no obvious solution.
+Considerable thought eventually lands on an idea: characters are just integers, so we could assign each one of the characters an index and increment the index each time we see the character.
 
-\begin{javacode}{Most Frequent ASCII Character}
+\begin{javacode}[listing and comment, comment={If this code is a complete mystery to you, that's okay; this conversion is a bit niche.    Every \texttt{char} is actually an \texttt{int} in disguise. You can read up a little on ASCII and Unicode and then do the following two things.  First,  try running \mintinline{Java}|System.out.println((int) 'a');|.  Casting the \texttt{char 'a'} to an \texttt{int} gives us the ASCII value 97.  We can even do some math with this. Next, try running the code \mintinline{Java}|int what = 'b' - 'a';| and print out the value.  You'll get 1, which makes sense, since \texttt{b} is one letter after \texttt{a}. \newline \\  Now that we have established every \texttt{char} has an \texttt{int} value, our code uses this to create an array where the index is the ASCII value of a the character with that \texttt{int} value and the \texttt{int} stored in that slot is the number of times we've seen that \texttt{char} so far.}] {Most Frequent ASCII Character}
 public static char mostFrequent(String text) {
 	int[] tally = new int[128]; 
 	for(char c : text.toCharArray()) {
@@ -218,6 +232,24 @@ public static char mostFrequent(String text) {
 }
 
 \end{javacode}
+
+%TODO: Finish explaination
+\begin{pycode}[listing and comment, comment={As above in the Java block, if this code is a complete mystery to you, that's okay; Every glyph is actually an \texttt{int} in disguise. You can read up a little on ASCII and Unicode and then play around with \texttt{ord} and \texttt{chr}.} ] {Most Frequent ASCII Character}
+def mostFrequent(text):
+	tally = [0]*128 
+	for letter in text:
+		# https://docs.python.org/3/library/functions.html#ord
+		tally[ord(letter)] += 1
+	
+	indexWithHighest = 0
+	for index, count in enumerate(tally): 
+		if index> indexWithHighest:
+			indexWithHighest = index
+			
+	return chr(indexWithHighest) # builtin, reverse of ord
+}
+
+\end{pycode}
 
 
 However, this has some serious limitations.  For one, this breaks if we are not using ascii.  What if the text is ``こんにちは'' or other non-english text? 
