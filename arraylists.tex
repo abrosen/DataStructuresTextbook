@@ -2,16 +2,18 @@
 \label{chap:arraylist}
 %TODO Find the Ur List and Ur dynamic array.
 %TODO Consider moving to a different chapter. 
+% I actually hate  everything up until List Operations
+%TODO  Replace everything below until List Operations the script I used from my video
 The first data structure we will be studying is the list.
 The list is by far the most relatable data structure, as humans deal with lists on a regular basis.
 
 \section{What is a List?}
-
-
 When you get right down to it, lists are defined by order.
 We don't have to take advantage of this order, but its there.
 Populated lists have a first item and they have a last item.
 
+
+Let's start by looking at two non-computer examples of lists.
 Take a look at this quest below from a hypothetical fantasy game:
 
 \subsubsection*{Quest: Slay the Dragon of Doom}
@@ -33,20 +35,18 @@ While lists are defined by order, we don't necessarily ascribe any meaning to th
 Take a look at the shopping list below:
 
 
-
-
 <Shopping List>
 
-While bread is the first item on this list, being the first item in the shopping list in this case has no special meaning.  It's not the most important item on the list\footnote{obviously, that's the cookies}, nor is it necessarily the item I'm going to pick up first.
+While bread is the first item on this list, being the first item in the shopping list in this case has no special meaning.  It's not the most important item on the list\footnote{obviously, that's the cookies}, nor is it necessarily the item I'm going to pick up first.  Thus, as previously stated, while lists have an order, the whether or not order is important depends on the context.
 
-Where arrays and lists differ is that lists can grow to an arbitrary size, whereas arrays are static.  Arrays can't get bigger, lists can.
+\section{Why Should I care}
+
+Where arrays and lists differ is that lists can grow to an arbitrary size, whereas arrays are static.  Arrays can't get bigger, lists can.In this chapter, we will be discussing the \textbf{array list}, the first of two types of lists this book will teach you.
 
 \subsection*{A note on terminology}
 An \textbf{array list} is a type of list.  These are sometimes called dynamic arrays.
 
 As mentioned in Section \ref{sec-python-arrays-lists}, Python doesn't have arrays.  If you've been programming in Python, you've been using an array list the entire time you've declared \texttt{[]}.  They are usually just called lists rather than array lists for simplicity's sake.
-
-
 I will be using the Java nomenclature for the majority of the book as this allows me to be clear about the types and implementations of data structures.
 
 \subsection{Lists in Java}
@@ -110,7 +110,7 @@ We will cover this operation in more detail when we implement the add method for
 
 \subsection{Remove}  We can remove items from a list much in the same way we can add them. When removing an item at index $i$, the 
 
-For example, in the image below, we are removing the item at index 3, the word``cookie,'' from the list.
+For example, in the image below, we are removing the item at index 3, the word ``cookie,'' from the list.
 
 
 <image before>
@@ -201,6 +201,7 @@ To truly understand how a data structure works we need to implement it ourselves
 \subsubsection{MyArrayList.java}
 We will not be implementing the \texttt{List} interface. We don't need to implement all the functions to get an understanding of how the fundamentals of an arraylist work.
 Implementing the list interface would take up a hideous amount of paper and get in the way of actually understanding the code.
+If you want to see how \texttt{ArrayList} actually looks, you can look at the javadoc. 
 
 \subsubsection{myArrayList.py}
 

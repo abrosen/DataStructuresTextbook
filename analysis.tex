@@ -7,31 +7,26 @@ You don't need much math to be a good programmer, but if you want to be an amazi
 
 
 \section{Cost}
-Every function , operation, algorithm, or what have you that a computer performs has a \emph{cost}. 
+Every function, operation, algorithm, or what have you that a computer performs has a \emph{cost}. 
 In fact, there are always multiples costs;  we often just focus on the most important one or two costs.  
 
 What is most important depends on context.
 However, in the vast majority of cases, the most important cost to focus on is \textbf{time}.
 When our program is eating away at our storage resources like a hungry child slurping up spaghetti, we can always go out and buy more memory/storage/RAM.
-If our program requires a large amount of energy consumption, energy is readily available from a variety of sources: batteries, power plugs, internal combustion engines, the giant fusion reactor in the sky.
-
-
-\subsubsection*{Measuring Cost}
-When we measure cost, we need to do abstractly.  
-When we measure the amount of time that an algorithm takes, we look at the number of operations that will be executed, not the overall elapsed time.
+If our program requires a large amount of energy consumption, energy is readily available from a variety of sources: batteries, power plugs, internal combustion engines, the giant fusion reactor in the sky to name a few.
+When we measure cost, we need to do abstractly.  Since all computers have different configurations of hardware and software, we look at the number of operations that will be executed, not the overall elapsed time.
 
 \subsection{Time}
 A time cost is a measure of not just how long it takes a program to finish executing, bit also how the length of execution is affected by adding additional item.
 
-Time is almost always \emph{the most important cost}. We cannot got out and buy another weeks worth of time.  You can't hand a bunch of money to the reaper and ask for a deferral. You can't buy another minute to spend with your mother\footnote{Call your mother.  She would love to hear from you.} 
+Time is almost always \emph{the most important cost}. We cannot got out and buy another weeks worth of time.  You can't hand a bunch of money to the reaper and ask for a deferral. You can't buy another minute to spend with your mother\footnote{Call your mother.  She would love to hear from you.}.
 Yes, processors get faster as technology marches on, but they get faster slowly and Moore's law ostensibly has its limits.
 The only way to make our programs realistically run faster is to make them more efficient.  And \textbf{Big O notation} is the way we will be measuring that efficiency.
 
 
 \subsection{Space}
 
-For data structures, we will be measuring their space efficiency in terms of \textit{auxiliary} cost, in other words, how much extra space we need to use over the space used for the items itself.   To clarify, any data structure that contains $ n $ items of roughly the same size will use $ n \times \mathtt{sizeOf(item)}$ space at minimum, no matter what data structure we use.  This accounts for the 
-Each data structures 
+For data structures, we will be measuring their space efficiency in terms of \textit{auxiliary} cost, in other words, how much extra space we need to use over the space used for the items itself.   To clarify, any data structure that contains $ n $ items of roughly the same size will use $ n \times \mathtt{sizeOf(item)}$ space at minimum, no matter what data structure we use.  
 
 \subsection{Energy}
 %\subsection{Other costs - Bandwidth}
@@ -45,11 +40,16 @@ While not something this book concerns itself with, some programmers need to be 
 % For Java https://runestone.academy/ns/books/published/javads/algorithm-analysis_what-is-algorithm-analysis.html?mode=browsing 
 % For Python https://runestone.academy/ns/books/published/pythonds3/AlgorithmAnalysis/WhatIsAlgorithmAnalysis.html?mode=browsing
 
-It is very common for beginning computer science students to compare their programs with one another. You may also have noticed that it is common for computer programs to look very similar, especially the simple ones. An interesting question often arises. When two programs solve the same problem but look different, is one program better than the other? 
+It is very common for beginning computer science students to compare their programs with one another. 
+You may also have noticed that it is common for computer programs to look very similar, especially the simple ones. An interesting question often arises. 
+When two programs solve the same problem but look different, is one program better than the other? 
 
-In order to answer this question, we need to remember that there is an important difference between a program and the underlying algorithm that the program is representing. As you have learned, an algorithm is a generic, step-by-step list of instructions for solving a problem. It is a method for solving any instance of the problem so that given a particular input, the algorithm produces the desired result. A program, on the other hand, is an algorithm that has been encoded into some programming language. There may be many programs for the same algorithm, depending on the programmer and the programming language being used. 
+In order to answer this question, we need to remember that there is an important difference between a program and the underlying algorithm that the program is representing. 
+As you have learned, \textbf{an algorithm is a generic, step-by-step list of instructions for solving a problem}. 
+It is a method for solving any instance of the problem so that given a particular input, the algorithm produces the desired result. A program, on the other hand, is an algorithm that has been encoded into some programming language. 
+There may be many programs for the same algorithm, depending on the programmer and the programming language being used. 
 
-To explore this difference further, consider the functions shown in Listing \ref{code:sumOfNJava1} and \ref{code:sumOfNPython1}. This function solves a familiar problem, computing the sum of the first n integers. The algorithm uses the idea of an accumulator variable that is initialized to 0. The solution then iterates through the $n$ integers, adding each to the accumulator.
+To explore this difference further, consider the functions shown in Listing \ref{code:sumOfNJava1} and \ref{code:sumOfNPython1}. This function solves a familiar problem, computing the sum of the first $n$ integers. The algorithm uses the idea of an accumulator variable that is initialized to 0. The solution then iterates through the $n$ integers, adding each to the accumulator.  You may have also heard this referred to as a ``running sum.''
 
 \begin{javacode}[label={code:sumOfNJava1}]{Sum Of N}
 public class FindSum {
@@ -60,10 +60,6 @@ public class FindSum {
 		}
 		return theSum;
 	}
-	
-	public static void main(String[] args) {
-		System.out.println(sumOfN(10));
-	}
 }
 \end{javacode}
 
@@ -73,10 +69,7 @@ def sumOfN(n):
 	theSum = 0
 	for i in range(1, n + 1):
 		theSum = theSum + i
-
-return theSum
-
-print(sumOfN(10))
+	return theSum
 \end{pycode}
 
 Now look at the functions in Listing \ref{code:sumOfNJava2} and \ref{code:sumOfNPython2}. At first glance it may look strange, but upon further inspection you can see that this function is essentially doing the same thing as the previous one. The reason this is not obvious is poor coding. We did not use good identifier names to assist with readability, and we used an extra assignment statement that was not really necessary during the accumulation step.

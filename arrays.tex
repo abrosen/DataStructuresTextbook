@@ -209,9 +209,7 @@ def getAverage(nums):
 \subsection{Limitations}
 Arrays are awesome solutions for many problems, but they are lacking in ability for some problems.  Consider the following exercise:
 
-\begin{verbatim}
-Given a string of text, determine what the most common character of text is. 	
-\end{verbatim}
+\begin{verbatim}Given a string of text, determine what the most common character of text is. 	\end{verbatim}
 Unless you've seen this problem before, there is no obvious solution.
 Considerable thought eventually lands on an idea: characters are just integers, so we could assign each one of the characters an index and increment the index each time we see the character.
 
@@ -234,7 +232,7 @@ public static char mostFrequent(String text) {
 \end{javacode}
 
 %TODO: Finish explaination
-\begin{pycode}[listing and comment, comment={As above in the Java block, if this code is a complete mystery to you, that's okay; Every glyph is actually an \texttt{int} in disguise. You can read up a little on ASCII and Unicode and then play around with \texttt{ord} and \texttt{chr}.} ] {Most Frequent ASCII Character}
+\begin{pycode}[listing and comment, comment={As above in the Java block, if this code is a complete mystery to you, that's okay; Every glyph is actually an \texttt{int} in disguise. You can read up a little on ASCII and Unicode and then play around with \texttt{ord} and \texttt{chr}.  \mintinline{Python3}|tally[ord(letter)] += 1| takes the glyph and translates it into it's respective numerical value.  As with the Java version, each index in \texttt{tally} corresponds to a glyph's numerical value and stores how many times we've see that specific glyph.} ] {Most Frequent ASCII Character}
 def mostFrequent(text):
 	tally = [0]*128 
 	for letter in text:
@@ -256,100 +254,99 @@ However, this has some serious limitations.  For one, this breaks if we are not 
 You could create a larger array for all 100000+ unicode characters, but this begins to become less and less feasible.  
 And now what if we change the problem to:
 
-\begin{verbatim}Given a string of text, determine what the most common word is. 
-\end{verbatim}
+\begin{verbatim}Given a string of text, determine what the most common word is. \end{verbatim}
 
 This suddenly becomes an extremely annoying problem to solve with just arrays\footnote{Those of you coming from Python can stop shouting ``use dictionaries!'' at the top of your lungs.}.  We will solve this problem when we visit Maps in Chapter \ref{chap:maps}, which are much better suited for this job than arrays.
 
-The other limitation of arrays that their size is immutable.  Once an array has been declared, we cannot change its size.  This is rather inconvenient for a number of applications where we may not know how many items to store.  This will be the focus of our first new data structure:  The List.
+The other limitation of arrays that their size is immutable.  
+Once an array has been declared, we cannot change its size.  
+This is rather inconvenient for a number of applications where we may not know how many items to store.  
+This will be the focus of our first new data structure:  The List.
 
 
 % Guided AI outline
-\section{Multidimensional Arrays}
-\label{sec:multidimensional_arrays}
-% Brief introduction to the concept: arrays with more than one index to access elements.
-% Common use cases: matrices, tables, game boards, image data, etc.
-
-\subsection{Conceptualizing Multidimensional Arrays}
-\subsubsection{Two-Dimensional Arrays (2D Arrays)}
-% Analogy: grid, table, spreadsheet (rows and columns).
-% How to visualize them.
-\subsubsection{Higher-Dimensional Arrays (3D and beyond)}
-% Analogy: cube (for 3D), collection of cubes, etc.
-% Mention that while possible, they can become complex to manage.
-
-
-\subsubsection{A Warning On Notation}
-
-
-\subsection{Declaration and Initialization}
-\subsubsection{Java}
-% Syntax for declaration: type[][] arrayName; or type[][][] arrayName;
-% Initialization with 'new': new int[rows][cols];
-% Direct initialization with values: {{1, 2}, {3, 4}};
-% Example code snippets for 2D and 3D arrays.
-\subsubsection{Python}
-% Typically implemented using lists of lists (or lists of lists of lists, etc.).
-% Example: my_2d_list = [[1, 2, 3], [4, 5, 6]]
-% Mentioning libraries like NumPy for more C-like, efficient multidimensional arrays (as already in arrays.tex, but reinforce if relevant here).
-% Initialization techniques: list comprehensions for creating grids.
-% Example code snippets for 2D and 3D lists.
-
-\subsection{Accessing Elements}
-% General concept: using multiple indices, e.g., arrayName[rowIndex][columnIndex].
-\subsubsection{Java}
-% Syntax: arrayName[index1][index2]...
-% Example of accessing and modifying elements.
-\subsubsection{Python (using lists of lists)}
-% Syntax: listName[index1][index2]...
-% Example of accessing and modifying elements.
-
-\subsection{Memory Layout ("Under the Hood")}
-\subsubsection{Java: Array of Arrays}
-% Explanation: The outer array holds references to other array objects (the rows).
-% Each row is a separate object in memory.
-% Implication: Rows can have different lengths (jagged/ragged arrays).
-% Brief discussion on memory implications (references overhead, potential non-contiguous row data).
-% \begin{minted}{java}
-	% // Example of a jagged array in Java
-	% int[][] jaggedArray = new int[3][];
-	% jaggedArray[0] = new int[2];
-	% jaggedArray[1] = new int[4];
-	% jaggedArray[2] = new int[3];
-	% \end{minted}
-\subsubsection{Python: Lists of Lists}
-% Similar to Java conceptually when using native lists: a list containing references to other list objects.
-% Each sub-list is a distinct object.
-% Also allows for "jagged" structures naturally.
-% (If discussing NumPy arrays): Briefly mention they offer a more C-like contiguous memory model if that distinction is important for the book's scope at this point.
-\subsubsection{An Aside: C's Contiguous Memory Model}
-% Brief explanation: Multidimensional arrays in C are typically stored in a single, contiguous block of memory (row-major order by default).
-% int c_array[2][3]; is 2*3 integers laid out sequentially.
-% Mention that this differs from Java's array-of-references approach.
-% No need for deep dive, just highlight the contrast.
-
-\subsection{Common Operations and Use Cases}
-% (Could be brief or point to other sections/chapters)
-\subsubsection{Iterating Through Multidimensional Arrays}
-% Nested loops in Java.
-% Nested loops or nested list comprehensions in Python.
-% Example code.
-\subsubsection{Typical Applications}
-% Matrix representation and basic operations (briefly).
-% Representing game states (e.g., a chess board, tic-tac-toe).
-% Storing tabular data.
-% Image processing (pixels in a 2D grid).
-
-\subsection{Advantages and Disadvantages}
-% Compared to 1D arrays or other structures for specific tasks.
-\subsubsection{Advantages}
-% Natural representation for grid-like data.
-% Simplifies logic for certain problems (e.g., matrix math, board games).
-\subsubsection{Disadvantages}
-% Can be more complex to manage than 1D arrays.
-% Memory considerations (especially Java's array of objects vs. C's contiguous block).
-% Fixed size (for Java's arrays, unless reallocated manually; Python lists are dynamic).
-
-% Optional:
-% \subsection{Exercises}
-%     % Simple problems like summing elements, finding an element, transposing a 2D array (if applicable).
+%\section{Multidimensional Arrays}
+%Again, mutlidimensional arrays/ nested arrays/ nested lists are something you will have already had exposure to in your previous courses.   We care going to touch on a few points here for completeness.
+%
+%\begin{itemize}
+%	\item The syntax in the our languages.
+%	\item An under the hood look.
+%	\item Notes on visualization.
+%\end{itemize}
+%\label{sec:multidimensional_arrays}
+%
+%
+%\subsection{Declaration and Initialization}
+%\subsubsection{Java}
+%% Syntax for declaration: type[][] arrayName; or type[][][] arrayName;
+%
+%
+%
+%% Initialization with 'new': new int[rows][cols];
+%% Direct initialization with values: {{1, 2}, {3, 4}};
+%% Example code snippets for 2D and 3D arrays.
+%\subsubsection{Python}
+%% Typically implemented using lists of lists (or lists of lists of lists, etc.).
+%% Example: my_2d_list = [[1, 2, 3], [4, 5, 6]]
+%% Mentioning libraries like NumPy for more C-like, efficient multidimensional arrays (as already in arrays.tex, but reinforce if relevant here).
+%% Initialization techniques: list comprehensions for creating grids.
+%% Example code snippets for 2D and 3D lists.
+%
+%\subsection{Accessing Elements}
+%% General concept: using multiple indices, e.g., arrayName[rowIndex][columnIndex].
+%\subsubsection{Java}
+%% Syntax: arrayName[index1][index2]...
+%% Example of accessing and modifying elements.
+%\subsubsection{Python (using lists of lists)}
+%% Syntax: listName[index1][index2]...
+%% Example of accessing and modifying elements.
+%
+%\subsection{Memory Layout ("Under the Hood")}
+%\subsubsection{Java: Array of Arrays}
+%% Explanation: The outer array holds references to other array objects (the rows).
+%% Each row is a separate object in memory.
+%% Implication: Rows can have different lengths (jagged/ragged arrays).
+%% Brief discussion on memory implications (references overhead, potential non-contiguous row data).
+%% \begin{minted}{java}
+%	% // Example of a jagged array in Java
+%	% int[][] jaggedArray = new int[3][];
+%	% jaggedArray[0] = new int[2];
+%	% jaggedArray[1] = new int[4];
+%	% jaggedArray[2] = new int[3];
+%	% \end{minted}
+%\subsubsection{Python: Lists of Lists}
+%% Similar to Java conceptually when using native lists: a list containing references to other list objects.
+%% Each sub-list is a distinct object.
+%% Also allows for "jagged" structures naturally.
+%% (If discussing NumPy arrays): Briefly mention they offer a more C-like contiguous memory model if that distinction is important for the book's scope at this point.
+%\subsubsection{An Aside: C's Contiguous Memory Model}
+%% Brief explanation: Multidimensional arrays in C are typically stored in a single, contiguous block of memory (row-major order by default).
+%% int c_array[2][3]; is 2*3 integers laid out sequentially.
+%% Mention that this differs from Java's array-of-references approach.
+%% No need for deep dive, just highlight the contrast.
+%
+%\subsection{Common Operations and Use Cases}
+%% (Could be brief or point to other sections/chapters)
+%\subsubsection{Iterating Through Multidimensional Arrays}
+%% Nested loops in Java.
+%% Nested loops or nested list comprehensions in Python.
+%% Example code.
+%\subsubsection{Typical Applications}
+%% Matrix representation and basic operations (briefly).
+%% Representing game states (e.g., a chess board, tic-tac-toe).
+%% Storing tabular data.
+%% Image processing (pixels in a 2D grid).
+%
+%\subsection{Advantages and Disadvantages}
+%% Compared to 1D arrays or other structures for specific tasks.
+%\subsubsection{Advantages}
+%% Natural representation for grid-like data.
+%% Simplifies logic for certain problems (e.g., matrix math, board games).
+%\subsubsection{Disadvantages}
+%% Can be more complex to manage than 1D arrays.
+%% Memory considerations (especially Java's array of objects vs. C's contiguous block).
+%% Fixed size (for Java's arrays, unless reallocated manually; Python lists are dynamic).
+%
+%% Optional:
+%% \subsection{Exercises}
+%%     % Simple problems like summing elements, finding an element, transposing a 2D array (if applicable).
