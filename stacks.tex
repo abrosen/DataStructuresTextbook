@@ -206,7 +206,7 @@ The last note I'll make before our next topic is possibly the most intriguing.  
 \section{Parenthesis Matching}
 
 A classic stack problem is to write a program that checks to see if a given string has balanced parenthesis.  As a student, you encounter this problem in three places: a data structures class like this, an interview question, or Computer Automata class.\footnote{This problem is used to show the limits of Discrete Finite Automata/Regular Languages and introduce Stack Machines/Context Free Grammars}
-The question we're trying to answer is something like ``Does the string \texttt{ ((A + f(x[0])) + B} have balanced parentheses.  We humans can easily take a look and say no, \texttt{ ((A + f(x[0])) + B} doesn't balanced parentheses; it's missing a closing parenthesis.  But how did we do that?  Codifying that is how we solve this problem.  
+The question we're trying to answer is something like ``Does the string \texttt{ ((A + f(x[0])) + B} have balanced parentheses?''  We humans can easily take a look and say no, \texttt{ ((A + f(x[0])) + B} doesn't balanced parentheses; it's missing a closing parenthesis.  But how did we do that?  Codifying that is how we solve this problem.  
 
 Now if it was a matter counting the number of opening and closing parenthesis, this would be an easy problem.  But in asking if the parenthesis are balanced, we're essentially asking if they match in a way that makes mathematical sense: everything is nested correctly; nothing closed before it opens. Simply counting the correct number of opening and closing parenthesis would fail on \texttt{a)(} and \texttt{fx)())}.
 

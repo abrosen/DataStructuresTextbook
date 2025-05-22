@@ -122,6 +122,9 @@ And so on and so forth until \texttt{factorial(n)} takes the answer from \texttt
 
 We know this works because for any given non-negative integer\footnote{negative factorials are undefined and I'm ignoring that case in our code.} $n$  each recursive call on \texttt{factorial} is on a smaller and smaller number, making progress to calculating \texttt{factorial(0)}. Once we hit \texttt{factorial(0)}, the answers start being calculated and trickling up this stack of function calls.
 
+
+<Insert picture here>
+
 \subsection{Recursive Rules}
 
 More generally, all recursive functions :
@@ -134,7 +137,9 @@ More generally, all recursive functions :
 \subsection{Fibonacci}
 
 
+\subsubsection{Definition}
 
+\subsubsection{Implementation}
 
 
 \subsubsection{A Flaw appears in the plan}
@@ -144,7 +149,7 @@ This is because to solving the current $n$ requires solving $fib(n-1)$ and n-2. 
 
 
 
-Don't let this terrible runtime scare you away from recursion!  Recursion can make things quite efficient; this is merely an exception and presented here because fibonacci is such a classic example we would be remiss to not incluse it.
+Don't let this terrible runtime scare you away from recursion!  Recursion can make things quite efficient; this is merely an exception and presented here because fibonacci is such a classic example we would be remiss to not include it.  
 
 
 \section{Arrays with Recursion}

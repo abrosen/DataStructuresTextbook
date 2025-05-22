@@ -224,15 +224,14 @@ It is very easy to confuse size and capacity since they both deal with counting 
 \subsubsection{Java}
 
 
-\begin{minted}{Java}
+\begin{javacode}[label={code:MyArrayListInstanceJava}]{The Beginning}
 public class MyArrayList<E> {
 	
 	private E[] theData
-	private int size;  // how many items are in the list
+	private int size;      // how many items in the list
 	private int capacity;  // how many items the underlying array can hold
-	
-	
-\end{minted}
+\end{javacode}
+
 
 First, note the \texttt{<E>} after \texttt{MyArrayList}.  This means that we're saying:
 \begin{itemize}
@@ -244,14 +243,15 @@ First, note the \texttt{<E>} after \texttt{MyArrayList}.  This means that we're 
 \subsubsection{Python}
 In python, we will be creating our instance variables in the constructor below.  We will end up with this at the end of Section \ref{arraylist-constructor}.
 
-\begin{minted}{Python3}
+
+\begin{pycode}[label={code:MyArrayListInstancePython}]{The Beginning}
 class MyArrayList(object):
 	def __init__(self):
 		self.size = 0
 		self.capacity = 10
 		self.theData = [None]*self.capacity
-	
-\end{minted}
+\end{pycode}
+
 
 
 \subsection{Constructor}
@@ -818,9 +818,9 @@ In Python, we can use the \texttt{extend()} method on anything that is iterable 
 \begin{minted}{Python3}
 a = [0, 1, 2]
 b = [3, 4, 5]
-c = a + b # creates a new list, which is not extend
-a.extend(b) # adds all of b's items to a
-a[len(a):] = b # does the same thing but unreadble.
+c = a + b      # creates a new list, which is similar to our goal
+a.extend(b)    # adds all of b's items to a
+a[len(a):] = b # does the same thing but looks gross.
 \end{minted}
 A common beginner mistake in Python is to try to extend a list by calling \texttt{append} on the list like so.
 
