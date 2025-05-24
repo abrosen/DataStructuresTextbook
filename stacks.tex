@@ -56,11 +56,10 @@ public class Stack<E> {
 		return toReturn;
 	}
 	
-	public E push(E item){
+	public void push(E item){
 		Node<E> newTop = new Node<E>(item);
 		newTop.next = top;
 		top = newTop;
-		return item;
 	}
 	
 	private static class Node<E>{
@@ -105,7 +104,6 @@ class Stack:
 		newTop = self.Node(item)
 		newTop.next = self.top
 		self.top = newTop
-		return item
 \end{pycode}
 
 

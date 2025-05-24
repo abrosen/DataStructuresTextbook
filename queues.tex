@@ -7,25 +7,117 @@ In a Queue, items are processed in the order they are inserted into the Queue.  
 In other words, the item that has been in the queue the longest is at the front of the Queue and is the next to be processed.
 
 
-We often refer to a Stack as the LIFO data structure (I)
+We often refer to a Stack as the LIFO - Last In, First Out - data structure, while the Queue serves as a FIFO - First In, First Out - Data Structure.\footnote{There's gotta be a joke for GIGO - Garbage in Garbage out, to put here.}
 The use cases for Queues are fairly obvious.
 
-\section{The Abstract Data Type}
-The commans
+\section{Queue Operations}
+The queue operations are also simple. 
 
-\section{Linked Based Implementation} 
+\begin{enumerate}
+	\item[\textbf{Enqueue}] Put an item at the back of the Queue.
+	\item[\textbf{Dequeue}] Remove and return the item at the front of the Queue.  The next item becomes the new front.
+	\item[\textbf{Peek}] Return the front of the Queue, without removing it.
+\end{enumerate}
+
+
+After lists and stacks, this should pose no challenge.
+\section{Reference Based Implementation} 
+
+\begin{javacode}{A Reference based Queue}
+public class MyQueue<E> {
+	// A pedagogical queue
+	private Node<E> back;
+	private Node<E> front;
+	
+	public void enqueue(E item){
+		Node<E> newBack =  new Node<E>(item);
+		back.next = newBack;
+		back =  newBack;
+	}
+	
+	public E dequeue() {
+		E toReturn =  front.item;
+		front = front.next;
+		return toReturn;
+	}
+	
+	public E peek() {
+		return front.item;
+	}
+	
+	private static class Node<E>{
+		E item;
+		Node<E> next;
+		public Node(E item) {
+			this.item = item;
+		}
+	}
+}
+
+\end{javacode}
+
+
+
 \section{Array Based Implementation}
-We could use 
+Referenced based implementations, e.g. implementations that look like linked lists are great but
 
-\section{Language Implementation}
+\section{Built-in Queues}
 \subsection{Java's Implementation}
-\subsubsection{The \texttt{Deque}}
 
-\subsection{Python's Implementation}
+\subsubsection{The \texttt{Queue} - Use on Exams and Psuedocode}
+
+
 
 \begin{figure}
 	\centering
 	\includegraphics[width=\linewidth]{pics/waitQueuesAreLists}
-	\caption{You, after learning about how to do stacks and queues in Python.}
+	\caption{You, after learning about how to do stacks and queues.}
 	\label{fig:waitqueuesarelists}
 \end{figure}
+
+\subsubsection{The \texttt{Deque} - What You Should Actually Use}
+
+\subsection{Python's Implementation}
+
+
+\subsubsection{The List as a Queue}
+
+This is your Queue: \texttt{[]}.  Exciting and super foreign, yes?
+We can manipulate the list to use it as a Queue like so:
+
+\begin{pycode}{This is bad}
+q = []
+q.append('a')
+q.append('b')
+q.append('c') # append to enqueue
+q.pop(0)      # you can pop index 0 to dequeue
+\end{pycode}
+
+However, a keen reader might remember what we know about python's lists and realize that while the enqueue is fast at $O(1)$ time, the dequeue will be $O(n)$ as all the items need to shift to the left.  
+
+%TODO put in proper citation as opposed to the hyperlink
+\href{https://docs.python.org/3/tutorial/datastructures.html#using-lists-as-queues}{In fact, our python documentation explicitly says so:}
+
+\begin{quotation}
+It is also possible to use a list as a queue, where the first element added is the first element retrieved (``first-in, first-out''); however, lists are not efficient for this purpose. While appends and pops from the end of list are fast, doing inserts or pops from the beginning of a list is slow (because all of the other elements have to be shifted by one).
+
+To implement a queue, use \texttt{collections.deque} which was designed to have fast appends and pops from both ends. For example:
+\end{quotation}
+
+
+Here's their example on how to use that:
+\begin{pycode}{Example deque usage adapted from the python docs}
+from collections import deque
+queue = deque(["Eric", "John", "Michael"])
+queue.append("Terry")           # Terry arrives
+queue.append("Graham")          # Graham arrives
+queue.popleft()                 # The first to arrive now leaves
+								# Yields 'Eric'
+queue.popleft()                 # The second to arrive now leaves
+                                # Yields 'John'
+print(queue)                           # Remaining queue in order of arrival
+deque(['Michael', 'Terry', 'Graham'])
+\end{pycode}
+
+
+\subsubsection{The queue package}
