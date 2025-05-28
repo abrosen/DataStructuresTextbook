@@ -21,13 +21,23 @@ The queue operations are also simple.
 
 
 After lists and stacks, this should pose no challenge.
-\section{Reference Based Implementation} 
+\section{Reference Based Implementation}
+
+Much like the stack in Chapter \ref{chap:stacks}, we can create a queue as an extremely simplified linked list.       
 
 \begin{javacode}{A Reference based Queue}
 public class MyQueue<E> {
 	// A pedagogical queue
 	private Node<E> back;
 	private Node<E> front;
+	
+	private static class Node<E>{
+		E item;
+		Node<E> next;
+		public Node(E item) {
+			this.item = item;
+		}
+	}
 	
 	public void enqueue(E item){
 		Node<E> newBack =  new Node<E>(item);
@@ -44,27 +54,67 @@ public class MyQueue<E> {
 	public E peek() {
 		return front.item;
 	}
-	
-	private static class Node<E>{
-		E item;
-		Node<E> next;
-		public Node(E item) {
-			this.item = item;
-		}
-	}
 }
 
 \end{javacode}
 
 
 
+\begin{pycode}{A Reference based Queue}
+class Stack:
+	class Node:
+		def __init__(self, item):
+			self.item = item
+			self.next = None
+
+	def __init__(self):
+		self.top = None
+
+	def isEmpty(self):
+		return self.top is None
+	
+	def peek(self):
+		return self.top.item
+	
+	def pop(self):
+		toReturn = self.top.item
+		self.top = self.top.next
+		return toReturn
+	
+	def push(self, item):
+		newTop = self.Node(item)
+		newTop.next = self.top
+		self.top = newTop
+\end{pycode}
+
+
+
+
 \section{Array Based Implementation}
-Referenced based implementations, e.g. implementations that look like linked lists are great but
+Referenced based implementations, but arrays can be slightly more efficient for a number of reasons:
+
+
+
+\begin{itemize}
+	\item No overhead from references.
+	\item foo
+	\item Caching - This gets into a bit more optimization we typically concern outselves with, but cpus can cahe the array leading to better performance.  (Can't include until I find a strong citation for this and not being a thing linked lists can do)
+
+\end{itemize}
 
 \section{Built-in Queues}
 \subsection{Java's Implementation}
 
 \subsubsection{The \texttt{Queue} - Use on Exams and Psuedocode}
+In Java, a \texttt{Queue} is an Interface with the following methods
+
+\begin{description}
+	\item[\texttt{offer(item)}] - Java's enqueue.
+	\item[\texttt{poll()}] - Java's dequeue.
+	\item[\texttt{peek()}] - Java's peek.  A peak name.
+\end{description}
+
+In the case of the method call failing, the method will return \texttt{false} or \texttt{null} as applicable.  The Queue interface also provides a version of each the methods that do the exact same thing, but throw an exception instead.  These methods are \texttt{add(item)}, \texttt{remove()}, and \texttt{element()} respectively. 
 
 
 

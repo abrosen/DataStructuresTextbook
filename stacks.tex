@@ -1,4 +1,5 @@
 \chapter{Stacks}
+\label{chap:stacks}
 Our next data structure is the Stack.
 The stack may seem unnecessary as a data structure after we introduce its features.  
 After all, can't a list do all the things that a stack can do and more? 
@@ -42,6 +43,15 @@ We will be building a stack as a reference-based structure in this book.  This i
 public class Stack<E> {
 	private Node<E> top;
 	
+	
+	private static class Node<E>{
+		E item;
+		Node<E> next;
+		public Node(E item) {
+			this.item = item;
+		}
+	}
+	
 	public boolean isEmpty(){
 		return top == null;
 	}
@@ -62,13 +72,7 @@ public class Stack<E> {
 		top = newTop;
 	}
 	
-	private static class Node<E>{
-		E item;
-		Node<E> next;
-		public Node(E item) {
-			this.item = item;
-		}
-	}	
+		
 }\end{javacode}
 
 
