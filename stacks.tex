@@ -115,13 +115,9 @@ class Stack:
 
 Our programming languages have functionality for Stacks built into them, although it is different than our pedagogical model.
 \subsection{The Stack - Java}
-The built in \texttt{Stack} for Java uses an array-based\footnote{Stack is a subclass of the \texttt{Vector} class, itself a subclass of the \texttt{AbstractList} abstract class.  The \texttt{Vector} is extremely similar to \texttt{ArrayList} but older.  You should not use a \texttt{Vector} unless you have an extremely specific reason;  I have never had a reason.} implementation, rather than a reference based implementation, like above.  It uses all the conventional Stack
+The built in \texttt{Stack} for Java uses an array-based\footnote{Stack is a subclass of the \texttt{Vector} class, itself a subclass of the \texttt{AbstractList} abstract class.  The \texttt{Vector} is extremely similar to \texttt{ArrayList} but older.  You should not use a \texttt{Vector} unless you have an extremely specific reason;  I have never had a reason.} implementation, rather than a reference based implementation, like above.  It uses all the conventional Stack method names.
 
-However, if you were to actually use a \texttt{Stack} in production, you should instead use a \texttt{Deque} according to the JavaDoc:
-%TODO: CITE https://docs.oracle.com/javase/8/docs/api/java/util/Deque.html
-``Deques can also be used as LIFO (Last-In-First-Out) stacks. This interface should be used in preference to the legacy \texttt{Stack} class. When a deque is used as a stack, elements are pushed and popped from the beginning of the deque.'' 
-However, \texttt{Deque} uses a different naming system for its operations, rather that names like \texttt{push} ir \texttt{pop}.  As a result, \texttt{Deque} will be more briefly mentioned in Chapter \ref{chap-queue}'s coverage of Java's Queue, but it is worth the mention here. 
- 
+If you are going to use a \texttt{Stack} in production, you should instead use a \texttt{Deque}.  See Chapter \ref{queue:deque:stack} for details.
 Conclusion, use \texttt{Stack} in this course, but be prepared to use \texttt{Deque} outside the course.
 
 
@@ -131,7 +127,6 @@ Python has no separate built-in stack. Rather, we instead use a  \href{https://d
 If you want to use a Python list as a stack, merely restrict yourself to using the \texttt{append(item)} function in place of \texttt{push}.
 Python lists have a \texttt{pop} method;  when called without any argument\footnote{When provided an index, \texttt{pop} removes and returns the item at that index.  
 Python uses \texttt{pop} to remove at an index, whereas \texttt{remove} is used to remove and return the first occurrence a specified item.},  it removes and returns the last element in the list.
-
 Use \texttt{stackname[-1]} to \texttt{peek} at the top of the stack.
 
 

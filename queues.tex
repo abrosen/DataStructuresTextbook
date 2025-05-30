@@ -3,9 +3,8 @@
 \label{chap-queue}
 
 A Queue (pronounced by saying the first letter and ignoring all the others) is a data structure which emulates the real word functionality of standing in a line (or queue, for those from Commonwealth nations).  
-In a Queue, items are processed in the order they are inserted into the Queue.  So if Alice enters the Queue, followed by Bob, followed by Carla, Alice would be the first to leave the Queue, then Bob, and then Carla.
+In a Queue, items are processed in the order they are inserted into the Queue.  So if Alice enters the Queue, followed by Bob, then followed by Carla, Alice would be up first to leave the Queue, then Bob, and then Carla.
 In other words, the item that has been in the queue the longest is at the front of the Queue and is the next to be processed.
-
 
 We often refer to a Stack as the LIFO - Last In, First Out - data structure, while the Queue serves as a FIFO - First In, First Out - Data Structure.\footnote{There's gotta be a joke for GIGO - Garbage in Garbage out, to put here.}
 The use cases for Queues are fairly obvious.
@@ -90,17 +89,65 @@ class Stack:
 
 
 
-\section{Array Based Implementation}
-Referenced based implementations, but arrays can be slightly more efficient for a number of reasons:
-
-
-
-\begin{itemize}
-	\item No overhead from references.
-	\item foo
-	\item Caching - This gets into a bit more optimization we typically concern outselves with, but cpus can cahe the array leading to better performance.  (Can't include until I find a strong citation for this and not being a thing linked lists can do)
-
-\end{itemize}
+%\section{Array Based Implementation}
+%Referenced based implementations, but arrays can be slightly more efficient for a number of reasons:
+%
+%
+%
+%%text for comment Since we are keeping this example consise, the queue capactity is kept at a fixed value.  If we don't have room to add an additional item, tne Queue returns false instead. See Section \ref{arraylist:reallocate} for details on how to make the array grow dynamically.
+%
+%\begin{itemize}
+%	\item No overhead from references.
+%	\item Caching - This gets into a bit more optimization we typically concern ourselves with, but cpus can cahe the array leading to better performance.  (Can't include until I find a strong citation for this and not being a thing linked lists can do)
+%\end{itemize}
+%
+%
+%
+%\begin{javacode}
+%public class MyQueueArray<E> {
+%	
+%	private int front;
+%	private int back;
+%	private E[] data;
+%	private int capacity;
+%	private int size;
+%	
+%	
+%	public MyQueueArray(){
+%		front = 0;
+%		back = -1;
+%		capacity = 10;
+%		data = (E[]) (new Object[capacity]);
+%		size = 0;
+%	}
+%	
+%	public boolean enqueue(E item){
+%		if(size == capacity ) {
+%			return false;
+%		}
+%		back = back + 1 % capacity;
+%		data[back] = item;
+%		size++;
+%		return true;
+%	}
+%	
+%	public E dequeue() {
+%		if(size == 0 ) {
+%			return null;
+%		}
+%		E toReturn = data[front];
+%		front = (front + 1) % capacity;
+%		size--;
+%		return toReturn;
+%	}
+%	
+%	public E peek() {
+%		return data[front];
+%	}
+%}
+%\end{javacode}
+%
+%
 
 \section{Built-in Queues}
 \subsection{Java's Implementation}
@@ -118,6 +165,7 @@ In the case of the method call failing, the method will return \texttt{false} or
 
 
 
+
 \begin{figure}
 	\centering
 	\includegraphics[width=\linewidth]{pics/waitQueuesAreLists}
@@ -125,7 +173,46 @@ In the case of the method call failing, the method will return \texttt{false} or
 	\label{fig:waitqueuesarelists}
 \end{figure}
 
-\subsubsection{The \texttt{Deque} - What You Should Actually Use}
+The \texttt{LinkedList} class implements the \texttt{Queue} interface, so the most straightforward way to use a queue in Java is to do the following:
+%TODO test
+\begin{javacode}
+Queue<E> q = new LinkedList<>();
+q.offer(item); // to enqueue
+q.offer(item2); // to enqueue
+q.poll() // removes and returns item1
+q.peek() // item2 is now the head
+\end{javacode}
+
+\subsubsection{The \texttt{Deque}}
+The \texttt{LinkedList} class also implements the \texttt{Deque} interface.
+A \texttt{Deque} is a \textit{double-ended queue}, which means adds and removes happen at either end of the data structure.
+It's fairly straightforward to see why a \texttt{LinkedList} is the perfect class to implement this.
+Using a \texttt{Queue} is perfectly acceptable when you know that all adds will be at the end and removes at the front.
+
+
+Since a \texttt{Deque} is double ended, you can use a \texttt{Deque} as a stack. 
+This is actually the recommended way to create a stack in Java as according to the JavaDoc:
+%TODO: CITE https://docs.oracle.com/javase/8/docs/api/java/util/Deque.html
+\begin{quotation}
+	Deques can also be used as LIFO (Last-In-First-Out) stacks. This interface should be used in preference to the legacy \texttt{Stack} class. When a deque is used as a stack, elements are pushed and popped from the beginning of the deque. 	
+\end{quotation}
+
+
+However, \texttt{Deque} uses a different naming system for its operations, rather that names like \texttt{push} or \texttt{pop}.  A \texttt{Deque} will use \texttt{addFirst} instead of \texttt{push}, \texttt{removeFirst} instead of a \texttt{pop}, and \texttt{peekFirst} instead of \texttt{peek}.
+
+
+%TODO test
+\begin{javacode}{Example \texttt{Deque} Usage}
+Deque<E> stack = new LinkedList<>();
+stack.addFirst(item1); push
+stack.addFirst(item2); push
+stack.removeFirst(); // pop item2
+stack.peek(); // will return item1
+\end{javacode}
+
+
+Conclusion, use \texttt{Stack} in this course, but be prepared to use \texttt{Deque} outside the course.  \texttt{Queue} or \texttt{Deque} for a queue is fine.
+
 
 \subsection{Python's Implementation}
 
@@ -165,9 +252,8 @@ queue.popleft()                 # The first to arrive now leaves
 								# Yields 'Eric'
 queue.popleft()                 # The second to arrive now leaves
                                 # Yields 'John'
-print(queue)                           # Remaining queue in order of arrival
+print(queue)                    # Remaining queue in order of arrival
 deque(['Michael', 'Terry', 'Graham'])
 \end{pycode}
 
-
-\subsubsection{The queue package}
+A \texttt{Deque} is a double-ended queue, meaning it can be used as either a stack or a queue.

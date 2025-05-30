@@ -497,7 +497,7 @@ As mentioned previously, if \texttt{index == size}, we will be inserting the ite
 
 
 \subsubsection{Reallocation Implementation}
-\label{arraylist-reallocate}
+\label{arraylist:reallocate}
 When we need to grow our arraylist, can't actually physically change the size of the array \texttt{theData}; you can't change the size of an array.
 So we cheat.
 We create a new array twice \footnote{  The one thing worth noting is that the real implementation of a list in python, listobject.c, uses a completely different pattern than doubling the capacity.  This is more complicated than we need for this book; doubling is much simpler and accomplishes what we need.} the capacity of \texttt{theData}.
