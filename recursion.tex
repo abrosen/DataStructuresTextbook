@@ -120,47 +120,152 @@ Then \texttt{factorial(2)} takes the answer from \texttt{factorial(1)} and retur
 Then \texttt{factorial(3)} takes the answer from \texttt{factorial(2)} and returns \texttt{3 * \texttt{factorial(1)}}
 And so on and so forth until \texttt{factorial(n)} takes the answer from \texttt{factorial(n-1)} and returns \texttt{n * \texttt{factorial(n-1)}}
 
-We know this works because for any given non-negative integer\footnote{negative factorials are undefined and I'm ignoring that case in our code.} $n$  each recursive call on \texttt{factorial} is on a smaller and smaller number, making progress to calculating \texttt{factorial(0)}. Once we hit \texttt{factorial(0)}, the answers start being calculated and trickling up this stack of function calls.
+We know this works because for any given non-negative integer\footnote{Negative factorials are undefined and I'm ignoring that case in our code. My suggested solution is to either error or document turning something like $(-5)!$ into $-1 \cdot 5!$.  It's wrong, but might be the desired behavior for your program.} $n$  each recursive call on \texttt{factorial} is on a smaller and smaller number, making progress to calculating \texttt{factorial(0)}. Once we hit \texttt{factorial(0)}, the answers start being calculated and trickling up this stack of function calls.
 
 
 <Insert picture here>
 
+
 \subsection{Recursive Rules}
 
-More generally, all recursive functions :
+More generally, all recursive functions:
 \begin{itemize}
 	\item Must have one or more base cases where the solution is well defined.
 	\item Must have one or more recursive cases, where the problem is defined by a smaller subproblem of the same type as the original.
 	\item Must ensure the recursive cases make progress towards the defined base case.
 \end{itemize}
 
+
+You prove a recursive algorithm will solve the problem in question by showing all the above points are true.  
+This is much the same as a proof by induction, just in the opposite direction.
+
 \subsection{Fibonacci}
 
+The Fibonacci sequence is the classic introduction to recursive formulas and recursion in programming.  I opted for teaching the factorial sequence first due to the complications with runtime a naive implementation has.  This might lead to the impression that \textit{all} recursive functions have a terrible runtime.  They do not.  
+
+
+Regardless, the Fibonacci sequence important.  It shows up again and again in nature, in science, and in mathematics.
+%TODO Expand examples
+
+
+%TODO Other rightful name claimants  https://oeis.org/A000045
+%D. E. Knuth writes: "Before Fibonacci wrote his work, the sequence F_{n} had already been discussed by Indian scholars, who had long been interested in rhythmic patterns that are formed from one-beat and two-beat notes. The number of such rhythms having n beats altogether is F_{n+1}; therefore both Gopāla (before 1135) and Hemachandra (c. 1150) mentioned the numbers 1, 2, 3, 5, 8, 13, 21, ... explicitly." (TAOCP Vol. 1, 2nd ed.) - Peter Luschny, Jan 11 2015
 
 \subsubsection{Definition}
+The Fibonacci sequence  (sequence A000045)\footnote{\href{https://oeis.org/}{Yes, humans are such nerds that we've created an online library for sequences - OEIS.}} is defined as the sequence of numbers where each number in the sequence is the sum of the previous two numbers.  The sequence starts with 0 and 1  and looks something like this:
+
+$$0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987...$$
+
+The sequence continues indefinitely. More formally, let $F_n$ be the $n$th number of the Fibonacci sequence. We define the sequence with:
+$$ F_{0} = 1, F_{1} = 1$$
+$$ F_n = F_{n-1} + F_{n-2}$$
+
 
 \subsubsection{Implementation}
+Implementing this as a recursive function is rather trivial!
 
+\begin{javacode}{Naive Java Implementation}
+public static long fib(int n){
+	if(n == 0 || n == 1) {
+		return n;
+	}
+	return fib(n - 1) + fib(n - 2);
+}
+\end{javacode}
+
+\begin{pycode}{Naive Python implementation}
+def fib(n):
+	if n == 0 or n == 1:
+		return n
+	return fib(n - 1) + fib(n - 2)
+\end{pycode}
 
 \subsubsection{A Flaw appears in the plan}
-As it turns out, while this technically works...it's pretty terrible.  In short, using recursion, I managed to accidentally\footnote{All right, I did this totally on purpose.} write an $ O(2^n) $, or exponential time,  algorithm.  This is very bad.  This means increasing $ n $ by one \emph{doubles} the runtime of out algorithm!
+As it turns out, while this technically works...it's pretty terrible.  In short, using recursion, I managed to accidentally\footnote{All right, I did this totally on purpose.} write an $ O(2^n) $, or exponential time, algorithm. This is very bad.  This means increasing $ n $ by one \emph{doubles} the runtime of out algorithm! Go ahead and try it for yourself on your computer.  You should start seeing some massive slowdowns when computing \texttt{fib(n)} somewhere around \texttt{n=45}.  Notice that each time you increase \texttt{n} by one, the amount of time your computer spends working roughly doubles.
 
-This is because to solving the current $n$ requires solving $fib(n-1)$ and n-2.  Furthermore, each recursive call is independent
+This is because to solving the current \texttt{n} requires solving \texttt{fib(n-1)} and \texttt{fib(n-2)}.  Furthermore, each recursive call is independent from each other;  solving \texttt{fib(n-1)} 
+
+\begin{figure}[h!]
+	\centering
+\begin{forest}
+	for tree={
+		grow=south, % Tree grows downwards
+		s sep=5mm,  % Sibling separation
+		l sep=10mm, % Level separation
+		align=center, % Center align node text
+		parent anchor=south,
+		child anchor=north,
+		font=\ttfamily, % Use a monospaced font for node text (already set, \texttt{} reinforces)
+		edge={->}, % Arrow style for edges
+	}
+	[\texttt{fib(n)}
+	[\texttt{fib(n-1)}
+	[\texttt{fib(n-2)}
+	[$\vdots$]
+	[$\vdots$]
+	]
+	[\texttt{fib(n-3)}
+	[$\vdots$]
+	[$\vdots$]
+	]
+	]
+	[\texttt{fib(n-2)}
+	[\texttt{fib(n-3)}
+	[$\vdots$]
+	[$\vdots$]
+	]
+	[\texttt{fib(n-4)}
+	[$\vdots$]
+	[$\vdots$]
+	]
+	]
+	]
+\end{forest}
+
+\caption{Recursive Function Calls for \texttt{fib(n)}.  Notice that the call to \texttt{fib(n-1)} must independently compute \texttt{fib(n-2)}, thus duplicating a ton of work.}
+\label{fig:fibonacci_call_tree}
+
+\end{figure}
 
 
 
-Don't let this terrible runtime scare you away from recursion!  Recursion can make things quite efficient; this is merely an exception and presented here because fibonacci is such a classic example we would be remiss to not include it.  
+
+\begin{figure}[h!]
+\centering
+\begin{forest}
+	for tree={
+		grow=south,
+		s sep=5mm,
+		l sep=10mm,
+		align=center,
+		parent anchor=south,
+		child anchor=north,
+		font=\ttfamily, % Use a monospaced font for node text (already set, \texttt{} reinforces)
+		edge={->},
+	}
+	[\texttt{fib(4)}
+	[\texttt{fib(3)}
+	[\texttt{fib(2)}
+	[\texttt{fib(1)}]
+	[\texttt{fib(0)}]
+	]
+	[\texttt{fib(1)}]
+	]
+	[\texttt{fib(2)}
+	[\texttt{fib(1)}]
+	[\texttt{fib(0)}]
+	]
+	]
+\end{forest}
+\caption{Computing \texttt{fib(4)}.}
+\end{figure}
 
 
-\section{Arrays with Recursion}
+Don't let this terrible runtime scare you away from recursion!  Recursion can make things quite efficient; this is merely an exception and presented here because Fibonacci is such a classic example we would be remiss to not include it.  
+
+\subsubsection{Solutions}
 
 
-\subsection{Summation of an Array}
-%https://runestone.academy/ns/books/published/javads/recursion_calculating-the-sum-of-a-list-of-numbers.html
-ADD REFERENCE HERE
-
-
-We will begin our investigation with a problem that you already know how to solve without using recursion. Suppose that you want to calculate the sum of an array of numbers such as:$[1, 3, 5, 7, 9]$ An iterative method that computes the sum is shown in Listing 4.3.1. The method uses an accumulator variable (theSum) to compute a running total of all the numbers in the array by starting with and adding each number in the array.
 
 \section{Printing Recursively}
 Some of the upcoming examples  of the things we are about to see should not be actually  used and serve only as examples, like our \texttt{printThis} function.
@@ -185,6 +290,18 @@ def search(theList, target, index):
 	return search(theList, target, index + 1)
 	
 \end{minted}
+
+
+\section{Arrays with Recursion}
+
+
+\subsection{Summation of an Array}
+%https://runestone.academy/ns/books/published/javads/recursion_calculating-the-sum-of-a-list-of-numbers.html
+ADD REFERENCE HERE
+
+
+We will begin our investigation with a problem that you already know how to solve without using recursion. Suppose that you want to calculate the sum of an array of numbers such as:$[1, 3, 5, 7, 9]$ An iterative method that computes the sum is shown in Listing 4.3.1. The method uses an accumulator variable (theSum) to compute a running total of all the numbers in the array by starting with and adding each number in the array.
+
 
 
 \subsection{Binary Search}

@@ -1,0 +1,41 @@
+\documentclass{standalone}
+\usepackage{forest}
+
+\begin{document}
+	
+	\begin{forest}
+		for tree={
+			grow=south, % Tree grows downwards
+			s sep=5mm,  % Sibling separation
+			l sep=10mm, % Level separation
+			align=center, % Center align node text
+			parent anchor=south,
+			child anchor=north,
+			font=\ttfamily, % Use a monospaced font for node text (already set, \texttt{} reinforces)
+			edge={->}, % Arrow style for edges
+		}
+		[\texttt{fib(n)}
+		[\texttt{fib(n-1)}
+		[\texttt{fib(n-2)}
+		[$\vdots$]
+		[$\vdots$]
+		]
+		[\texttt{fib(n-3)}
+		[$\vdots$]
+		[$\vdots$]
+		]
+		]
+		[\texttt{fib(n-2)}
+		[\texttt{fib(n-3)}
+		[$\vdots$]
+		[$\vdots$]
+		]
+		[\texttt{fib(n-4)}
+		[$\vdots$]
+		[$\vdots$]
+		]
+		]
+		]
+	\end{forest}
+	
+\end{document}
