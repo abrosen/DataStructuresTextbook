@@ -123,7 +123,143 @@ And so on and so forth until \texttt{factorial(n)} takes the answer from \texttt
 We know this works because for any given non-negative integer\footnote{Negative factorials are undefined and I'm ignoring that case in our code. My suggested solution is to either error or document turning something like $(-5)!$ into $-1 \cdot 5!$.  It's wrong, but might be the desired behavior for your program.} $n$  each recursive call on \texttt{factorial} is on a smaller and smaller number, making progress to calculating \texttt{factorial(0)}. Once we hit \texttt{factorial(0)}, the answers start being calculated and trickling up this stack of function calls.
 
 
-<Insert picture here>
+<Insert picture of recursive factorial calls here>
+
+
+\begin{figure}[h!]
+	\centering
+	\begin{forest}
+		for tree={
+			grow=south,      % Tree grows downwards
+			font=\ttfamily,   % Use monospaced font
+			l sep+=10pt,      % Increase level separation
+			s sep+=10pt,      % Increase sibling separation
+			edge={->, thick}, % Arrow style for edges
+			child anchor=north,
+			parent anchor=south,
+			align=center,     % This is key for multi-line nodes
+		},
+		[{factorial(4) \\ returns $4 \times 6 = \mathbf{24}$}
+		[{factorial(3) \\ returns $3 \times 2 = 6$}
+		[{factorial(2) \\ returns $2 \times 1 = 2$}
+		[{factorial(1) \\ returns $1 \times 1 = 1$}
+		[{factorial(0) \\ \textbf{base case}, returns $1$}]
+		]
+		]
+		]
+		]
+	\end{forest}
+	\caption{The call stack for \texttt{factorial(4)}. Each call must wait for the result of the call below it. Once \texttt{factorial(0)} returns 1, the results are multiplied back up the stack.}
+	\label{fig:factorial_call_stack}
+\end{figure}
+
+
+\begin{figure}[h!]
+	\centering
+	\begin{forest}
+		for tree={
+			grow=south,
+			font=\ttfamily,
+			l sep=1.5cm,      % Vertical spacing
+			align=left,
+			edge={->, thick},
+			parent anchor=south,
+			child anchor=north,
+		},
+		% Redefine the path for descendants to create the |-- shape
+		for descendants={
+			edge path={
+				\noexpand\path[\forestoption{edge}]
+				(!u.parent anchor) -- +(0,-0.8cm) -| (.child anchor)\forestoption{edge label};
+			},
+		},
+		[{factorial(4) \\ returns $4 \times 6 = \mathbf{24}$}
+		[{factorial(3) \\ returns $3 \times 2 = 6$}, edge label={node[midway,right,font=\ttfamily,xshift=2mm]{calls factorial(3)}}
+		[{factorial(2) \\ returns $2 \times 1 = 2$}, edge label={node[midway,right,font=\ttfamily,xshift=2mm]{calls factorial(2)}}
+		[{factorial(1) \\ returns $1 \times 1 = 1$}, edge label={node[midway,right,font=\ttfamily,xshift=2mm]{calls factorial(1)}}
+		[{factorial(0) \\ \textbf{base case}, returns $1$}, edge label={node[midway,right,font=\ttfamily,xshift=2mm]{calls factorial(0)}}]
+		]
+		]
+		]
+		]
+	\end{forest}
+	\caption{The call stack for \texttt{factorial(4)}, styled to show the flow of calls and returns.}
+	\label{fig:factorial_call_stack_ascii}
+\end{figure}
+
+
+
+\begin{figure}[h!]
+	\centering
+	\begin{forest}
+		for tree={
+			grow=south,
+			font=\ttfamily,
+			l sep=1.5cm,      % Vertical spacing
+			s sep=1cm,        % Horizontal spacing for staircase effect
+			align=left,
+			edge={->, thick},
+			parent anchor=south,
+			child anchor=north,
+		},
+		% Redefine the path for descendants to create the |-- shape
+		for descendants={
+			edge path={
+				\noexpand\path[\forestoption{edge}]
+				(!u.parent anchor) -- +(0,-0.8cm) -| (.child anchor)\forestoption{edge label};
+			},
+		},
+		[{factorial(4) \\ returns $4 \times 6 = \mathbf{24}$}
+		[{factorial(3) \\ returns $3 \times 2 = 6$}, edge label={node[midway,right,font=\ttfamily,xshift=2mm]{calls factorial(3)}}
+		[{factorial(2) \\ returns $2 \times 1 = 2$}, edge label={node[midway,right,font=\ttfamily,xshift=2mm]{calls factorial(2)}}
+		[{factorial(1) \\ returns $1 \times 1 = 1$}, edge label={node[midway,right,font=\ttfamily,xshift=2mm]{calls factorial(1)}}
+		[{factorial(0) \\ \textbf{base case}, returns $1$}, edge label={node[midway,right,font=\ttfamily,xshift=2mm]{calls factorial(0)}}]
+		]
+		]
+		]
+		]
+	\end{forest}
+	\caption{The call stack for \texttt{factorial(4)}, styled to show the flow of calls and returns.}
+	\label{fig:factorial_call_stack_ascii}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\begin{tikzpicture}[
+		node distance=0.5cm and 1cm, % Vertical and horizontal spacing
+		every node/.style={font=\ttfamily} % Style for all nodes
+		]
+		% The 'positioning' library is needed for the 'of=' syntax
+		\usetikzlibrary{positioning}
+		
+		% Place the nodes in a staircase pattern
+		\node (fact4) {factorial(4)};
+		\node (step4) [below right=of fact4] {4 * factorial(3) // returns 24};
+		\node (step3) [below right=of step4] {3 * factorial(2) // returns 6};
+		\node (step2) [below right=of step3] {2 * factorial(1) // returns 2};
+		\node (step1) [below right=of step2] {1 * factorial(0) // returns 1};
+		\node (base)  [below right=of step1] {(base case)};
+		
+		% Draw the L-shaped arrows
+		\draw[->, thick] (fact4.south) |- (step4.west);
+		\draw[->, thick] ([xshift=1.5cm]step4.south) |- (step3.west);
+		\draw[->, thick] ([xshift=1.5cm]step3.south) |- (step2.west);
+		\draw[->, thick] ([xshift=1.5cm]step2.south) |- (step1.west);
+		\draw[->, thick] ([xshift=1.5cm]step1.south) |- (base.west);
+		
+	\end{tikzpicture}
+	\caption{The recursive calls for \texttt{factorial(4)}, showing how each step builds upon the next.}
+	\label{fig:factorial_call_waterfall}
+\end{figure}
+
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{pics/factorial}
+	\caption{Hopefully you get it now.}
+	\label{fig:factorial_meme}
+\end{figure}
+
 
 
 \subsection{Recursive Rules}
@@ -144,8 +280,7 @@ This is much the same as a proof by induction, just in the opposite direction.
 The Fibonacci sequence is the classic introduction to recursive formulas and recursion in programming.  I opted for teaching the factorial sequence first due to the complications with runtime a naive implementation has.  This might lead to the impression that \textit{all} recursive functions have a terrible runtime.  They do not.  
 
 
-Regardless, the Fibonacci sequence important.  It shows up again and again in nature, in science, and in mathematics.
-%TODO Expand examples
+
 
 
 %TODO Other rightful name claimants  https://oeis.org/A000045
@@ -160,6 +295,18 @@ The sequence continues indefinitely. More formally, let $F_n$ be the $n$th numbe
 $$ F_{0} = 1, F_{1} = 1$$
 $$ F_n = F_{n-1} + F_{n-2}$$
 
+
+Regardless, the Fibonacci sequence important.  It shows up again and again in nature, in science, and in mathematics.  The number of petals a flower has tends to be plucked from the Fibonacci sequence \cite{turner2020flowers}.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{pics/sunflower}
+	\caption{The sunflower's fibonacci spiral. Photo by Anna Benczur, CC by-SA 4.0.}
+	\label{fig:sunflower}
+\end{figure}
+
+
+%TODO Expand examples
 
 \subsubsection{Implementation}
 Implementing this as a recursive function is rather trivial!
@@ -264,6 +411,45 @@ This is because to solving the current \texttt{n} requires solving \texttt{fib(n
 Don't let this terrible runtime scare you away from recursion!  Recursion can make things quite efficient; this is merely an exception and presented here because Fibonacci is such a classic example we would be remiss to not include it.  
 
 \subsubsection{Solutions}
+There's a lot of solutions to make this work.  My personal favorite is \textbf{memoization}, which simply says ``well if the issue is having to redo the work, let's instead store the results of each function call.''
+
+
+
+\begin{javacode}[listing and comment, comment={So here we have a public method that the programmer will use to calculate the \texttt{n}th Fibonacci number and a private helper method to do the actual work.  The array \texttt{F} is an array where we store any previously calculated Fibonacci numbers.  The big change from our original solution is now we ask if the \texttt{n-1} Fibonacci number has been calculated before.  If it has not, calculate it and store it in the array.  We do the same for the \texttt{n-2} Fibonacci number. The reference to the array is shared  between all recursive calls.  After the check and the possible calculation is done, the function uses those numbers to calculate \texttt{fib(n)}.}] {An Efficient Recursive Fibonacci Algorithm}
+public static long fib(int n) {
+	long[] lookup = new long[n];
+	lookup[1] = 1;
+	return fib(n , lookup);
+}
+
+
+private static long fib(int n, long[] F) {
+	if(n <= 1) { //base case
+		return F[n];
+	}
+	if(F[n-1] == 0) {
+		F[n-1] = fib(n-1, F);
+	}
+	if(F[n-2] == 0) {
+		F[n-2] = fib(n-2, F);
+	}
+	return F[n-1] + F[n-2];
+}
+\end{javacode}
+
+
+\begin{pycode}[listing and comment, comment={So here we have a function with a default variable \texttt{F} that is initially an empty list.  If the program detects \texttt{F}'s empty, it is initialized to a list of zeroes.  We do this to avoid writing a second function, like we did in the Java example. The list \texttt{F} is a list where we store any previously calculated Fibonacci numbers.  The big change from our original solution is now we ask if the \texttt{n-1} Fibonacci number has been calculated before.  If it has not, calculate it and store it in \texttt{F}.  We do the same for the \texttt{n-2} Fibonacci number. The reference to \texttt{F} is shared  between all recursive calls.  After the check and the possible calculation is done, the function uses those numbers to calculate \texttt{fib(n)}.}]{An Efficient Recursive Fibonacci Algorithm in Python}
+def fib(n, F = []):
+	if len(F) == 0:
+		F = [0] * n
+	if(n <= 1):
+		return n
+	if(F[n - 1] == 0):
+		F[n - 1] = fib(n - 1,F)
+	if(F[n - 2] == 0):
+		F[n - 2] = fib(n - 2,F)
+	return F[n - 1] + F[n - 2]
+\end{pycode}
 
 
 
