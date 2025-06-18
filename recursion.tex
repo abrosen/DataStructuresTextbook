@@ -189,69 +189,6 @@ We know this works because for any given non-negative integer\footnote{Negative 
 
 
 
-\begin{figure}[h!]
-	\centering
-	\begin{forest}
-		for tree={
-			grow=south,
-			font=\ttfamily,
-			l sep=1.5cm,      % Vertical spacing
-			s sep=1cm,        % Horizontal spacing for staircase effect
-			align=left,
-			edge={->, thick},
-			parent anchor=south,
-			child anchor=north,
-		},
-		% Redefine the path for descendants to create the |-- shape
-		for descendants={
-			edge path={
-				\noexpand\path[\forestoption{edge}]
-				(!u.parent anchor) -- +(0,-0.8cm) -| (.child anchor)\forestoption{edge label};
-			},
-		},
-		[{factorial(4) \\ returns $4 \times 6 = \mathbf{24}$}
-		[{factorial(3) \\ returns $3 \times 2 = 6$}, edge label={node[midway,right,font=\ttfamily,xshift=2mm]{calls factorial(3)}}
-		[{factorial(2) \\ returns $2 \times 1 = 2$}, edge label={node[midway,right,font=\ttfamily,xshift=2mm]{calls factorial(2)}}
-		[{factorial(1) \\ returns $1 \times 1 = 1$}, edge label={node[midway,right,font=\ttfamily,xshift=2mm]{calls factorial(1)}}
-		[{factorial(0) \\ \textbf{base case}, returns $1$}, edge label={node[midway,right,font=\ttfamily,xshift=2mm]{calls factorial(0)}}]
-		]
-		]
-		]
-		]
-	\end{forest}
-	\caption{The call stack for \texttt{factorial(4)}, styled to show the flow of calls and returns.}
-	\label{fig:factorial_call_stack_ascii}
-\end{figure}
-
-\begin{figure}[h!]
-	\centering
-	\begin{tikzpicture}[
-		node distance=0.5cm and 1cm, % Vertical and horizontal spacing
-		every node/.style={font=\ttfamily} % Style for all nodes
-		]
-		% The 'positioning' library is needed for the 'of=' syntax
-		\usetikzlibrary{positioning}
-		
-		% Place the nodes in a staircase pattern
-		\node (fact4) {factorial(4)};
-		\node (step4) [below right=of fact4] {4 * factorial(3) // returns 24};
-		\node (step3) [below right=of step4] {3 * factorial(2) // returns 6};
-		\node (step2) [below right=of step3] {2 * factorial(1) // returns 2};
-		\node (step1) [below right=of step2] {1 * factorial(0) // returns 1};
-		\node (base)  [below right=of step1] {(base case)};
-		
-		% Draw the L-shaped arrows
-		\draw[->, thick] (fact4.south) |- (step4.west);
-		\draw[->, thick] ([xshift=1.5cm]step4.south) |- (step3.west);
-		\draw[->, thick] ([xshift=1.5cm]step3.south) |- (step2.west);
-		\draw[->, thick] ([xshift=1.5cm]step2.south) |- (step1.west);
-		\draw[->, thick] ([xshift=1.5cm]step1.south) |- (base.west);
-		
-	\end{tikzpicture}
-	\caption{The recursive calls for \texttt{factorial(4)}, showing how each step builds upon the next.}
-	\label{fig:factorial_call_waterfall}
-\end{figure}
-
 
 \begin{figure}
 	\centering
@@ -283,8 +220,9 @@ The Fibonacci sequence is the classic introduction to recursive formulas and rec
 
 
 
-%TODO Other rightful name claimants  https://oeis.org/A000045
-%D. E. Knuth writes: "Before Fibonacci wrote his work, the sequence F_{n} had already been discussed by Indian scholars, who had long been interested in rhythmic patterns that are formed from one-beat and two-beat notes. The number of such rhythms having n beats altogether is F_{n+1}; therefore both Gopāla (before 1135) and Hemachandra (c. 1150) mentioned the numbers 1, 2, 3, 5, 8, 13, 21, ... explicitly." (TAOCP Vol. 1, 2nd ed.) - Peter Luschny, Jan 11 2015
+\subsubsection{History}
+The Fibonnaci sequence is named after Leonardo Bonacci, also known as Leonardo of Pisa, and also known as Fibonacci.  He authored a book in 1202 called \textit{Liber Abaci}, which introduced the western world to calculations using Hindu-Arabic numerals .  It also enumerated the Fibonacci sequence, which is why it is named after him\cite{Bonacci1202,sigler2002fibonacci}.   Notice I said \textit{western} world.  It is hard to appreciate that humans could not share information in the same way we can today, as well as what can be lost due to damage or merely not writing it down .   The Fibonacci sequence had been observed previously by Indian mathematicians such as Gop\={a}la  \cite{singh1985fib}
+Furthermore, it is completely possible someone had observed this sequence earlier.
 
 \subsubsection{Definition}
 The Fibonacci sequence  (sequence A000045)\footnote{\href{https://oeis.org/}{Yes, humans are such nerds that we've created an online library for sequences - OEIS.}} is defined as the sequence of numbers where each number in the sequence is the sum of the previous two numbers.  The sequence starts with 0 and 1  and looks something like this:
@@ -296,6 +234,7 @@ $$ F_{0} = 1, F_{1} = 1$$
 $$ F_n = F_{n-1} + F_{n-2}$$
 
 
+%TODO More Examples here
 Regardless, the Fibonacci sequence important.  It shows up again and again in nature, in science, and in mathematics.  The number of petals a flower has tends to be plucked from the Fibonacci sequence \cite{turner2020flowers}.
 
 \begin{figure}
@@ -306,7 +245,7 @@ Regardless, the Fibonacci sequence important.  It shows up again and again in na
 \end{figure}
 
 
-%TODO Expand examples
+
 
 \subsubsection{Implementation}
 Implementing this as a recursive function is rather trivial!
@@ -453,29 +392,30 @@ def fib(n, F = []):
 
 
 
-\section{Printing Recursively}
+\section{More Examples}
 Some of the upcoming examples  of the things we are about to see should not be actually  used and serve only as examples, like our \texttt{printThis} function.
 
+\subsection{Printing Recursively}
 
+\begin{javacode}{A recursive printing method}
+public static void printThis(String s){
+	if (s.length() == 0) {
+		System.out.println();
+	} else {
+		System.out.print(s.charAt(0));
+		printThis(s.substring(1));
+	}
+}
+\end{javacode}
 
-\subsection{Recursive Linear Search}
-
-
-
-
-\begin{minted}{Python3}
-def search(theList, target):
-	return search(theList, target, 0)
-
-
-def search(theList, target, index):
-	if index >= len(theList):
-		return False 
-	if theList[item] == target:
-		return True
-	return search(theList, target, index + 1)
-	
-\end{minted}
+\begin{pycode}
+def printThis(s):
+	if len(s) == 0:
+		print()
+	else:
+		print(s[0], end='')
+		printThis(s[1:])
+\end{pycode}
 
 
 \section{Arrays with Recursion}
@@ -490,8 +430,31 @@ We will begin our investigation with a problem that you already know how to solv
 
 
 
+\subsection{Recursive Linear Search}
+
+
+
+
+\begin{pycode}{Recursive Linear Search}
+def search(theList, target):
+	return search(theList, target, 0)
+
+
+def search(theList, target, index):
+	if index >= len(theList):
+		return False 
+	if theList[item] == target:
+		return True
+	return search(theList, target, index + 1)
+	
+\end{pycode}
+
+
+
+
 \subsection{Binary Search}
-%Binary search is our reason for including Recursion at this location in the textbook. 
+Binary search is our reason for including Recursion at this location in the textbook.   It will be an essential step in building Binary Search Trees.
+
 
 
 
