@@ -102,8 +102,10 @@ def factorial(n):
 
 
 
+This probably makes some sense because you were just looking at the math equation, but this might also seem like magic or weird or, worst of all, weird magic.  In fact it's quite possible that you've accidentally created something resembling an infinite loop before by having a function or method call itself.  So why does it work here?
 
-A recursive function requires two parts: a base case and a recursive case.  
+
+A recursive function requires two parts in order to work: a base case and a recursive case.  
 The base case is the foundation of our recursive problem.  
 It is where we have a defined solution for some value.
 In the factorial, this is the line that checks  if  $n == 0$ in our code, or just defining $0! = 1$ in the mathematics.
@@ -120,7 +122,7 @@ Then \texttt{factorial(2)} takes the answer from \texttt{factorial(1)} and retur
 Then \texttt{factorial(3)} takes the answer from \texttt{factorial(2)} and returns \texttt{3 * \texttt{factorial(1)}}
 And so on and so forth until \texttt{factorial(n)} takes the answer from \texttt{factorial(n-1)} and returns \texttt{n * \texttt{factorial(n-1)}}
 
-We know this works because for any given non-negative integer\footnote{Negative factorials are undefined and I'm ignoring that case in our code. My suggested solution is to either error or document turning something like $(-5)!$ into $-1 \cdot 5!$.  It's wrong, but might be the desired behavior for your program.} $n$  each recursive call on \texttt{factorial} is on a smaller and smaller number, making progress to calculating \texttt{factorial(0)}. Once we hit \texttt{factorial(0)}, the answers start being calculated and trickling up this stack of function calls.
+We know this works because for any given non-negative integer\footnote{Negative factorials are undefined and I'm ignoring that case in our code. My suggested solution is to either error or document turning something like $(-5)!$ into $-1 \cdot 5!$.  It's wrong and will gravely upset the Math department, but might be the desired behavior for your program.  But even more important, you should document what you do in weird cases like this!} $n$  each recursive call on \texttt{factorial} is on a smaller and smaller number, making progress to calculating \texttt{factorial(0)}. Once we hit \texttt{factorial(0)}, the answers start being calculated and trickling up this stack of function calls.
 
 
 <Insert picture of recursive factorial calls here>
@@ -201,7 +203,7 @@ We know this works because for any given non-negative integer\footnote{Negative 
 
 \subsection{Recursive Rules}
 
-More generally, all recursive functions:
+As previously mentioned, all recursive functions:
 \begin{itemize}
 	\item Must have one or more base cases where the solution is well defined.
 	\item Must have one or more recursive cases, where the problem is defined by a smaller subproblem of the same type as the original.
@@ -211,6 +213,24 @@ More generally, all recursive functions:
 
 You prove a recursive algorithm will solve the problem in question by showing all the above points are true.  
 This is much the same as a proof by induction, just in the opposite direction.
+
+\subsubsection{Failure to follow the rules.}
+
+If your recursive case fails to make progress towards your base case, then you end up with a special type of infinite loop which is not actually infinite.  Every time you make a method call,  your computer needs to store where in the code it was and what conditions that were present.  The specifics of how and why this is done are outside the scope of the textbook \footnote{maybe}, but suffice to say, this information gets stored in a part of the computer memory designated as \textit{the stack}.  This stack is named such because it is a \texttt{Stack} just like what you have seen in Chapter \ref{chap-stacks}.  Since this stack is living in your memory and your computer probably does not have infinite memory  we can run the following program to see what happens when that stack ``fills up.''
+
+\begin{javacode}{Recursion with no end condition - Java}
+public static void bad(){
+	bad();
+}
+\end{javacode}
+
+
+\begin{pycode}{Recursion with no end condition - Python}
+def bad():
+	bad()
+\end{pycode}
+
+You'll get something along the line of a \texttt{Stack Overflow} error or exception, which indicates that your stack in memory has gotten completely used up.  This rarely happens in correctly created recursive programs.
 
 \subsection{Fibonacci}
 
@@ -397,7 +417,7 @@ Some of the upcoming examples  of the things we are about to see should not be a
 
 \subsection{Printing Recursively}
 
-\begin{javacode}{A recursive printing method}
+\begin{javacode}{Recursive Printing: Java}
 public static void printThis(String s){
 	if (s.length() == 0) {
 		System.out.println();
@@ -408,7 +428,7 @@ public static void printThis(String s){
 }
 \end{javacode}
 
-\begin{pycode}
+\begin{pycode}{Recursive Printing: Python}
 def printThis(s):
 	if len(s) == 0:
 		print()
@@ -432,13 +452,30 @@ We will begin our investigation with a problem that you already know how to solv
 
 \subsection{Recursive Linear Search}
 
+By this point, you know how to iteratively search a list for a specific item.  We start at the first item/index and go thru the array one item at a time until we get to the last item or find the item we want.   Let's take a look at the same algorithm, just implemented recursively.
 
 
+\begin{javacode}{Recursive Linear Search - Java}
+// We return the index we found the item at
+// -1 means item is not in the list
+public static <E> int search(List<E> list, E target){
+	return search(list, target, 0);
+}
 
-\begin{pycode}{Recursive Linear Search}
+private static <E> int search(List<E> list, E target, int index) {
+	if(index >= list.size()){
+		return -1;
+	}
+	if(list.get(index).equals(target)){
+		return index;
+	}
+	return search(list,target, index+1);
+}
+\end{javacode}
+
+\begin{pycode}{Recursive Linear Search - Python}
 def search(theList, target):
 	return search(theList, target, 0)
-
 
 def search(theList, target, index):
 	if index >= len(theList):
@@ -446,16 +483,22 @@ def search(theList, target, index):
 	if theList[item] == target:
 		return True
 	return search(theList, target, index + 1)
-	
 \end{pycode}
 
 
 
+Again, this is more of a case of pedagogical examples, rather than practical ones.  We want to get some practice in before we get to the really interesting recursive problems.  
 
+\subsubsection{Runtime}  
+The above code has the exact same runtime as doing it iteratively -- $O(n)$ in the case of an \texttt{ArrayList}. Remember, we don't want to use this for a \texttt{LinkedList} due to the $O(n)$ the \texttt{get} method incurs. Use the built-in iterator instead, i.e. use a for each loop.
 \subsection{Binary Search}
 Binary search is our reason for including Recursion at this location in the textbook.   It will be an essential step in building Binary Search Trees.
 
+\subsubsection{Assumptions}
+It must be sorted.
+\subsubsection{Objective}
 
+\subsubsection{Solution}
 
 
 
