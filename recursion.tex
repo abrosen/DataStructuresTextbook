@@ -494,21 +494,104 @@ The above code has the exact same runtime as doing it iteratively -- $O(n)$ in t
 \subsection{Binary Search}
 Binary search is our reason for including Recursion at this location in the textbook.   It will be an essential step in building Binary Search Trees.
 
-\subsubsection{Assumptions}
-It must be sorted.
+
 \subsubsection{Objective}
+Like our recursive linear search, our goal is to search for a particular item in an array or list.  Once we find that item, we can either return true or the index we found it at, depending on our implementation.  If we fail to find, we return either false or -1 or null; again this depends on our implementation.\footnote{Or force a win using \textit{Gifts Ungiven}.  Wait, wrong fail to find.}.
+
+\subsubsection{Assumptions}
+We will be using an array for Java and \texttt{List} for Python.  This data structure will be sorted.  This is a key assumption;  if the array is not sorted, we cannot do a binary search.
 
 \subsubsection{Solution}
+Since our core assumption is that we are using a sorted collection, it makes sense that our algorithm exploits this.  Think of a game that you might have played in school as a kid, the ``I'm thinking Of a number from one to 100. I'll tell you if it's higher or lower.''  Now the linear strategy that we went over previously would be the equivalent of asking ``Is it one? Oh, it's higher? Is it 2? It's higher? Is it 3? Oh, it's higher?'' and so on and so forth Until we hit the number in question. A more reasonable strategy would be to pick the number 50 because that number is in the middle of the entire range.  Once we know whether the number is higher or lower we have effectively halved our range. This is because if the number is higher than 50 we know that the number cannot be between 1 and 50, inclusive. If it is lower than 50 we know the number cannot be between 50 and 100, inclusive.   And if the number is 50 we just simply got lucky.
+The next step is to choose the number in the middle of our new range so we can do the same halving of our search space.
+
+Let's take this strategy and apply it to an array of sorted numbers, seen in Figure \ref{fig:binarysearch1}.
+
+ 
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\linewidth]{pics/binarySearch1}
+	\caption{}
+	\label{fig:binarysearch1}
+\end{figure}
+
+
+In this example, we want to see query if this array contains the item $5.$   We start by asking figuring out what the middle index of the array is, since half the items in the array will be to the left and half to the right\footnote{Or half stored in lower indices and half stored in higher indices if you prefer.}.  The array is 7 items total, so we start at index 3  and compare 5 to the value stored in there (Figure \ref{fig:binarysearch2}).
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\linewidth]{pics/binarySearch2}
+	\caption{The labels \texttt{start} and \texttt{end} represent the start and end of our search space.  This will make more sense as we progress, especially as we start coding.}
+	\label{fig:binarysearch2}
+\end{figure}
+
+Since $5 < 10$, we know that if 5 is in the array, it will be found to the left of index 3.  We put the end of our search space one index to the left of the middle of our previous search space.  Our new range to search is now index 0 thru index 2 (Figure \ref{fig:binarysearch3}).  We compare 5 to the item in the middle of that range, which is the number 4 at index 1.  
 
 
 
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\linewidth]{pics/binarySearch3}
+	\caption{The labels \texttt{start} and \texttt{end} represent the start and end of our search space, which has now shrunk to less than half the original array.}
+	\label{fig:binarysearch3}
+\end{figure}
 
+$5 > 4$, so if 5 is in the array, it is on the right side of our search space.  Our search space contracts to a single item, index 2 (Figure \ref{fig:binarysearch4}).  
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\linewidth]{pics/binarySearch4}
+	\caption{The labels \texttt{start} and \texttt{end} are now on the same item.  This means a search space has a size of 1.}
+	\label{fig:binarysearch4}
+\end{figure}
+
+
+The item at index 2 is the same item we've been looking for, so we have successfully found our item.
+
+\subsubsection{Code}
+
+\begin{javacode}{Binary Search - Java}
+public static int binarySearch(int[] arr, int target) {
+	return binarySearch(arr, target,0,arr.length-1);
+}
+
+private static int binarySearch(int[] arr, int target, int start, int end) {
+	if(start > end) {
+		return -1;
+	}
+	int mid = (start + end) / 2;
+	if(target == arr[mid] ) {
+		return mid; // item found
+	} else if( target < arr[mid]) {
+		// search right side
+		return binarySearch(arr, target, mid+1, end);
+	} else {
+		// search left side
+		return binarySearch(arr, target, start, mid-1);
+	}
+}
+\end{javacode}
+
+
+\begin{pycode}{Binary Search in Python}
+def binarySearch(arr, target, start = 0, end = 0):
+	if len(arr) > 0 and end == 0:
+		end = len(arr) - 1
+	if start > end:
+		return None
+	mid = (start + end) // 2
+	if arr[mid] == target:
+		return mid
+	elif target < arr[mid]:
+		return binarySearch(arr, target, start, mid - 1)
+	else:
+		return binarySearch(arr, target, mid + 1, end)
+\end{pycode}
 
 \subsubsection{Runtime Analysis}
 Each step of binary search eliminates either exactly or almost exactly half of the search space or sucessfully terminates the search.
 
 This halving at each step is represented by $log_2(n)$, where $n$ is the number of items.  Thus, with an array of 256 items, this algorithm would take approximately 8 steps. Doubling the size of the array to 512 items increases the amount of work only by a single step.   Compare that to our linear search, which starts at the beginning at goes thru the array one item at a time.  That takes $O(n)$ time.  In this case, doubling the number of items means doubling the amount of time the algorithm takes.
-
 
 
 
@@ -523,13 +606,43 @@ For example, $\log_b x$ asks "how many times can I recursively split my $x$ item
 
 A more concrete example: $\log_2 16 = 4$, not because $2^4 = 16$, but because a pile of 16 items can be split in half into two piles of 8, each pile of 8 can be split in half into two piles of 4, the 4's can be split into 2's, the 2's into 1's --- four splits total:
 
-<picture>
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{pics/log16}
+	\caption{}
+	\label{fig:log16}
+\end{figure}
+
 
 
 In algorithm analysis, $log n$ in the time complexity is used to indicate that the search space gets split in half.
 In the Binary Search algorithm above, we split the our search space in half each step of the way.  We start out looking at the middle item and then decide to look at all the items below or all the items above.  This reduces the number of items to search among from $n$ to $\frac{n}{2}$.  From there we perform the same choices and reduce that $\frac{n}{2}$ to $\frac{n}{4}$, then from  $\frac{n}{4}$ to  $\frac{n}{8}$ and so on.
 
-\subsubsection{Back to it.}
+\subsubsection{Additional Implementation: Java with Lists}
+
+
+\begin{javacode}{Binary Search - Java Lists}
+    public static <E extends Comparable<E>> int binarySearch(List<E> list, E target) {
+	return binarySearch(list, target,0,list.size()-1);
+}
+
+public static <E extends Comparable<E>> int binarySearch(List<E> list, E target, int start, int end) {
+	if(start > end) {
+		return -1;
+	}
+	int mid = (start + end) / 2;
+	if(target.compareTo(list.get(mid)) == 0) {
+		return mid; // item found
+	}
+	if(target.compareTo(list.get(mid)) < 0) {
+		// search right side
+		return binarySearch(list, target, mid+1, end);
+	} else {
+		// search left side
+		return binarySearch(list, target, start, mid-1);
+	}
+}
+\end{javacode}
 
 \section{Recursive Backtracking}
 Recursion really comes in handy when we are trying to solve complex puzzles.
