@@ -550,7 +550,9 @@ The item at index 2 is the same item we've been looking for, so we have successf
 
 \subsubsection{Code}
 
-\begin{javacode}{Binary Search - Java}
+
+
+\begin{javacode}[listing and comment, comment={Our outer, wrapper function exists to have a clean function to call.  Our helper function does the actual work.  If we fail to find our target, we will return -1, which is an invalid index.}]{Binary Search - Java}
 public static int binarySearch(int[] arr, int target) {
 	return binarySearch(arr, target,0,arr.length-1);
 }
@@ -573,7 +575,7 @@ private static int binarySearch(int[] arr, int target, int start, int end) {
 \end{javacode}
 
 
-\begin{pycode}{Binary Search in Python}
+\begin{pycode}[listing and comment, comment={Our outer function exists to have a clean enterance in}]{Binary Search in Python}
 def binarySearch(arr, target, start = 0, end = 0):
 	if len(arr) > 0 and end == 0:
 		end = len(arr) - 1
@@ -621,7 +623,7 @@ In the Binary Search algorithm above, we split the our search space in half each
 \subsubsection{Additional Implementation: Java with Lists}
 
 
-\begin{javacode}{Binary Search - Java Lists}
+\begin{javacode}[listing and comment, comment={}]{Binary Search - Java Lists}
     public static <E extends Comparable<E>> int binarySearch(List<E> list, E target) {
 	return binarySearch(list, target,0,list.size()-1);
 }
