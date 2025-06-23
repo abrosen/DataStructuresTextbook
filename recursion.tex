@@ -575,7 +575,7 @@ private static int binarySearch(int[] arr, int target, int start, int end) {
 \end{javacode}
 
 
-\begin{pycode}[listing and comment, comment={Our outer function exists to have a clean enterance in}]{Binary Search in Python}
+\begin{pycode}[listing and comment, comment={Here, we have two base arguments for our initial call, with start and end to be used for a recursive call.  The first if statement is to set \texttt{end} correctly for our topmost (initial) call.  The first base case returns texttt{None} to represent a failure to find.}]{Binary Search in Python}
 def binarySearch(arr, target, start = 0, end = 0):
 	if len(arr) > 0 and end == 0:
 		end = len(arr) - 1
@@ -589,6 +589,10 @@ def binarySearch(arr, target, start = 0, end = 0):
 	else:
 		return binarySearch(arr, target, mid + 1, end)
 \end{pycode}
+
+In our above code, we create two base cases, which are quite simple if you think about it.  The first is if our search space is size 0 or invalid.  We obviously can't find \texttt{target} in the search space if the search spaces doesn't exist. This is the \mintinline{Java}|if(start > end)| clause, since if the start of the search space is to the right of the end of the search space, we don't have a valid space to search anymore.  The next step  The second base case is obvious:
+
+%TODO Lazy Thinking  comparison
 
 \subsubsection{Runtime Analysis}
 Each step of binary search eliminates either exactly or almost exactly half of the search space or sucessfully terminates the search.
