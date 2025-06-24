@@ -575,7 +575,7 @@ private static int binarySearch(int[] arr, int target, int start, int end) {
 \end{javacode}
 
 
-\begin{pycode}[listing and comment, comment={Here, we have two base arguments for our initial call, with start and end to be used for a recursive call.  The first if statement is to set \texttt{end} correctly for our topmost (initial) call.  The first base case returns texttt{None} to represent a failure to find.}]{Binary Search in Python}
+\begin{pycode}[listing and comment, comment={Here, we have two base arguments for our initial call, with start and end to be used for a recursive call.  The first if statement is to set \texttt{end} correctly for our topmost (initial) call, because I'm too lazy to write a second, private helper function.  The first base case returns \texttt{None} to represent a failure to find.}]{Binary Search in Python}
 def binarySearch(arr, target, start = 0, end = 0):
 	if len(arr) > 0 and end == 0:
 		end = len(arr) - 1
@@ -590,22 +590,35 @@ def binarySearch(arr, target, start = 0, end = 0):
 		return binarySearch(arr, target, mid + 1, end)
 \end{pycode}
 
-In our above code, we create two base cases, which are quite simple if you think about it.  The first is if our search space is size 0 or invalid.  We obviously can't find \texttt{target} in the search space if the search spaces doesn't exist. This is the \mintinline{Java}|if(start > end)| clause, since if the start of the search space is to the right of the end of the search space, we don't have a valid space to search anymore.  The next step  The second base case is obvious:
+In our above code, we create two base cases, which are quite simple if you think about it.  The first is if our search space is size 0 or invalid.  We obviously can't find \texttt{target} in the search space if the search spaces doesn't exist. This is the \mintinline{Java}|if(start > end)| clause, since if the start of the search space is to the right of the end of the search space, we don't have a valid space to search anymore.  In this scenario, we return a failure state of some sort\footnote{-1 in our Java example and \texttt{None} in our python example.}.  
 
-%TODO Lazy Thinking  comparison
+The next step is to calculate \texttt{mid} which is the index in the middle of the search space.  From there, we get our second base case:  if the item at index \texttt{mid} is the item we are looking for, we're done.   Otherwise, we check if \texttt{target < arr[mid]}.  If this is true, then target must be on the left half of the array.  To search that left half for \texttt{target}, we call \texttt{binarySearch(arr, target, start, mid - 1)}.    Why are each of the arguments what they are?
+
+\begin{itemize}
+	\item The first parameter of \texttt{binarySearch} is the array or list we are search, so the argument that we pass into our recursive call remains the same.
+	\item The second parameter is the \texttt{target} item, which remains constant.
+	\item The third parameter is the beginning index of our search space.  When we search to the left side of the search space, we are searching between \texttt{start} and \texttt{mid}, not including \texttt{mid}.  Thus the third argument won't change.
+	\item We pass in \texttt{mid - 1} as the \texttt{end} of the new search space, since that is the right side of the new, smaller search.
+\end{itemize}
+
+
+Now, if  \texttt{target < arr[mid]} is false, we search the right side, which means that the fourth argument is \texttt{end}, but we change the third argument to \texttt{mid + 1}.
+
+
+%TODO Lazy Thinking comparison
+
 
 \subsubsection{Runtime Analysis}
-Each step of binary search eliminates either exactly or almost exactly half of the search space or sucessfully terminates the search.
+Each call of \texttt{binarySearch} eliminates either exactly or almost exactly half of the search space if we don't find our \texttt{target}.  This halving can be mathematically  described by the operation $\log_2(n)$, where $n$ is the number of items.\footnote{If the sudden appearance of logarithms risks scaring you off, just keep reading to the next subsubsection.  I wrote that special for you.}  Thus, with an array of 256 items, this algorithm would take approximately 8 steps. Doubling the size of the array to 512 items increases the amount of work only by a single step. This yields $O(\log n)$  as the runtime.\footnote{ We drop the base of a logarithm when we use big $O$ notation.}    
+ 
+Compare that to our linear search, which starts at the beginning and goes through the array one item at a time. That takes $O(n)$ time. In this case, doubling the number of items means doubling the amount of work the algorithm has to do.
 
-This halving at each step is represented by $log_2(n)$, where $n$ is the number of items.  Thus, with an array of 256 items, this algorithm would take approximately 8 steps. Doubling the size of the array to 512 items increases the amount of work only by a single step.   Compare that to our linear search, which starts at the beginning at goes thru the array one item at a time.  That takes $O(n)$ time.  In this case, doubling the number of items means doubling the amount of time the algorithm takes.
+It nears emphasizing and repeating:  $O(\log n)$ runtime is a major improvement over a linear runtime.  Doubling the size of $n$ does practically nothing to change the runtime of \texttt{binarySearch}, but would make a linear search take twice as long.
 
 
-
-
-\subsubsection{How to not be scared of logarithms }
+\subsubsection{How to not be scared of logarithms}
 You may have learned that logarithms are the inverse operation to exponentiation.
 This is an utterly useless definition when programming.
-
 
 A more way of thinking about logarithms is "how many times can I recursively split something?"
 For example, $\log_b x$ asks "how many times can I recursively split my $x$ items into $b$ seperate piles?"
@@ -614,14 +627,14 @@ A more concrete example: $\log_2 16 = 4$, not because $2^4 = 16$, but because a 
 
 \begin{figure}
 	\centering
-	\includegraphics[width=0.7\linewidth]{pics/log16}
+	\includegraphics[width=0.4\linewidth]{pics/log16}
 	\caption{}
 	\label{fig:log16}
 \end{figure}
 
 
 
-In algorithm analysis, $log n$ in the time complexity is used to indicate that the search space gets split in half.
+In algorithm analysis, $\log n$ in the time complexity is used to indicate that the search space gets split in half.
 In the Binary Search algorithm above, we split the our search space in half each step of the way.  We start out looking at the middle item and then decide to look at all the items below or all the items above.  This reduces the number of items to search among from $n$ to $\frac{n}{2}$.  From there we perform the same choices and reduce that $\frac{n}{2}$ to $\frac{n}{4}$, then from  $\frac{n}{4}$ to  $\frac{n}{8}$ and so on.
 
 \subsubsection{Additional Implementation: Java with Lists}
@@ -648,6 +661,8 @@ public static <E extends Comparable<E>> int binarySearch(List<E> list, E target,
 		return binarySearch(list, target, start, mid-1);
 	}
 }
+
+In this case, think of ``less than'' as ``comes before.''
 \end{javacode}
 
 \section{Recursive Backtracking}
