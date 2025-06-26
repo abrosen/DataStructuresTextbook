@@ -59,7 +59,7 @@ public static long factorialIter(int n) {
 \end{javacode}
 
 
-Notice that I use \texttt{long} in Listing \ref{code:factiterjava}.  The total gets very, very big, very very fast.  Or as Sefer Yetzerah put it: ``their numbers increase so that the mouth can hardly utter them, nor the ear hear the number of them.''
+Notice that I use \texttt{long} in Listing \ref{code:factiterjava}.  The total gets very very big, very very fast.  Or as Sefer Yetzerah put it: ``their numbers increase so that the mouth can hardly utter them, nor the ear hear the number of them.''
 
 Now, let's play around with the equation a bit.  It's fairly trivial to see in the calculations above that we can get the next value factorial value by multplying by the next integer, e.g. we can go from $2!$ to $3!$ by muliplying $2!$ by $3$.
 
@@ -117,7 +117,10 @@ In our code, we
 So in our code, we look at solving \texttt{factorial(n)}, decide that's way too much work and decide to solve \texttt{factorial(n-1)} and multiply that by \texttt{n}.
 Solving \texttt{factorial(n-1)} presents us with the same challenge, so we call \texttt{factorial(n-2)} to multiply that against \texttt{(n-1)}.  
 Solving \texttt{factorial(n-2)} presents us with the same challenge, so we call \texttt{factorial(n-3)} to multiply that against \texttt{(n-2)}\dots  
-This continues until we call \texttt{factorial(1)}, which calls \texttt{factorial(0)}, the base case, which finally gives us 1.  \texttt{facorial(1)} takes that 1 and returns \texttt{1 * 1}. 
+
+This continues until we call \texttt{factorial(1)}, which calls \texttt{factorial(0)}, the base case, which finally gives us 1.  
+
+\texttt{facorial(1)} takes that 1 and returns \texttt{1 * 1}. 
 Then \texttt{factorial(2)} takes the answer from \texttt{factorial(1)} and returns \texttt{2 * \texttt{factorial(1)}}
 Then \texttt{factorial(3)} takes the answer from \texttt{factorial(2)} and returns \texttt{3 * \texttt{factorial(1)}}
 And so on and so forth until \texttt{factorial(n)} takes the answer from \texttt{factorial(n-1)} and returns \texttt{n * \texttt{factorial(n-1)}}
@@ -192,7 +195,7 @@ We know this works because for any given non-negative integer\footnote{Negative 
 
 
 
-\begin{figure}
+\begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.7\linewidth]{pics/factorial}
 	\caption{Hopefully you get it now.}
@@ -644,8 +647,8 @@ In the Binary Search algorithm above, we split the our search space in half each
 \subsubsection{Additional Implementation: Java with Lists}
 
 
-\begin{javacode}[listing and comment, comment={}]{Binary Search - Java Lists}
-    public static <E extends Comparable<E>> int binarySearch(List<E> list, E target) {
+\begin{javacode}[listing and comment,  comment={Performing binary search on a list looks something like this.  Recall that \texttt{Comparable} is an interface that Java uses to let methods and classes know something can be put in order\footnote{Formally, this is a  \textit{total ordering} in fancy math lingo, which means any two items have an established order}.  This necessarily  means that they can be sorted. The generic \texttt{<E extends Comparable<E>>} means the the \texttt{List} of \texttt{E}'s is guaranteed to be made up of items that can be compared to other things of type \texttt{E} to see which comes first.}]{Binary Search - Java Lists}
+public static <E extends Comparable<E>> int binarySearch(List<E> list, E target) {
 	return binarySearch(list, target, 0, list.size()-1);
 }
 
@@ -668,11 +671,53 @@ public static <E extends Comparable<E>> int binarySearch(List<E> list, E target,
 
 \end{javacode}
 
-In this case, think of ``less than'' as ``comes before.''
 \section{Recursive Backtracking}
 Recursion really comes in handy when we are trying to solve complex puzzles.
-One of the most famous examples of this is using
+One of the most famous examples of this is using recursion to solve the eight queens problem or Sudoku.  Before we get into this, let's establish the rest of the chapter. I'll introduce the eight queen's puzzle.  Then, I'll show you the generic recursive backtracking algorithm, explain it, and then show a partial solution to the eight queens puzzle.  I'll also go over the Sudoku solver, but will leave that as a potential homework.
 
+
+The entire reason for this aside is to speak to both the students and instructors who use this book.  The eight queens problem is a recursive problem that has been used as a homework problem longer than I've been alive.  This means there are a million and a half solutions floating around the internet.  
+
+Students: I ask you do not rob yourself of that learning experience and instead strive to follow the text I have here.   Go to your teacher or TA or classmate if you get stuck for more than two hours.  
+
+Teachers:  Give these exercises, or something similar like the knight's tour, as a homework assignment.  These are engaging and worth it.  Yes, some students are going to completely ignore the plea of the last paragraph, but they were going to do that no matter what assignment you gave.  Don't rob the engaged students of a great learning experience.
+
+\subsection{The Eight Queens Puzzle}
+The eight queens puzzle is an old chess puzzle. If you don't know how to play chess, you should change that, but knowing how to play is not necessary to solving the puzzle.  
+
+The goal of the puzzle is to place eight queens on a standard $8 \times 8$ chessboard.  The queens should be placed in such a way that no queen can capture any other queen.  In chess, a queen can capture any piece by traveling vertically, horizontally, or diagonally until it crashes into a piece.  Or in more programming friendly terms, we need to place 8 queens such that none share a row, column, or diagonal.
+
+This is one example solution, but it is not the only solution.
+
+
+
+\chessboard[setwhite={Qa1,Qb7,Qc4,Qd6,Qe8,Qf2,Qg5,Qh3},showmover=false]
+
+\subsubsection{Brute Force Solution}
+A brute force algorithm means we will be checking every single possible state to find a solution.
+In this case, a brute force solution for the Eight Queens Puzzle would every possible placement of eight queens on a chessboard, such as  these two incorrect solutions:
+
+\chessboard[setwhite={Qa2,Qb7,Qc2,Qd6,Qe8,Qf4,Qg5,Qh3},showmover=false]
+
+\chessboard[setwhite={Qa2,Qb7,Qc2,Qd6,Qe8,Qf2,Qg5,Qh3},showmover=false]
+
+There are a total of $\binom{64}{8} = 4426165368$
+possible ways to place 8 queens on a chessboard with 64 spaces.  Our computer could sift thru all possible configurations until it finds a solution, and thus, performing a brute force solution will eventually work. It just won't work fast.
+
+Our motive is to do better and apply some more logic to our searches.
+Take those two incorrect solutions, for example.  The first has queens on spaces a2 and c2, which means that it is an incorrect solution.  The second example also has queens on a2 and c2, but additionally it has a queen on f2.  
+If we can go about finding a solution more methodically, there is no reason that we should ever check the second example.  
+Once we establish that placing a queen on a2 and c2 doesn't work for a solution, we should never check any solution that contains a2 and c2 ever again.
+If fact, let's try and go even further. Assume to generate a solution,we place queens right to left, going one column at a time, like so:
+
+\chessboard[setwhite={Qa2},showmover=false]
+
+\chessboard[setwhite={Qa2,Qb7},showmover=false]
+
+
+\chessboard[setwhite={Qa2,Qb7,Qc2},showmover=false]
+
+Once we hit this point, there is no need to place any more queens, since we know any of the remaingin 5 queens we place down will be in a ``dead'' branch of the search space.  This would allow us to ``skip'' checking the $\binom{40}{5} = 658008$ solutions that place the five other queens.
 \subsection*{The Recursive Backtracking Algorithm}
 
 \begin{minted}{C}
@@ -700,25 +745,11 @@ boolean solve(board,  pos){
 \end{minted}
 
 
-\subsection{Mazes Again}
 
-
-
-\subsection{The Eight Queens Puzzle}
-
-\chessboard[setwhite={Qa1,Qb7,Qc4,Qd6,Qe8,Qf2,Qg5,Qh3},showmover=false]
-
-\subsubsection{Brute Force Solution}
-A brute force algorithm means we will be checking every single possible state to find a solution.
-In this case, a brute force solution for the Eight Queens Puzzle would every possible placement of eight queens on a chessboard, such as  these two:
-
-<Chess notation here>
-
-There are a total of $\binom{64}{8} = 4426165368$
-possible ways to place 8 queens on a chessboard with 64 spaces.
+\subsection{Recursively Solving the Eight Queens Problem}
 
 \subsubsection{Recursive Solution Outline}
-\begin{minted}{Java}
+\begin{javacode}{Partial Solution - Java}
 public static boolean solve(int[][] board, int col){
 	
 	if( col == 8){
@@ -739,7 +770,7 @@ public static boolean solve(int[][] board, int col){
 	return false; // backtrack
 }
 
-\end{minted}
+\end{javacode}
 
 \subsubsection{A Place Holder For Validity}
 
@@ -759,6 +790,9 @@ public static boolean solve(int[][] board, int col){
 
 \subsubsection{Sudoku}
 
+
+
+%\subsection{Mazes Again}
 
 
 
