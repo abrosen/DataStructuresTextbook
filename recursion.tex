@@ -717,36 +717,142 @@ If fact, let's try and go even further. Assume to generate a solution,we place q
 
 \chessboard[setwhite={Qa2,Qb7,Qc2},showmover=false]
 
-Once we hit this point, there is no need to place any more queens, since we know any of the remaingin 5 queens we place down will be in a ``dead'' branch of the search space.  This would allow us to ``skip'' checking the $\binom{40}{5} = 658008$ solutions that place the five other queens.
+Once we hit this point, there is no need to place any more queens, since we know any of the remaining 5 queens we place down will be in a ``dead'' branch of the search space.  This would allow us to ``skip'' checking the $\binom{40}{5} = 658008$ solutions that place the five other queens.
 \subsection*{The Recursive Backtracking Algorithm}
+So how do kill a branch of our search space off?  
 
-\begin{minted}{C}
+We're going to generalize the puzzle for our next step.  Let's introduce you to \texttt{solve}, our recursive backtracking algorithm.
+
+\begin{minted}[style=bw]{C}
 boolean solve(board,  pos){
-	
-	if( pos is such that there is nothing left to solve){
-		return true;
-	}
-	
-	for each possible choice {
-		if(valid(choice)){
-			mark board at pos with choice;
-			if(solve(board, pos + 1) == true){
-				return true;
-			}
-			unmark board at pos if needed, as choice was invalid
-		}
-	}
-	clear any choices entered at pos on board, if needed;
-	
-	return false; // backtrack
-}
-	
-	
 \end{minted}
 
 
+This solve method will take in two parameters: \texttt{board} and \texttt{pos}.  Board is the puzzle we are trying to solve and all the work we've done on it so far.  In eight queens, it will be our chess board and where we've paced the queens.  For Sudoku, it would be the grid and all the numbers we have put down (more on that later).  For a maze, such as in Chapter \ref{sec:mazes}, this would be the configuration of the maze, e.g. the walls and corridors and any marks we have made to avoid searching the same thing twice. 
+
+Now, \texttt{pos} is our \textit{position} in the puzzle. Let's think of it as the current thing we are trying to solve.  For the Eight Queens puzzle, our position the current column we're placing our queen on (more on that later).  For Sudoku, we need to find what number goes in this current square. In the maze, we want to select the path leads to the end.
+
+
+Finally, the \texttt{boolean} return value is used to signal whether solved the puzzle or failed.
+
+So now that we are given the two parameters we need, we need to come up with a nice, concise algorithm that solves the entire puzzle.  That's a bit of a tall order, but since we are in the Recursion chapter, we should probably think of a recursive solution\footnote{  \href{https://en.wikipedia.org/wiki/Metagame}{Metagaming} is a valuable skill in not just in games, but in school and life.  Don't just study the material is for the exam, predict kind of questions your Professor likes to asked based on prior knowledge.}.   That's good, because that will enable us to be \textit{lazy}.
+
+
+Our recursive solution requires the two elements all recursive solutions need -  a base case and a recursive case.  We'll also find we need a third case, but more on that in a bit.
+
+
+\begin{minted}[style=bw]{C}
+boolean solve(board,  pos){
+	// base case
+	
+	// recusive case
+}
+\end{minted}
+
+Let's start with the base case.  The base case should be the simplest, laziest thing we can think of.  For any puzzle, that would be the board already being solved.  If our position indicates everything is done, we return true to signal that the maze is solve.  This would be having no queens left to place, or no Sudoku squares to fill, or having found the exit.
+
+\begin{minted}[style=bw]{C}
+boolean solve(board,  pos){
+	// base case
+	if(pos indicates puzzle is solved){
+		return
+	}
+	// recusive case
+}
+\end{minted}
+
+Easy.  Now onto the recursive case.  The puzzle is not solved.   So let's do the \textit{next laziest} thing  - solving our current position, the bare minimum.  Now at our position, we have lots of possible choices.    
+
+
+We can think of it as which choice is needed to make to solve the \textit{entire} puzzle from here.  Where do we need to put the queen so it will be valid for all the other choices?  What number is the correct number to put in this square?  What turn in the maze will lead us to the exit?  There is no way to know if we're not at the base case, but we're going to pretend that the choice we're making is the correct one for now.
+
+What makes this better than brute forcing a solution is that not every possible choice we can make is valid. How do we figure that out which choice is valid?  That depends on the puzzle, so we are going to be lazy and abstract checking if a choice is valid to a \texttt{valid} function.
+
+This brings us to the first part of the recursive step. Look at each choice we can make, one at a time.  As soon as we find a valid choice, we're going to pick it and assume it's correct.
+
+\begin{minted}[style=bw]{C}
+boolean solve(board,  pos){
+	// base case
+	if(pos indicates puzzle is solved){
+		return
+	}
+	// recusive case
+	for each possible choice {
+		if(valid(choice)){
+			select and mark that choice;
+			// part two goes here
+		}
+	}
+}
+\end{minted}
+
+
+This next part is the trickiest when we first look at it, but once we get the hang of it, writing \texttt{valid} will be the hardest part of doing this kind of algorithm.
+
+Now that we've made our presumably correct choice, we are going to be lazy and call a magic \texttt{solve} function to solve the rest of the puzzle from the next position.  That function will return true or false, depending on whether the magic \texttt{solve} function found a solution or not.  If it returns true, we will return true to indicate to whatever function called us that the puzzle is solved with the found solution stored in \textit{board}.
+
+If \texttt{solve} returns false, that's going to indicate this choice will not lead to a solution, given the current state of the \textit{board}.  When that happens, we will need to undo whatever we did to mark our current choice and resume checking the other possible choices to find if one is valid.
+
+
+\begin{minted}[style=bw]{C}
+boolean solve(board, pos) {
+	// base case
+	if(pos indicates puzzle is solved) {
+		return
+	}
+	// recusive case
+	for each possible choice {
+		if(valid(choice)) {
+			select and mark that choice;
+			if(solve(board, nextPos) == true){  // recursive case
+				return true;
+			}
+			unmark board at pos if needed, as choice was invalid;
+		}
+	}
+	// But what if there's no valid choice?
+}
+\end{minted}
+
+
+As it happens, the magic function to solve the rest of the puzzle is the one we are currently writing, so we're almost done.
+
+Unlike our previous recursive problems which only had a base case and a recursive case,  our solution involves a failure state of sorts.   What if we look at all our choices and none of them work? If we hit this case, our program knows it won't be able to find a solution with the current configuration and uses \mintinline{Java}|return false| to inform the function that called it that something in the current configuration needs to change.
+
+
+This failure case is what makes this a recursive backtracking algorithm.
+
+
+\begin{minted}[style=bw]{C}
+boolean solve(board, pos) {
+	// base case
+	if(pos indicates puzzle is solved) {
+		return
+	}
+	// recusive case
+	for each possible choice {
+		if(valid(choice)) {
+			select and mark that choice;
+			if(solve(board, nextPos) == true){  // recursive case
+				return true;
+			}
+			unmark board at pos if needed, as choice was invalid;
+		}
+	}
+	return false; // backtrack
+}
+\end{minted}
+	
+As I previously mentioned, while this looks complicated at first, especially the \texttt{if(solve(board, nextPos) == true)}  once we get used to it, the recursive part is fairly straightforward.
+
+
+A\textbf{ key feature }of this is that we always know where we are;  we never have to search for the space we are trying to solve - it is the current position.
+
 
 \subsection{Recursively Solving the Eight Queens Problem}
+
+
+
 
 \subsubsection{Recursive Solution Outline}
 \begin{javacode}{Partial Solution - Java}
