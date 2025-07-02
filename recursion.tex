@@ -851,48 +851,130 @@ A\textbf{ key feature }of this is that we always know where we are;  we never ha
 
 \subsection{Recursively Solving the Eight Queens Problem}
 
+Now that we have generalized algorithm, let's apply it to the Eight Queens problem.  
+We'll represent the chess board as a 2D array.  There's many different valid type we could use, but I'm going to use an array of \texttt{String}, using \texttt{'Q'} and \texttt{'-'} to represent a space with a queen and an empty space respectively.  Our position in the puzzle with be the \texttt{col} variable, representing the column we are currently working on.  Finally, the choice for each column will be what \texttt{row} we place the queen on.
 
-
-
-\subsubsection{Recursive Solution Outline}
-\begin{javacode}{Partial Solution - Java}
-public static boolean solve(int[][] board, int col){
-	
-	if( col == 8){
+\begin{javacode}[listing and comment, comment={The initial call to solve will pass in \texttt{0} for \texttt{col} to start at the first column. We use \texttt{col == 8} as the base case, as a call to \texttt{solve(board, 8)} would be trying to check a column that does not exist.  The only way for that to happen is from a call on the  8th column (index 7), which means that that last column has found a working solution. If we want to generalize this solution to work on square boards other that a standard 8x8 chess board, we can do that by replacing all the 8's in the code with \texttt{board.length}.}]{Outline of Solution - Java}
+public static boolean solve(String[][] board, int col){
+	if(col == 8) { // use board.length to generalize
 		return true;
 	}
 	
-	for(int row = 0; row < 8;row++){
+	for(int row = 0; row < 8; row++) {
 		if(valid(choice)){
-			mark board at pos with choice;
+			place "Q" at row,col
 			if(solve(board, pos + 1) == true){
 				return true;
 			}
-			unmark board at pos if needed, as choice was invalid
+			replace "Q" with "-", as choice was invalid
 		}
 	}
-	clear any choices entered at pos on board, if needed;
-	
 	return false; // backtrack
 }
-
 \end{javacode}
+
+
+\begin{pycode}[listing and comment, comment={The initial call to solve will pass in \texttt{0} for \texttt{col} to start at the first column. We use \texttt{col == 8} as the base case, as a call to \texttt{solve(board, 8)} would be trying to check a column that does not exist.  The only way for that to happen is from a call on the  8th column (index 7), which means that that last column has found a working solution. If we want to generalize this solution to work on square boards other that a standard 8x8 chess board, we can do that by replacing all the 8's in the code with \texttt{len(board).}}]{Outline of Solution - Java}
+def solve(board, col):
+	if(col == 8): # use len(board) to generalize
+		return True
+		
+	for row in range(8):
+		if valid(choice):
+			place "Q" at row,col
+			if solve(board, pos + 1) == True:
+				return True
+			replace "Q" with "-", as choice was invalid
+	return False # backtrack
+\end{pycode}
 
 \subsubsection{A Place Holder For Validity}
 
+Assume for a second that it is possible to not find a solution.  Would our program continue forever?  We ask this question to make sure the recursion is valid. Let's modify the \texttt{valid} function to do nothing but return \texttt{false} and examine the result.  Whenever we fail to find a solution on a column, \texttt{solve} returns \texttt{false} to whatever function called it.  Thus, if no solution is possible, we will eventually exhaust the search space and return \texttt{false} on the entire problem.
+
 \subsubsection{Performing the Recursion}
 
-\subsubsection{Checking just One condition}
+Let's go ahead and fill in that code to demonstrate the recursion works.  We can do this by setting \texttt{valid} function to do nothing but return  \texttt{true}.  Once we do that, there's basically only the most simple of changes to make.  Test by calling \texttt{solve} by passing in an 8x8 array of \texttt{"-"} and \texttt{0}.
+%TODO test
+
+\begin{javacode}[listing and comment, comment={}]{Solve - Java}
+public static boolean solve(String[][] board, int col){
+	if(col == 8) { // use board.length to generalize
+		return true;
+	}
+	
+	for(int row = 0; row < 8; row++) {
+		if(valid(board, row, col)){
+			board[row][col] = "Q";
+			if(solve(board, pos + 1) == true){
+				return true;
+			}
+			board[row][col] = "-";
+		}
+	}
+	return false; // backtrack
+}
+\end{javacode}
 
 
-\subsubsection{Checking all the Conditions}
+\begin{pycode}[listing and comment, comment={}]{Solve - Python}
+def solve(board, col):
+	if(col == 8): # use len(board) to generalize
+		return True
+	
+	for row in range(8):
+		if valid(board, row, col):
+			board[row][col] = "Q"
+			if solve(board, pos + 1) == True:
+				return True
+			board[row][col] = "-"
+	return False # backtrack
+\end{pycode}
 
+
+The result should be eight queens in the first row and nowhere else, which makes sense; the \texttt{valid} function will return \texttt{true} no matter what, so the first square in the column is always valid. 
+
+Completing \texttt{valid} is left as an exercise for the user.  
+Now you might be thinking since Queen moves in eight possible directions, you need to check for conflicts with placing a queen in eight directions too.  Fortunately,  you're wrong.  Firstly, we are only ever placing a single Queen on a column.  Since we are trying to figure out which row to place that Queen on  for any particular column, we never have to check if the Queen has any pieces above or below it.  Second, we are only ever moving from left to right.  Whenever we place a Queen, the next column we choose is always to the right.  If we don't find a valid queen, the column is cleared before returning \texttt{false}.  This means we never have to check for Queens to the right of the space we want to place our Queen.
+
+This leaves only three directions to check:
+\begin{itemize}
+	\item Directly to the left.
+	\item The upper left diagonal.
+	\item The lower left diagonal.
+\end{itemize}
+
+
+My advice is to work on the first case and test that.  If it works, you'll get a line of Queens going from the top left corner to the bottom right.
 
 
 
 \subsection{Additional Problems left to the Reader}
 
 \subsubsection{Knight's Tour}
+
+In the Knight's Tour, we place a Knight on the chess board and move him until he visits each square of the chess board exactly once.\footnote{Please do not sack Constantinople on your way to the answer.}
+A knight moves two squares horizontally or vertically and then one square in the axis it did not move it, creating a sort of ``L'' shaped (see below).
+A square counts as visited once the knight lands in it.
+
+
+
+\begin{center}
+	\chessboard[pgfstyle=knightmove,
+	markmoves={c3-e2, c3-e4,c3-d5,c3-b5,c3-a4,c3-a2,c3-b1,c3-d1},
+	showmover=false,
+	setwhite={Nc3}
+	]
+	
+	
+\end{center}
+
+You may start your knight anywhere you like.
+Your output should be either the chess board, but with each square marked by a number to designate the order in which the square was visited, or by listing the moves the knight makes.
+If you can figure out a better way to represent your answer, we are open to that too.
+
+
+
 
 \subsubsection{Sudoku}
 
@@ -903,13 +985,15 @@ public static boolean solve(int[][] board, int col){
 
 
 \section{Recursive Combinations}
+This is to be filled if needed.
 
 
 
-\section{Recursion and Puzzles}
+\section{Examples of Recursion Outside of Programming}
+\subsection{Recursion and Puzzles}
 
 
 
-\section{Recursion and Art}
+\subsection{Recursion and Art}
 
-\section{Recursion and Nature}
+\subsection{Recursion and Nature}
