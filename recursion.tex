@@ -128,8 +128,6 @@ And so on and so forth until \texttt{factorial(n)} takes the answer from \texttt
 We know this works because for any given non-negative integer\footnote{Negative factorials are undefined and I'm ignoring that case in our code. My suggested solution is to either error or document turning something like $(-5)!$ into $-1 \cdot 5!$.  It's wrong and will gravely upset the Math department, but might be the desired behavior for your program.  But even more important, you should document what you do in weird cases like this!} $n$  each recursive call on \texttt{factorial} is on a smaller and smaller number, making progress to calculating \texttt{factorial(0)}. Once we hit \texttt{factorial(0)}, the answers start being calculated and trickling up this stack of function calls.
 
 
-<Insert picture of recursive factorial calls here>
-
 
 \begin{figure}[h!]
 	\centering
@@ -159,39 +157,39 @@ We know this works because for any given non-negative integer\footnote{Negative 
 \end{figure}
 
 
-\begin{figure}[h!]
-	\centering
-	\begin{forest}
-		for tree={
-			grow=south,
-			font=\ttfamily,
-			l sep=1.5cm,      % Vertical spacing
-			align=left,
-			edge={->, thick},
-			parent anchor=south,
-			child anchor=north,
-		},
-		% Redefine the path for descendants to create the |-- shape
-		for descendants={
-			edge path={
-				\noexpand\path[\forestoption{edge}]
-				(!u.parent anchor) -- +(0,-0.8cm) -| (.child anchor)\forestoption{edge label};
-			},
-		},
-		[{factorial(4) \\ returns $4 \times 6 = \mathbf{24}$}
-		[{factorial(3) \\ returns $3 \times 2 = 6$}, edge label={node[midway,right,font=\ttfamily,xshift=2mm]{calls factorial(3)}}
-		[{factorial(2) \\ returns $2 \times 1 = 2$}, edge label={node[midway,right,font=\ttfamily,xshift=2mm]{calls factorial(2)}}
-		[{factorial(1) \\ returns $1 \times 1 = 1$}, edge label={node[midway,right,font=\ttfamily,xshift=2mm]{calls factorial(1)}}
-		[{factorial(0) \\ \textbf{base case}, returns $1$}, edge label={node[midway,right,font=\ttfamily,xshift=2mm]{calls factorial(0)}}]
-		]
-		]
-		]
-		]
-	\end{forest}
-	\caption{The call stack for \texttt{factorial(4)}, styled to show the flow of calls and returns.}
-	\label{fig:factorial_call_stack_ascii}
-\end{figure}
-
+%\begin{figure}[h!]
+%	\centering
+%	\begin{forest}
+%		for tree={
+%			grow=south,
+%			font=\ttfamily,
+%			l sep=1.5cm,      % Vertical spacing
+%			align=left,
+%			edge={->, thick},
+%			parent anchor=south,
+%			child anchor=north,
+%		},
+%		% Redefine the path for descendants to create the |-- shape
+%		for descendants={
+%			edge path={
+%				\noexpand\path[\forestoption{edge}]
+%				(!u.parent anchor) -- +(0,-0.8cm) -| (.child anchor)\forestoption{edge label};
+%			},
+%		},
+%		[{factorial(4) \\ returns $4 \times 6 = \mathbf{24}$}
+%		[{factorial(3) \\ returns $3 \times 2 = 6$}, edge label={node[midway,right,font=\ttfamily,xshift=2mm]{calls factorial(3)}}
+%		[{factorial(2) \\ returns $2 \times 1 = 2$}, edge label={node[midway,right,font=\ttfamily,xshift=2mm]{calls factorial(2)}}
+%		[{factorial(1) \\ returns $1 \times 1 = 1$}, edge label={node[midway,right,font=\ttfamily,xshift=2mm]{calls factorial(1)}}
+%		[{factorial(0) \\ \textbf{base case}, returns $1$}, edge label={node[midway,right,font=\ttfamily,xshift=2mm]{calls factorial(0)}}]
+%		]
+%		]
+%		]
+%		]
+%	\end{forest}
+%	\caption{The call stack for \texttt{factorial(4)}, styled to show the flow of calls and returns.}
+%	\label{fig:factorial_call_stack_ascii}
+%\end{figure}
+%
 
 
 
@@ -503,7 +501,7 @@ Binary search is our reason for including Recursion at this location in the text
 
 
 \subsubsection{Objective}
-Like our recursive linear search, our goal is to search for a particular item in an array or list.  Once we find that item, we can either return true or the index we found it at, depending on our implementation.  If we fail to find, we return either false or -1 or null; again this depends on our implementation.\footnote{Or force a win using \textit{Gifts Ungiven}.  Wait, wrong fail to find.}.
+Like our recursive linear search, our goal is to search for a particular item in an array or list.  Once we find that item, we can either return true or the index we found it at, depending on our implementation.  If we fail to find, we return either false or -1 or \texttt{null}; again this depends on our implementation.\footnote{ \href{https://scryfall.com/card/chk/62/gifts-ungiven}{Or force a win using \textit{Gifts Ungiven}}.  Wait, wrong fail to find.}.
 
 \subsubsection{Assumptions}
 We will be using an array for Java and \texttt{List} for Python.  This data structure will be sorted.  This is a key assumption;  if the array is not sorted, we cannot do a binary search.
@@ -620,15 +618,15 @@ Each call of \texttt{binarySearch} eliminates either exactly or almost exactly h
  
 Compare that to our linear search, which starts at the beginning and goes through the array one item at a time. That takes $O(n)$ time. In this case, doubling the number of items means doubling the amount of work the algorithm has to do.
 
-It nears emphasizing and repeating:  $O(\log n)$ runtime is a major improvement over a linear runtime.  Doubling the size of $n$ does practically nothing to change the runtime of \texttt{binarySearch}, but would make a linear search take twice as long.
+It bears emphasizing and repeating:  $O(\log n)$ runtime is a major improvement over a linear runtime.  Doubling the size of $n$ does practically nothing to change the runtime of \texttt{binarySearch}, but would make a linear search take twice as long.
 
 
 \subsubsection{How to not be scared of logarithms}
 You may have learned that logarithms are the inverse operation to exponentiation.
 This is an utterly useless definition when programming.
 
-A more way of thinking about logarithms is "how many times can I recursively split something?"
-For example, $\log_b x$ asks "how many times can I recursively split my $x$ items into $b$ seperate piles?"
+A much more useful way of thinking about logarithms is ``how many times can I recursively split something?''
+For example, $\log_b x$ asks ``how many times can I recursively split my $x$ items into $b$ seperate piles?''
 
 A more concrete example: $\log_2 16 = 4$, not because $2^4 = 16$, but because a pile of 16 items can be split in half into two piles of 8, each pile of 8 can be split in half into two piles of 4, the 4's can be split into 2's, the 2's into 1's --- four splits total:
 
