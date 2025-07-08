@@ -1,4 +1,4 @@
-\textit{}\chapter{Trees}
+\chapter{Trees}
 
 
 Our next major data structure is trees.  Specifically, we will be looking at binary search trees.
@@ -73,20 +73,20 @@ Each tree has a root and That route has children .  If we view each of those chi
 A diagram of a binary search tree.  It is made up of nodes, represented by circles, and edges (also called links or branches), represented by arrows.  
 
 
-\footnote{An aside about array based implementations.}
+%\footnote{An aside about array based implementations.}
 
 \section{Building a Binary Search Tree}
 
 \subsection{The Code Outline}
 
 
-We use the \texttt{Comparable} class in Java to require that all objects stored in the tree has a \textbf{total ordering}\footnote{The formal definition is as follows}.%TODO Formal defininition in the footnote
+As explained in Section \ref{sec:binarySearchJavaP2}, when we use the \texttt{Comparable} class in Java to require that all objects stored in the tree has a \textbf{total ordering}, meaning every pair of objects we're storing has an ordering.
 In practice, this means that anything \texttt{Comparable} can be sorted.
 
 Python, of course, doesn't need these restrictions.
 \begin{minted}{Java}
-	public class BinaryTree<E extends Comparable<E>> {
-	}
+public class BinaryTree<E extends Comparable<E>> {
+}
 \end{minted}
 
 
@@ -98,33 +98,35 @@ Finally, we will also create our inner \texttt{Node} class for the Tree.
 It needs to hold the item and the locations of the left and right children.
 We'll also go ahead and add a The constructor and a method for printing out the item in the node (\texttt{toString} in Java and \texttt{\_\_str\_\_} in Python )
 
-\begin{minted}{Java}
-	public class BinaryTree<E extends Comparable<E>> {
-		private Node<E> root;
-		private int size;
-		
-		public BinaryTree() {
-			this.root = null;
-			
-		}
-		
-		/* Other code will go here.*/
-		
-		private static class Node<E extends Comparable<E>> {
-			private E item;
-			private Node<E> left;  // left child
-			private Node<E> right; // right child
-			public Node(E item) {
-				this.item = item;
-			}
-			public String toString() {
-				return item.toString();
-			}
-		}
-		
+\begin{javacode}{The Constructor and Inner Class}
+public class BinaryTree<E extends Comparable<E>> {
+	private Node<E> root;
+	private int size;
+	
+	public BinaryTree() {
+		this.root = null;
 		
 	}
-\end{minted}
+	
+	private static class Node<E extends Comparable<E>> {
+		private E item;
+		private Node<E> left;  // left child
+		private Node<E> right; // right child
+		public Node(E item) {
+			this.item = item;
+		}
+		public String toString() {
+			return item.toString();
+		}
+	}
+	
+	
+}
+\end{javacode}
+
+
+\subsection{Contains}
+
 
 
 \subsection{Add}
@@ -133,7 +135,5 @@ We'll also go ahead and add a The constructor and a method for printing out the 
 All of our operations in out \texttt{BinaryTree} will be implemented recursively.
 
 
-
-\subsection{Contains}
 
 \subsection{Delete}

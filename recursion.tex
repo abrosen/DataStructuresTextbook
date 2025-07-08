@@ -643,6 +643,7 @@ In algorithm analysis, $\log n$ in the time complexity is used to indicate that 
 In the Binary Search algorithm above, we split the our search space in half each step of the way.  We start out looking at the middle item and then decide to look at all the items below or all the items above.  This reduces the number of items to search among from $n$ to $\frac{n}{2}$.  From there we perform the same choices and reduce that $\frac{n}{2}$ to $\frac{n}{4}$, then from  $\frac{n}{4}$ to  $\frac{n}{8}$ and so on.
 
 \subsubsection{Additional Implementation: Java with Lists}
+\label{sec:binarySearchJavaP2}
 
 
 \begin{javacode}[listing and comment,  comment={Performing binary search on a list looks something like this.  Recall that \texttt{Comparable} is an interface that Java uses to let methods and classes know something can be put in order\footnote{Formally, this is a  \textit{total ordering} in fancy math lingo, which means any two items have an established order}.  This necessarily  means that they can be sorted. The generic \texttt{<E extends Comparable<E>>} means the the \texttt{List} of \texttt{E}'s is guaranteed to be made up of items that can be compared to other things of type \texttt{E} to see which comes first.}]{Binary Search - Java Lists}
@@ -1044,7 +1045,7 @@ Students employing this strategy are trying to find the next blank spot fill it 
 
 A correct algorithm has two ``base'' cases and two recursive cases. For our base case, we would check if the \texttt{col} is out of bounds, meaning we are done with the current row.  If so, go to the next \texttt{row}.  If the \texttt{row} is out of bounds, we finished all rows and can return \texttt{true} to indicate a found solution.
 
-Our recursive cases are fairly straightforward and depend on whether \texttt{board[row][col]} is empty or not.  If it has a number already in it, that is a number that was given to us as part of the puzzle, so we recursively \texttt{return solve(board, row, col+1)}.  If the square is empty, we look for a valid number to put in the square, then recursively call \texttt{solve(board, row, col+1)}
+Our recursive cases are fairly straightforward and depend on whether \texttt{board[row][col]} is empty or not.  If it has a number already in it, that is a number that was given to us as part of the puzzle, so we recursively \texttt{return solve(board, row, col+1)}.  If the square is empty, we look for a valid number to put in the square, then recursively call \texttt{solve(board, row, col+1)}.
 
 
 
